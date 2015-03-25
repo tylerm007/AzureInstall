@@ -1,9 +1,0 @@
-<h5>Filter</h5>
-This is a way to specify additional filtering on the resource, e.g. if you want
-to restrict the rows that should be returned by the resource.
-<p/>
-For SQL resources, this should simply be a fragment of a where expression, e.g.:
-<code>amount_total &lt; 1000 and paid = 'Y'</code>
-<p/>
-For Mongo resources, you should use the Mongo syntax, e.g.:
-<code>{"$and": [{"$lt": {"amount_total": 1000}}, {"paid": "Y"}]}</code>

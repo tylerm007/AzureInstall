@@ -1,9 +1,0 @@
-<div class="modal-column-container">
-    <form class="" ng-submit="startDownload();">
-	    <input ng-trim='false' class="form-control" ng-enter="startDownload();" ng-model="file.name" placeholder="File Name"/>
-	    <br/>
-	    <select ng-options="label for ( label , value ) in supportedExtensions" ng-model="extension" ng-change="updateExtension(this);" class="form-control"></select>
-	    <br/>
-	    <a class="btn btn-default" href="{{image}}" ng-click="startDownload()"><i class="fa fa-download"> Download</i></a>
-    </form>
-</div>
