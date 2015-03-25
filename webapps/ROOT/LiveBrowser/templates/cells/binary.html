@@ -1,0 +1,3 @@
+<div ng-init='root.mainGridEvaluate(this, col.colDef);'  style='{{this.styles}}' ng-dblclick="alertIfUneditable();isEditable(null, col);" class="ngCellText" ng-class="col.colIndex()" style="text-align: right;" espresso-track-model ng-model='COL_FIELD'>
+    <span ng-dblclick="" ng-cell-text ng-model="COL_FIELD"  style='{{this.styles}}' ng-bind-html="COL_FIELD|binary:currentTableDetails.name:col.colDef.field:'main'"></span>
+</div>

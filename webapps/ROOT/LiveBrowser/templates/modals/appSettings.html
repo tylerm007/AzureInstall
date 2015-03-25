@@ -1,0 +1,90 @@
+<div class="modal-column-container">
+	<button class="pull-right close" ng-click="controls.closeAppSettings();">&times;</button>
+	<h2>Application Settings</h2>
+	<tabset>
+<!--		<tab heading="Options">
+			<table class="table">
+				<thead style="font-size: 11pt;">
+					<tr>
+						<td>Name</td>
+						<td>Value</td>
+						<td>Description</td>
+					</tr>
+				</thead>
+				<tr ng-repeat="optionType in optionTypes">
+					<td>{{optionType.name}}</td>
+					<td><espresso-option-input option-type="optionType" /></td>
+					<td>{{optionType.description}}</td>
+				</tr>
+			</table>
+		</tab> -->
+        <tab heading="General" style="font-size: 1.5em;">
+            <br/>
+            <div class="">
+                <label>Default Table:</label>
+                <select class="form-control" ng-model="params.defaultTable" ng-change="" ng-options="tbl.name as name for (name, tbl) in allTables"></select>
+            </div>
+            <br/>
+            <div class="input-group">
+	            <div class="">
+	                <label>Default Open Panes for Table:</label>
+	                <select class="form-control" ng-model="params.windowsTable" ng-options="tbl.name as name for (name, tbl) in allTables"></select>
+	            </div>
+	            <br/>
+	            <div class="">
+	                <fieldset>
+	                    <input ng-trim='false' id="mainGridOption" type="checkbox" class="" ng-model="params.defaultWindows.main" />
+	                    <label for="mainGridOption">Main Grid</label>
+	                </fieldset>
+	                <fieldset>
+	                    <input ng-trim='false' id="formWindowOption" type="checkbox" class="" ng-model="params.defaultWindows.form" />
+	                    <label>Form Window</label>
+	                </fieldset>
+	                <fieldset>
+	                    <input ng-trim='false' id="childGridOption" type="checkbox" class="" ng-model="params.defaultWindows.child" />
+	                    <label>Child Grid</label>
+	                </fieldset>
+	            </div>
+            </div>
+            <br/>
+            <button class="btn btn-default" ng-click="controls.closeAppSettings();">Close</button>
+            <button class="btn btn-primary" ng-click="controls.saveGeneralSettings();">Save</button>
+        </tab>
+        <tab heading="Skins" style="font-size: 1.5em;">
+            <table class="table table-striped" style="font-size: 1.5em;">
+                <thead>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>Active</td>
+                        <td>Name</td>
+                        <td>Last change</td>
+                        <td>Content</td>
+                    </tr>
+                </thead>
+                <tr ng-repeat="skin in skins">
+                    <td>
+                        <a ng-click="deleteSkin(skin)" style="cursor: pointer;">Delete</a>
+                        <br/>
+                        <a ng-click="editSkin(skin)" style="cursor: pointer;">Edit</a>
+                    </td>
+                    <td><input ng-trim='false' type="checkbox" ng-change="skinSelected(skin)" ng-model="selectedSkin[$index]"/></td>
+                    <td>{{skin.name}}</td>
+                    <td>{{skin.ts | date:'dd-MM-yyyy hh:mm'}}</td>
+                    <td>
+                        <span ng-show="skin.css" >
+                            {{skin.css.length}} bytes -
+                            <a href="{{skin.css.url}}?downloadName={{skin.name}}.css&auth={{root.authorInfo.apikey}}:1" 
+                                download="{{skin.name}}.css"> download</a>
+                        </span>
+                        <span ng-show="!skin.css">&lt;empty></span>
+                    </td>
+<!--                    <td><textarea rows="4" ng-model="skin.description"></textarea></td> -->
+                </tr>
+            </table>
+		    <a href="css/sample.css" target="_blank" style="margin-right: 10px;" download="espresso.css">Download sample stylesheet</a>
+		    <button class="btn btn-default" ng-click="createSkin();">Create new skin</button>
+            <button class="btn btn-default" ng-click="controls.closeAppSettings();">Close</button>
+            <button class="btn btn-primary" ng-click="controls.saveSkinSettings();">Save</button>
+        </tab>
+	</tabset>
+</div>

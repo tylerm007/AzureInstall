@@ -1,0 +1,3 @@
+<div ng-init='root.childGridEvaluate(this, col.colDef);' style='{{this.styles}}' class="ngCellText" ng-class="col.colIndex()" style="text-align: right;" espresso-track-model ng-model='COL_FIELD'>
+    <span ng-click="isEditable(null, col);" ng-dblclick=""  style='{{this.styles}}' ng-cell-text ng-model="COL_FIELD" ng-bind-html="COL_FIELD|binary:col.colDef.tableName:col.colDef.field:'childGrid'"></span>
+</div>

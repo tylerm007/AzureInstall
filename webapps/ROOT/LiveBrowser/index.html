@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--[if lt IE 10]>
+        <meta http-equiv="refresh" content="0;URL=http://eval.espressologic.com/LogicDesigner/BadBrowser.html">
+    <![endif]-->
+
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=EDGE" />
+<meta charset="utf-8">
+<title>Espresso Live Browser</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="icon" href="favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="css/ui-layout/layout-default-1.3.0.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="css/jqueryui/smoothness/jquery-ui-1.10.0.custom.css" />
+<link type="text/css" rel="stylesheet" href="css/font-awesome.min.css">
+<link type="text/css" rel="stylesheet" href="ng-grid/2.0.7/ng-grid.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="css/jquery.pnotify.default.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="js/introjs/introjs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="css/bootstrap-datetimepicker.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="css/DataBrowser.css" media="screen" />
+
+<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+<script type="text/javascript" src="js/moment.min.js"></script>
+<script type="text/javascript" src="js/string.js"></script>
+<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+<script type="text/javascript" src="js/mousetrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/jqueryui/jquery-ui-1.10.0.custom.js"></script>
+<script type="text/javascript" src="js/ui-layout/jquery.layout-1.3.0.js"></script>
+<!--<script type="text/javascript" src="js/tiny.editor.packed.js"></script>-->
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/angular-resource.js"></script>
+<script type="text/javascript" src="js/angular-route.js"></script>
+<script type="text/javascript" src="js/angular-sanitize.min.js"></script>
+<script type="text/javascript" src="js/angular-ui/ui-bootstrap-tpls-0.10.0.js"></script>
+<script type="text/javascript" src="js/angular-ui/ui-utils.min.js"></script>
+<script type="text/javascript" src="js/jquery.pnotify.min.js"></script>
+<script type="text/javascript" src="ng-grid/2.0.7/ng-grid-2.0.7.debug_custom.js"></script>
+<script type="text/javascript" src="js/underscore/1.5.2/underscore.js"></script>
+<script type="text/javascript" src="js/introjs/intro.js"></script>
+<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+<script src='js/text-angular.js'></script>
+<script src='js/text-angular-sanitize.js'></script>
+
+<script type="text/javascript" src="js/DataBrowser/services/Data.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Storage.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Auth.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Dimensions.js"></script>
+
+<script type="text/javascript" src="js/DataBrowser/browser.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Events.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/Browser.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/LoginDialog.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Tables.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Settings.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/DirectLink.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Notifications.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Masks.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Query.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/CellTemplates.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/ResourceHelper.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/Device.js"></script>
+<script type="text/javascript" src="js/DataBrowser/services/FormWindowHelper.js"></script>
+
+<script type="text/javascript" src="js/DataBrowser/util.js"></script>
+<script type="text/javascript" src="js/DataBrowser/metadata.js"></script>
+
+<script type="text/javascript" src="js/DataBrowser/list.js"></script>
+<script type="text/javascript" src="js/DataBrowser/details.js"></script>
+<script type="text/javascript" src="js/DataBrowser/children.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/Column.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/GridOptions.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/ParentSelect.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/ChildrenOptions.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/RouteController.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/HeaderController.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/LinkGeneratorController.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/AuthorLogin.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/FileUpload.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/SelectableChildren.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/ResourceMainList.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/ResourceForm.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/ResourceChildTree.js"></script>
+<script type="text/javascript" src="js/DataBrowser/controllers/AppSettings.js"></script>
+
+<script type="text/javascript" src="js/DataBrowser/main.js"></script>
+
+<script type="text/javascript" src="js/DataBrowser/directives/ChildrenActions.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/DetailInput.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoMask.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/ParentDraggable.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/gestures.min.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoGrid.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoTrackModel.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/OptionInput.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoResourceGrid.js"></script>
+<script type="text/javascript" src="js/DataBrowser/filters/InputMask.js"></script>
+<script type="text/javascript" src="js/DataBrowser/filters/Binary.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/GroupInterface.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/FormInputGroup.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/FormInputRow.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoDataTree.js"></script>
+<script type="text/javascript" src="js/DataBrowser/directives/EspressoDateInput.js"></script>
+</head>
+<body id="app" data-ng-app="espresso.browser" ng-controller="espresso.BrowserCtrl" class="authormode-{{root.authorMode}}">
+    <div ng-view></div>
+
+    <div class="header outerLayout-north" id="eslo-header" ng-controller="espresso.HeaderCtrl" 
+    		onmouseover="espresso.topLayout.allowOverflow(this)" onclick="espresso.topLayout.resetOverflow(this)"
+
+                data-intro="{{root.intro[3]}}"
+                data-step="4" data-position="bottom"
+    		>
+        <div class="header-column" title="A full stack REST platform with Logic and Security">
+            <div id="eslo-logo" class="logo"> </div>
+        </div>
+        <div class="header-column" title="Turn on and off the various panes in this window">
+            <div class="header-menu views-menu dropdown left-side-menu eslo-header-menu">
+                <a class="dropdown-toggle">
+                    <i class="fa fa-desktop menu-icon"></i>
+                    <i class="fa fa-caret-down menu-caret"></i>
+                </a>
+                <div class="vertical-divider"></div>
+                <ul class="dropdown-menu">
+                    <li class="icon-divider"><img src="images/top-left.png"/><hr/></li>
+                    <li><a ng-click="togglePanel('1a', 'main-grid', $event);" class="window-toggle main-grid-toggle active">
+                        <i class="active fa fa-check-square-o"></i>
+                        <i class="inactive fa fa-square-o"></i>
+                        <span>Main Grid</span>
+                    </a></li>
+                    <li><a ng-click="togglePanel('1a', 'rest-log', $event);" class="window-toggle rest-log-toggle">
+                        <i class="active fa fa-check-square-o"></i>
+                        <i class="inactive fa fa-square-o"></i>
+                        <span>REST Log</span>
+                    </a></li>
+                    <li class="icon-divider"><img src="images/top-right.png"/><hr/></li>
+                    <li><a ng-click="togglePanel('2a', 'form', $event);" class="window-toggle active form-toggle">
+                        <i class="active fa fa-check-square-o"></i>
+                        <i class="inactive fa fa-square-o"></i>
+                        <span>Form</span>
+                    </a></li>
+                    <li class="icon-divider"><img src="images/bottom-right.png"/><hr/></li>
+                    <li><a ng-click="togglePanel('2b', 'child-grid', $event);" class="window-toggle active child-grid-toggle">
+                        <i class="active fa fa-check-square-o"></i>
+                        <i class="inactive fa fa-square-o"></i>
+                        <span>Child Grid</span>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+<!--
+        <div class="header-column" data-intro="You can switch between Read-Only Mode and Edit Mode using this switch.
+                    Data will be editable only in Edit mode.<br/><br/>Try to edit a line item's quantity and see what happens." 
+                    title="Switch between read-only mode and editing mode"
+                    data-step="5" data-position="bottom">
+            <div class="header-menu header-action mode-action eslo-header-menu" ng-click="toggleMode();" ng-class="{active: root.editMode}">
+                <a class="menu-icon">
+                    <i class="fa fa-book inactive-state"></i>
+                    <i class="fa fa-pencil active-state"></i>
+                    <span class="inactive-state">Read Only</span>
+                    <span class="active-state">Edit Mode</span>
+                </a>
+            </div>
+        </div>
+-->
+        <div class="header-column" title="Revert all changes that have not yet been saved">
+            <div class="header-menu header-action undo-action left-side-menu eslo-header-menu" ng-click="undoButtonClicked();">
+                <a class="menu-icon">
+                    <i class="fa fa-reply"><span>&nbsp;Undo</span></i>
+                </a>
+            </div>
+        </div>
+        <div class="header-column"
+        		title="Save any changes made so far">
+            <div class="header-menu header-action save-action eslo-header-menu"  ng-if="root.layoutMode == 'tables'" ng-click="saveAll();">
+                <a class="menu-icon large-menu-icon"><i class="fa fa-save"><span>&nbsp;Save</span></i></a>
+            </div>
+            <div class="header-menu header-action save-action eslo-header-menu"  ng-if="root.layoutMode == 'resources'" ng-click="root.saveAllResources();">
+                <a class="menu-icon large-menu-icon"><i class="fa fa-save"><span>&nbsp;Save</span></i></a>
+            </div>
+        </div>
+        <div class="header-column float-right" title="Share links, switch to Author Mode, logout, etc...">
+            <div class="header-menu account-menu dropdown right-side-menu eslo-header-menu">
+                <a class="dropdown-toggle" data-intro="{{root.intro[2]}}" data-step="3" data-position="left">
+                    <i class="fa fa-wrench menu-icon"></i>
+                    <span>Tools</span>
+                    <i class="fa fa-caret-down menu-caret"></i>
+                </a>
+                <div class="vertical-divider"></div>
+                <ul class="dropdown-menu pull-right">
+<!--                     <li><a href="#" ng-click="toggleUserCSS();">Default User Styles</a></li> -->
+					<li><a ng-click="generateLinkPrompt();" class="menu-icon">
+                    	<i class="fa fa-share-alt"></i><span>&nbsp;Share</span></a></li>
+                    <li><a href="#" class="toggle-author" ng-click="toggleMode();">
+                    	<i class="fa fa-edit"></i><span>&nbsp;{{editModeMenu}}</span></a></li>
+                    <li><a href="#" class="toggle-author" ng-click="toggleAuthoring();">
+                        <i class="fa fa-gear"></i><span>&nbsp;Toggle Author Mode</span></a></li>
+                    <li ng-show="root.authorMode" ><a href="#" class="toggle-author" ng-click="editAppSettings();">
+                    	<i class="fa fa-th"></i><span>&nbsp;App Settings</span></a></li>
+                    <li><a href="#" ng-click="userInitiatedLogout();">
+                    	<i class="fa fa-power-off"></i><span>&nbsp;Log Out</span></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="header-column float-right" title="Do I really need to spell this one out?">
+            <div class="header-menu help-menu dropdown left-side-menu eslo-header-menu">
+                <a class="dropdown-toggle">
+                    <i class="fa fa-question-circle menu-icon"></i>
+                    <span>Help</span>
+                    <i class="fa fa-caret-down menu-caret"></i>
+                </a>
+                <div class="vertical-divider"></div>
+                <ul class="dropdown-menu">
+                    <li><a href="http://docs.espressologic.com/docs" target="_blank">Doc Center</a></li>
+                    <li><a href="http://docs.espressologic.com/docs/reference" target="_blank">Reference</a></li>
+                    <li><a href="http://docs.espressologic.com/docs/live-browser" target="_blank">Tutorial</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" ng-click="showIntro()">Show intro</a></li>
+                    <li><a href="https://espressologic.zendesk.com/home" target="_blank">Support</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#" ng-click="showAboutDialog()">About</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+	<!-- Message area -->
+	<div style="position: fixed; left: 300px; top: 5px; z-index: 100000;" id="MessageBox" data-ng-cloak>
+		<div data-ng-repeat="alert in alerts" class="MessageBox Alert{{alert.type}}" id="alert{{$index}}">
+			{{alert.msg}}
+			<span class="MessageBoxClose" ng-click="closeAlert($index)">&times;</span>
+		</div>
+	</div>
+
+    <!-- Left pane -->
+    <div class="outerLayout-west" ng-controller="espresso.ListCtrl" id="leftSide">
+        <div id="leftGridTop" class="leftLayout-north eslo-search-top" ng-show="root.displayMode == 'gui'" onmouseover="espresso.leftLayout.allowOverflow(this)">
+            <div class="filters-pane">
+                <div class="pane-collapsed clear-both eslo-container"
+                                data-intro="{{root.intro[0]}}"
+                                data-step="1" data-position="right">
+                    <div class="eslo-col table-select form-inline"  ng-if="root.layoutMode == 'tables'">
+                        <label class="btn btn-default" ng-click="root.toggleLayoutModeTo();"><i class="fa fa-folder-open-o"></i> Table:</label>
+                        <select ng-hide="!searchTable" class="form-control" id="eslo-table-select" ng-model="searchTable"  onmouseover="espresso.leftLayout.allowOverflow('north')"
+                        ng-change="newTableSelected(this)" ng-options="tbl.name as name for (name, tbl) in allTables"></select>
+                        <span ng-hide="searchTable">None to display</span>
+                    </div>
+                    <div class="eslo-col table-select form-inline"  ng-if="root.layoutMode == 'resources'">
+                        <label class="btn btn-default" ng-click="root.toggleLayoutModeTo();"><i class="fa fa-folder-open-o"></i> Resources:</label>
+                        <select ng-hide="!root.endpoint" class="form-control" id="eslo-table-select" ng-model="root.endpoint"  onmouseover="espresso.leftLayout.allowOverflow('north')"
+                        ng-change="root.newEndpointSelected(this)" ng-options="resource.name as name for (name, resource) in root.allResources"></select>
+                        <span ng-hide="searchTable">None to display</span>
+                        <span class="beta-sticker">BETA</span>
+                    </div>
+                    <form ng-init="setDefaultSearchColumn();" ng-submit="runSearch('abc');" ng-if="root.layoutMode == 'tables'">
+                    <div class="eslo-col float-right default-search form-inline">
+                        <div class="search-input-container">
+                            <input ng-trim='false' class="form-control" id="eslo-table-search-input" ng-focus="searchFilterFocus();" ng-blur="searchFilterBlur();" ng-model="searchFilter.0.value" placeholder="Search by {{searchFilter[0].column.alias}}" type="text" />
+                            <div class="flyout-toggle-container"><i ng-click="toggleShowAdditionalFilters();" class="fa eslo-button fa-caret-down filter-flyout-icon"></i></div>
+                            <input ng-trim='false' style="position: absolute; left: -9999px; width: 1px; height: 1px;" type="submit" />
+                            <i ng-click="runSearch('xyz');" class="fa eslo-button fa-search search-icon"></i>
+                        </div>
+                        <div class="filter-flyout" ng-show="showAddtionalFilters">
+                            <table>
+                                <tr ng-repeat="filter in searchFilter" id="filter-{{$index}}">
+                                    <td class="filters-add-remove-container">
+                                        <div class="btn-group form-inline">
+                                            <button class="btn btn-sm btn-inline form-control glyphicon glyphicon-plus searchParamsButton" ng-click="addSearchParam($index)"></button>
+                                            <button class="btn btn-sm btn-inline form-control glyphicon glyphicon-minus searchParamsButton" ng-click="removeSearchParam($index)"></button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" ng-model="filter.column" ng-init="filter.column = _.values(mainColumnFormats)[0];"
+                                            ng-options="column.alias for ( key , column ) in mainColumnFormats"></select>
+                                    </td>
+                                    <td>
+                                        <input ng-trim="false" type="text" class="form-control" placeholder="Search value" style="width: 90%;"
+                                            ng-model="filter.value"  ng-focus="searchFilterFocus();" ng-blur="searchFilterBlur();"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="leftGridContainer" class="leftLayout-center" ng-show="root.displayMode == 'gui'">
+            <div ng-if="root.layoutMode == 'tables'">
+	            <div class="gridStyle eslo-search-grid" id="leftTableDiv" style="border: 0px solid #D4D4D4;"
+	                ng-grid="grid.gridOptions"></div>
+            </div>
+            <div ng-if="root.layoutMode == 'resources'">
+                <div class="gridStyle eslo-search-grid" id="leftTableDiv" ng-controller="espresso.ResourceMainList">
+                    <!--<div espresso-resource-grid grid-name="main" grid-data="gridData" columns="columns"></div>-->
+                    <div espresso-data-tree tree-name="main" tree-data="gridData"></div>
+                </div>
+            </div>
+        </div>
+        <div id="leftGridFooter"  ng-if="root.layoutMode == 'tables'"
+            style="position: absolute; bottom: 0; width: 100%; background-color: #E0E0E0; max-height: 35px; overflow: hidden;"
+            class="leftLayout-south" ng-show="root.displayMode == 'gui'">
+            <button style="max-height:73px !important;" class="eslo-button grid-insert" ng-click="gridInsertRow()" ng-disabled="!root.editMode"><i class="fa fa-plus-circle"></i>Insert</button>
+            <button style="max-height:73px !important;" class="eslo-button" ng-click="getGridData(false, true)" ng-disabled="isMainFetchDisabled();">
+            	<i ng-hide="fetchingNext" class="fa fa-arrow-circle-down"></i>
+            	<i ng-show="fetchingNext" class="fa fa-spinner fa-spin"></i>
+            	Fetch more</button>
+            <button style="max-height:73px !important;" class="eslo-button hideForDesktopWidths" ng-click="gridDeleteAction()"><i class="fa fa-times"></i>Delete</button>
+        </div>
+
+		<div class="restLogWindow" ng-if="root.displayMode == 'rest'" style="overflow: scroll; bottom: 0; top: 0;">
+			<h3>Most recent requests</h3>
+			<div style="width: 100%; height: auto; overflow: auto;" class="logs">
+				<accordion>
+					<accordion-group heading="{{req.verb}} {{req.url}}" ng-repeat="req in root.requestQueue" class="rest-title">
+						<div style="white-space: pre-wrap; font-family: monospace; font-size: 9pt;">{{req.response}}</div>
+					</accordion-group>
+				</accordion>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Right pane -->
+	<div class="outerLayout-center container" id="rightSide">
+		<div class="rightLayout-north details-pane" ng-controller="espresso.DetailsCtrl" ng-if="root.layoutMode == 'tables'">
+            <div  class="details-header eslo-details-header">
+            <div style="width: 100%;">
+                <button class="eslo-button formEditColumnSelection" ng-click="editColumnSelection('scalar')" ng-show='root.authorMode' title='Select which columns should be shown in this area'>
+                    <i class='fa fa-columns large'></i>
+                </button>
+                <button class="eslo-button formToggleExpressions" ng-click="toggleExpressions();" ng-show='root.authorMode' title='Enable/Diable column logic expressions'>
+                    <i class='fa fa-ban large'></i>
+                    <span>Toggle Expressions</span>
+                </button>
+                <button class="eslo-button" ng-disabled="!hasMoreHistory" ng-init="checkFormHistory()" ng-click="formWindowBack();">
+                    <i class='fa fa-history large'></i>
+                    <span>Back</span>
+                </button>
+                <button class="eslo-button" ng-click="clickGridInsert();" ng-show='root.editMode'>
+                    <i class='fa fa-plus-circle large'></i><span>Insert</span>
+                </button>
+                <button class="eslo-button" ng-disabled="previousExists" ng-click="clickGridPrevious();">
+                    <i class='fa fa-arrow-circle-o-left large'></i><span>Previous</span>
+                </button>
+                <button class="eslo-button" ng-disabled="nextExists" ng-click="clickGridNext();">
+                    <span>Next</span>
+                    <i class='fa fa-arrow-circle-o-right large'></i>
+                </button>
+                <input ng-trim='false' type="search" id="eslo-scalar-search" placeholder="Search Attributes" class="searchAttributesInput form-control" ng-model="attribSearchString" />
+            </div>
+            </div>
+			<div ng-if="scalarRow" class="details-content" style="padding: 5px; padding-left: 15px; width: 100%;">
+				<div ng-if="!expressedTitle" id="eslo-details-title" class="details-breadcrumbs" style="width: 100%; padding-bottom: 4px; padding-top: 3px; padding-left: 3px;">
+					{{formTableName}}
+					: {{scalarRowPk}}
+					<span ng-show='isUpdated' style='margin-left: 30px;'>
+						<span class="badge" style="background-color: #AA3333; vertical-align: middle;">Unsaved changes</span>
+					</span>
+				</div>
+				<div ng-if="expressedTitle" id="eslo-details-title" class="details-breadcrumbs" style="width: 100%; padding-bottom: 4px; padding-top: 3px; padding-left: 3px;">
+					{{expressedTitle}}
+					<span ng-show='isUpdated' style='margin-left: 30px;'>
+						<span class="badge" style="background-color: #AA3333; vertical-align: middle;">Unsaved changes</span>
+					</span>
+				</div>
+				<br/>
+				<form name="detailsForm" role="form" class="form-horizontal detailsForm">
+					<div form-input-group ng-repeat="group in groups" group="group"></div>
+					<div class="form-input-group eslo-form-input-group even-false odd-true" ng-if="!groups.length">
+						<div class="dynamic-column-row" ng-repeat="(attName, att) in formColumns | array | filter:attribFilter:attributeSearchString">
+							<div form-input-row label-placement="{{labelPlacement}}">{{att}}</div>
+						</div>
+					</div>
+				</form>
+				</div>
+			</div>
+        <div class="rightLayout-north details-pane" ng-if="root.layoutMode == 'resources'" ng-controller="espresso.ResourceForm">
+            <div class="resource-breadcrumbs">
+            </div>
+            <div class="resources-form-window details-content">
+                <form class="form-horizontal detailsForm">
+                    <div class="form-input-group eslo-form-input-group even-false odd-true">
+                        <div ng-repeat="(name, attribute) in params.attributes">
+                            <div>
+                                <div class="form-group dynamic-column-group">
+                                    <div class="column-container">
+                                        <div class="col-sm-3">
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <label class="control-label scalar-label eslo-form-label">{{name}}</label>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div>
+                                                <input ng-trim='false' class="form-control scalarInput  eslo-form-input" ng-model="attribute" ng-blur="editAttribute(name, attribute);" />
+                                            </div>
+                                        </div>
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="childCollections" class="rightLayout-center" ng-controller="espresso.ChildrenCtrl"
+        		data-intro="{{root.intro[1]}}"
+	            data-step="2" data-position="top"
+	             ng-if="root.layoutMode == 'tables'"
+	           >
+            <div class="childrenLayout-center children-search-grid tabbable">
+                <div id="childTabs" class="tabbable">
+	                <ul id="childTabs" 
+	                    class="nav nav-tabs ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ui-sortable">
+	                    <span style="float: left;">
+	                        <button class="gridTabsButton" ng-click="childrenArea.editChildrenOptions()" ng-show='root.authorMode' 
+	                                title="Select which child tables are shown as tabs">
+	                            <i ng-show="hasChildrenRelationships" class="icon fa fa-cogs gridHeaderButton eslo-header-button" style="padding-top: 6px; padding-left: 0px;"></i>
+	                        </button>
+	                    </span>
+	                    <li class="eslo-child-tab {{formChildrenTables[tab].name}}-child-tab" ng-class="formChildrenTables[tab].selected && 'active'" ng-show="formChildrenTables[tab].displayed" ng-repeat="tab in formChildrenTablesKeys">
+	                        <a ng-click="updateGridTo(formChildrenTables[tab]);">{{formChildrenTables[tab].alias}}</a>
+	                    </li>
+                        <li class="eslo-child-tab {{activeSelectableTable.name}}-child-tab" ng-class="activeSelectableTable.selected && 'active'" ng-show="activeSelectableTable">
+                            <a class="ng-binding"><span style="background:transparent;" ng-click="updateGridTo(activeSelectableTable);">{{activeSelectableTable.alias}}</span> <i ng-click="promptActiveSelectableTable();" ng-if="selectableChildrenTablesLength > 1" class="fa fa-chevron-circle-down"></i></a>
+                        </li>
+	                    <div ng-show="!hasChildrenRelationships">
+	                        <div class="emptyRelationships">
+	                            <h4>No relationships to display.</h4>
+	                        </div>
+	                    </div>
+	                </ul>
+	            </div>
+                <div ng-show="hasChildrenRelationships" id="childrenTableContainer" ng-repeat="grid in outputGrid">
+                    <div class="gridStyle childrenGrid eslo-child-grid" id="childrenTable" espresso-grid="grid" ng-grid="grid"></div>
+                </div>
+            </div>
+            <div id="childFooter" class="childrenLayout-south eslo-child-footer">
+                <button class="eslo-button eslo-header-button" ng-click="focusTable();" 
+                	ng-disabled="!hasChildrenRelationships" title="Select this table in the main grid">
+                	<i class="fa fa-crosshairs"></i>Focus Table</button>
+                <button class="eslo-button eslo-header-button" ng-click="childrenArea.childrenInsertRow()" 
+                	ng-disabled="!root.editMode" title="Insert a new row">
+                	<i class="fa fa-plus-circle"></i>Insert</button>
+                <button class="eslo-button eslo-header-button" ng-click="childrenArea.fetchMoreChildren()"
+                        ng-disabled="!isFetchable" title="Fetch more children rows">
+                    <i class="fa fa-arrow-circle-down"></i>Fetch More</button>
+                <button class="eslo-button eslo-header-button" 
+                	ng-click="childrenArea.zoom()" title="Put the currently selected row in the scalar area above">
+                	<i class="fa fa-search-plus"></i>Zoom</button>
+                <button class="eslo-button eslo-header-button" 
+                	ng-click="childrenArea.deleteAction()" title="Mark the currently selected row(s) for deletion">
+                	<i class="fa fa-times"></i>Delete</button>
+            </div>
+        </div>
+        <div id="childCollections" class="rightLayout-center" ng-controller="espresso.ResourceChildTree" 
+        ng-show="root.layoutMode == 'resources'">
+            <div class="childrenLayout-center">
+                <div ng-if="root.layoutMode == 'resources'" ng-init="root.closePanel('child');"  id="childrenTableContainer" class="eslo-child-resource-tree">
+                    <!-- tree -->
+                    <div espresso-data-tree tree-name="child" tree-data="treeData"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <iframe name="hiddenFrame" class="hide"></iframe> <!-- Used as fake target for POST of blobs -->
+</body>
+</html>

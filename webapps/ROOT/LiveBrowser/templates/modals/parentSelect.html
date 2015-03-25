@@ -1,0 +1,57 @@
+<div class="modal-column-container" parent-draggable>
+	<h3 class="dragHandle dragModalHandle">Select: {{childTableInfo.name}} - {{roleNames[0]}}</h3>
+	<button class="exitModal" ng-click="exitModal();">X</button>
+	Please select an entry from the list below <br/>
+	&nbsp;&nbsp;to link this {{childTableInfo.name}} row to a {{roleNames[0]}}.<br/>
+	Use the filter to narrow the number of entries.<br/><br/>
+	<table style="width: 90%;">
+		<div ng-show="parentTableInfos.length == 1">
+			<label for="parentTablesSelect">Parent:</label>
+			<select ng-options="role as role.parent_table + ' via ' + name for (name, role) in rolesByName" 
+					ng-model="selectedRole" ng-change="newRoleSelected()"></select>
+		</div>
+		<tr ng-repeat="crit in searchCriteria">
+			<td>
+				<div class="btn-group">
+					<button class="btn btn-sm form-control glyphicon glyphicon-plus searchParamsButton" 
+							ng-click="addSearchParam($index)"></button>
+					<button class="btn btn-sm form-control glyphicon glyphicon-minus searchParamsButton" 
+							ng-click="removeSearchParam($index)"></button>
+				</div>
+			</td>
+			<td>
+				<select class="form-control" ng-model="crit.col" ng-options="column as column.name for column in selectedParentTable.columns"></select>
+			</td>
+			<td>
+				<input ng-trim='false' type="text" class="form-control" placeholder="Search value" style="width: 70%" ng-model="crit.colValue" />
+			</td>
+		</tr>
+	</table>
+	<button class="btn btn-sm btn-primary" style="margin: 5px;" ng-click="runSearch(true)">Search</button>
+	<button class="btn btn-sm" ng-click="fetchMoreData()" style="margin: 5px;" ng-disabled="!nextBatchUrl">Fetch more data</button>
+	
+	
+	<div style="overflow: auto; width: 100%; max-height: 500px;">
+		<table class="firefox-table-border-left" >
+			<thead style="background-color: #DDDDDD; font-weight: bold; padding: 3px; border-top: solid 1px #888888; border-bottom: solid 1px #888888;">
+				<tr>
+					<td style="border-left: solid 1px #888888;">&nbsp;</td>
+					<td ng-repeat="col in selectedParentTableColumns" style="border-right: solid 1px #888888;">
+						{{col.name}}
+					</td>
+				</tr>
+			</thead>
+			<tr ng-repeat="row in searchRows" style="border-bottom: solid 1px #AAAAAA;">
+				<td style="border-right: solid 1px #AAAAAA; padding: 3px;">
+					<a href="" ng-click="rowSelected(row)" style="">Select</a>
+				</td>
+				<td ng-repeat="col in selectedParentTableColumns" style="padding: 4px; border-right: solid 1px #AAAAAA;">
+				    <div class="column-content">
+                     <span ng-if="col.generic_type == 'date'" class="{{col.type}}">{{row[col.name] | date: 'MM/dd/yyyy Z'}}</span>
+                     <span ng-if="col.generic_type != 'date'" class="{{col.type}}" ng-bind-html="row[col.name]"></span>
+				    </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
