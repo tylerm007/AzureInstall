@@ -1,0 +1,134 @@
+
+{
+  "swaggerVersion": "1.2",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "apiVersion": "v1",
+  "resourcePath": "/AllCustomers",
+  "info": {
+    "title": "Espresso Logic Demo"
+  },
+  "apis": [
+    {
+      "path": "/AllCustomers",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get zero or more objects",
+          "type": "AllCustomers",
+          "nickname": "getAllCustomers",
+          "parameters": [
+          ],
+          "responseMessages": [
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create one or more objects",
+          "type": "AllCustomers",
+          "nickname": "createAllCustomers",
+          "parameters": [
+          ],
+          "responseMessages": [
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update one or more objects",
+          "type": "AllCustomers",
+          "nickname": "updateAllCustomers",
+          "parameters": [
+          ],
+          "responseMessages": [
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/AllCustomers/{pk}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get one object",
+          "type": "AllCustomers",
+          "nickname": "getAllCustomers",
+          "parameters": [
+          ],
+          "responseMessages": [
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update one object",
+          "type": "AllCustomers",
+          "nickname": "updateAllCustomers",
+          "parameters": [
+          ],
+          "responseMessages": [
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Delete one or more objects",
+          "type": "AllCustomers",
+          "nickname": "deleteAllCustomers",
+          "responseMessages": [
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "AllCustomers": {
+      "id": "AllCustomers",
+      "properties": {
+        "name": {
+          "type": "text",
+          "required": true
+        },
+        "balance": {
+          "type": "number",
+          "required": false
+        },
+        "obj1": {
+        	"type": "array",
+        	"items": {
+        		"type": "Child1"
+        	}
+        }
+      }
+    },
+    "Child1": {
+    	"id": "Child1",
+    	"properties": {
+    		"childProp1": {
+    			"type": "number"
+    		},
+    		"childProp2": {
+    			"type": "text"
+    		},
+    		"childProp3": {
+    			"type": "GrandChild1"
+    		}
+    	}
+    },
+    "GrandChild1": {
+    	"id": "GrandChild1",
+    	"properties": {
+    		"childProp1": {
+    			"type": "number"
+    		},
+    		"childProp2": {
+    			"type": "text"
+    		},
+    		"childProp3": {
+    			"type": "text"
+    		}
+    	}
+    }
+  }
+}

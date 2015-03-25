@@ -1,0 +1,22 @@
+<h5>Mongo keys</h5>
+This optional field can specify which keys (or attributes) should be included
+in the Mongo resource.
+<p/>
+A simple example: if your Mongo resource has attributes <code>name</code>, <code>age</code>
+and <code>balance</code>, and you want to include only attributes name and balance, you can use either:
+<pre>
+	{name: 1, balance: 1}
+</pre>
+or you specify the opposite, i.e. do not include the age attribute:
+<pre>
+	{age: 0}
+</pre>
+<p/>
+This field can actually do quite a bit more than that -- it is passed to MongoDB as the second
+parameter of the <code>find</code> method. For instance, you could use Mongo's 
+projection capabilities, e.g. :
+<pre>
+	{ coordinates: {$slice: 2}}
+</pre>
+which would return only the first values from the array named "coordinates".
+<p/>

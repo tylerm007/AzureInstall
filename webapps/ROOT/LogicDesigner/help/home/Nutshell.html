@@ -1,0 +1,87 @@
+
+<h4>Nutshell</h4>
+<br>Espresso Logic enables you to rapidly deploy a REST/JSON server.
+
+<br><br>
+You avoid tedious and repetitive boilerplate code 
+by expressing business and security logic using 
+simple business-oriented <em>spreadsheet-like expressions</em>.
+
+<br><br>
+Server-side JavaScript is supported for integrating enterprise data, complex logic, etc. 
+
+<br><br>Espresso Logic consists of two main components:
+<ol>
+<li>Use the <strong>Espresso Designer</strong> (you're in it now) to specify 
+your database location, your API, your logic (rules), and your security settings. <br>
+These are accessed via the Navigation Bar to the left. 
+Note that debug support is provided with logs and the JavaScript Debugger.
+</li>
+<li>The <strong>Espresso Server</strong> stores these settings, and enforces them in the course of responding to REST retrieval / update requests for your data.</li>
+</ol> 
+
+<br><br>Espresso Logic is a service, so there's nothing to install or configure. 
+
+<br><br>Click a diagram element to get more information.
+<!-- div style="height: 500px;" -->
+<a id="live-browser"></a>
+<br><br>
+<h5>Live Browser</h5>
+<br>The Live Browser provides Master/Detail and Forms Navigation, starting from a Base Table or Resource.  
+It uses your Live API, so Security and Live Logic are applied to all requests.
+
+<a id="live-api"></a>
+<br><br>
+<h5>Live API</h5>
+You start by creating a Project, where you register your database. 
+Once completed, your <em>default</em> REST API is operational. 
+<br><br>
+
+Your Resource end points are the tables and Stored Procedures (if any), 
+and can be accessed via the Live Browser or the REST Lab.
+<br><br>
+
+Use the Logic Designer for point-and-click definition of <em>Custom Multi-Table RESTful Resource End Points</em>, which provide:
+<ol>
+<li>A Custom API, providing multi-table <em>document-oriented</em> JSON results, 
+aliased / projected columns, etc</li>
+<li>SQL automation including filters and join automation for related data</li>
+<li>Resource Types provide for results using custom SQL or JavaScript</li>
+</ol>
+
+<br>
+<br>Use the Logic Designer to define fine-grained <em>Security</em>, based on these key concepts:
+<ol>
+<li>Authentication, which defines a users' valid Roles</li>
+<li>Authorization, which defines Role Permissions to table rows and columns</li>
+<li>Powerful Global values and objects, used in row filters</li>
+</ol>
+
+<br><br>
+<a id="live-logic"></a>
+<h5>Live Logic</h5>
+<br>Business logic is the set of multi-table computations, validations, and actions (e.g., auditing, cloning, sending mail etc) 
+performed during an update.  Logic consists of:
+<ol>
+<li><strong>Reactive Expressions</strong> - spreadsheet-like expressions that define how data is computed or validated<br>
+(e.g., <code><small>Derive balance as sum(purchaseorderList.amount_total where paid=false)</small></code>)<br>
+Reactive means the system automatically adjusts data when referenced data is changed,<br>
+so for example the balance is reduced when the order is paid.</li>
+<li><strong>Server-side Java Script </strong>- the system builds an Object Model with attribute/object
+accessors, persistence, and events for insert, update and delete.</li>
+</ol>
+
+Accessed via Live Logic in the Navigation Bar to the left, you can achieve enormous savings in work:
+<ol>
+<li>First Look - Explore the logic in Espresso Logic Demo</li>
+<li>Closer Look - complex examples (e.g. Bill of Materials), and logic patterns</li>
+</ol>
+
+
+<a id="database"></a>
+<br><br>
+<h5>Database</h5>
+<br>When you create a project, you associate it with a database. 
+You can specify a new cloud database, 
+or an existing database located on-premise or in the cloud.
+ 

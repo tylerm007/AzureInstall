@@ -1,0 +1,15 @@
+<h4>Validation Rule</h4>
+A Validation rule is a JavaScript expression that must return true or false.  
+It can contain if/else logic, invoke JavaScript functions, and so forth.
+<p/>
+
+If it returns <code>false</code>, then the validation will fail, the database transaction
+will be rolled back, and the caller will receive an exception.
+<p/>
+
+The variable <code>row</code> refers to the database row currently being processed.
+It may be either inserted, updated or deleted depending on the REST call being made.
+<p/>
+
+Use the <code>expression help</code> to buld your expression by selecting attributes.
+<p/>

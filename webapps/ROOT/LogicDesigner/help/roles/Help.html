@@ -1,0 +1,41 @@
+
+<h4>Role-based Security</h4>
+Role-based security provides authorization control over what 
+resources, rows, and columns authenticated users can access.
+<br/><br/>
+
+<h5>Roles</h5>
+Users can have multiple roles.  For a role, you can define:<br/><br/>
+<ul>
+<li>What Resource endpoints are accessible (either by default, or specific enumeration)<br/><br/></li>
+<li>Permissions that specify row/column level access for a specific table</li>
+</ul>
+<br/><br/>
+
+<h5>Background</h5>
+Security addresses:<br/><br/>
+
+<ol>
+<li>
+<a href="http://docs.espressologic.com/docs/logic-designer/security/authentication" target="_blank"><strong>Authentication</strong></a>   
+is a pluggable mechanism (a Project property) to verify users at login, returning set of roles.
+<br/><br/></li>
+
+<li>
+<a href="http://docs.espressologic.com/docs/logic-designer/security/authorization" target="_blank"><strong>Authorization</strong></a>   
+defines what Resources are visible.
+<br/><br/></li>
+
+<li>
+<a href="http://docs.espressologic.com/docs/logic-designer/security/authorization#TOC-Role-Permission-Properties" target="_blank"><strong>Role Permissions</strong></a> 
+specify row/column filtering for roles
+<br/><br/></li>
+ 
+</ol>
+
+<img  src="images/security-injection.png" border="0"  />
+<br/><br/>
+
+As shown above for get, such security applies to all end-points, 
+whether your default API (tables, columns and procedures), or Custom APIs.  
+Actual filtering is performed on the database, where is most efficient.

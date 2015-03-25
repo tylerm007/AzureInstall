@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-md-12">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label class="control-label" for="accountName">Account name</label>
+				<div class="controls">
+					<input type="text" id="accountName" placeholder="" ng-model="currentAccount.name">
+					<i class="glyphicon glyphicon-question-sign" ng-click="helpDialog('account', 'AccountName')"></i>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label" for="accountUrl">Account URL</label>
+				<div class="controls">
+					<input type="text" id="accountUrl" placeholder="" ng-model="currentAccount.url_name" disabled>
+					<i class="glyphicon glyphicon-question-sign" ng-click="helpDialog('account', 'AccountURL')"></i>
+				</div>
+			</div>
+			<div class="form-group">
+				<button class="btn btn-primary" ng-click="saveAccount()">Save</button>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,118 @@
+<div class="row">
+	<span class="pull-right" style="background-color: #DFF0D8; padding: 3px;" ng-show="schemaLoadingStatus">{{schemaLoadingStatus}}</span>
+	<tabset> <tab heading="Tables">
+	<div class="row">
+		<div class="col-md-3">
+			<select size="32" required ng-model="tables.selected" ng-change="tables.selectedAction()"
+				ng-options="table as table.name for table in tables.thelist" style="width: 100%; overflow: auto;"></select>
+		</div>
+		<div class="col-md-9">
+			<div class="row">
+				<div class="col-md-6">
+					<div>Parents</div>
+					<select size="8" style="min-width: 100px; width: 100%; overflow: auto;" 
+						ng-model="tables.selectedParentRole"
+						ng-options="table.parent_table + ' (' + table.name + ')' for table in tables.selectedFull.parents"></select>
+				</div>
+				<div class="col-md-6">
+					<div>Children</div>
+					<select size="8" style="min-width: 100px; width: 100%; overflow: auto;" 
+						ng-model="tables.selectedChildRole"
+						ng-options="table.child_table + ' (' + table.name + ')' for table in tables.selectedFull.children"></select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div>Columns</div>
+					<select size="21" style="min-width: 100px; width: 100%; overflow: auto;">
+						<option ng-repeat="column in tables.selectedFull.columns" 
+							title="{{column.name}} ({{column.type}}){{column.comment}}"
+							ng-class="columnClass(column)"{{columnSelected(column)}}>{{column.name}}
+							({{column.type}}){{column.comment}}</option>
+					</select>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-12" style="padding-left: 0px; padding-right: 10px;">
+							<div>Rules</div>
+							<select size="11" style="min-width: 100px; width: 100%; overflow: auto;" 
+								ng-model="tables.selectedRule"
+								ng-options="rule.RuleType.name + ': ' + rule.name for rule in tables.currentRules"></select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12" style="margin-left: 0; padding-right: 10px;">
+							<div>Keys</div>
+							<select size="8" style="min-width: 100px; width: 100%; overflow: auto;" ng-model="tables.selectedKey"
+								ng-options="key.type + ': ' + key.name + ' ' + key.columns for key in tables.keys"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<a ng-click="reloadSchema();" class="btn btn-primary">Reload Schema</a>
+			<a ng-href="#/projects/{{currentProject.ident}}/databases" class="btn btn-default">Databases</a>
+		</div>
+	</div>
+	<div class="row hint">
+		Hints:
+		<ul>
+			<li>Grey columns are nullable, black columns are not.</li>
+			<li>PK indicates that the column belongs to the table's primary key.</li>
+			<li>FK <i>fk-name</i>-&gt;<i>parent-table-name</i>.<i>parent-column-name</i> indicates that the column is part
+				of a foreign key named <i>fk-name</i>, which points to table <i>parent-table-name</i>'s column <i>parent-column-name</i>.
+			</li>
+		</ul>
+	</div>
+	</tab> <tab heading="Views">
+	<div class="col-md-2">
+		<select size="32" required ng-model="views.selected" ng-change="views.selectedAction()"
+			ng-options="view as view.name for view in views.thelist" style="width: 100%;"></select>
+	</div>
+	<div class=col-md-10">
+		<div class="col-md-6">
+			<div>Columns</div>
+			<select size="21" style="min-width: 100px; width: 100%;">
+				<option title="{{column.name}}" ng-repeat="column in views.selectedFull.columns" ng-class="columnClass(column)"{{columnSelected(column)}}>{{column.name}}
+					({{column.type}}){{column.comment}}</option>
+			</select>
+		</div>
+	</div>
+	</tab> <tab heading="Procedures">
+	<div class="row">
+		<div class="col-md-3">
+			<select size="32" required ng-model="procedures.selected" ng-change="procedures.selectedAction()" ng-click="procedures.selectedAction();"
+				ng-options="proc as proc.name for proc in procedures.thelist" style="width: 100%;"></select>
+		</div>
+		<div class="col-md-9">
+			<div class="row" ng-show="procedures.selectedFull">
+				<div class="col-md-6">
+					<div>Arguments for {{procedures.selectedFull.name}}</div>
+					<br />
+					<div ng-show="0 === procedures.selectedFull.args.length">None</div>
+					<table class="table">
+						<tr ng-repeat="arg in procedures.selectedFull.args">
+							<td>{{arg.name}}</td>
+							<td>{{arg.direction}}</td>
+							<td>{{arg.type}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<br />
+			<div class="row>">
+				<div class="col-md-8">
+					<div>{{procedures.selectedFull.remarks}}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br />
+	<div class="row hint col-md-4">Hints: Read and Update stored procedures can be used. Multiple result sets from a
+		single call are supported. Update counts are returned. Values from OUT arguments are returned in the 'arg' section of
+		the returned JSON. Support for BLOB and CLOB columns, both as input and as output is supported.</div>
+	</tab> </tabset>
+</div>

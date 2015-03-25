@@ -1,0 +1,310 @@
+<div class="row">
+	<div class="col-md-3" style=" padding-left: 0px; padding-right: 0px;">
+		<div class="ScrollableListHeader">Roles</div>
+		<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-xs btn-list-control" ng-click="createRole()">
+				<span class="glyphicon glyphicon-plus-sign ScrollableListControl"></span>
+				Add
+			</button><button type="button" class="btn btn-xs btn-list-control" ng-click="deleteRole()" ng-disabled="!data.selectedRole">
+				<span class="glyphicon glyphicon-remove-sign ScrollableListControl"></span>
+				Delete
+			</button></div>
+		<div class="ResizableColumn" style="height: 85%; width: 100%; min-height: 350px;" id="rolesListDiv">
+			<select size="23" style="min-width: 100%; border: 0px;" ng-model="data.selectedRole" ng-options="role.name for role in data.roles"
+						ng-change="roleSelected()" ></select>
+		</div>
+	</div>
+	<div class="col-md-9">
+		<tabset>
+			<tab heading="Details">
+				<form role="form">
+					<div class="form-group">
+						<label for="roleName">Role name:</label>
+						<input type="text" class="form-control" ng-model="data.selectedRole.name" id="roleName" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">Default Database Table Access:</label>
+						<fieldset>
+							<table style="border: 0px;">
+								<tr>
+									<td><label for="roleAccessRead">Read</label></td>
+									<td style="padding-bottom: 12px;">
+										<input type="checkbox" ng-model="data.roleAccessRead" id="roleAccessRead" />
+									</td>
+								</tr>
+								<tr>
+									<td><label for="roleAccessInsert">Insert</label></td>
+									<td style="padding-bottom: 12px;">
+										<input type="checkbox" ng-model="data.roleAccessInsert" id="roleAccessInsert" />
+									</td>
+								</tr>
+								<tr>
+									<td><label for="roleAccessUpdate">Update &nbsp;</label></td>
+									<td style="padding-bottom: 12px;">
+										<input type="checkbox" ng-model="data.roleAccessUpdate" id="roleAccessUpdate" />
+									</td>
+								</tr>
+								<tr>
+									<td><label for="roleAccessDelete">Delete</label></td>
+									<td style="padding-bottom: 12px;">
+										<input type="checkbox" ng-model="data.roleAccessDelete" id="roleAccessDelete" />
+									</td>
+								</tr>
+							</table>
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Automatic Enabling of REST EndPoints<br/>
+						Leave unchecked to individually select the reachable End Points.</label>
+						<fieldset>
+							<table style="border: 0px;">
+								<tr>
+									<td><label for="apiVisibleTable">All Tables</label></td>
+									<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['TABLE']" id="apiVisibleTable" /></td>
+								</tr>
+								<tr>
+									<td><label for="apiVisibleView">All Views</label></td>
+									<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['VIEW']" id="apiVisibleView" /></td>
+								</tr>
+								<tr>
+									<td><label for="apiVisibleResource">All Resources</label></td>
+									<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['RESOURCE']" id="apiVisibleResource" /></td>
+								</tr>
+								<tr>
+									<td><label for="apiVisibleProcedure">All Procedures</label></td>
+									<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['PROCEDURE']" id="apiVisibleProcedure" /></td>
+								</tr>
+								<tr>
+									<td><label for="apiVisibleMetaTable">All Meta Tables</label></td>
+									<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['METATABLE']" id="apiVisibleMetaTable" /></td>
+								</tr>
+							</table>
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<label for="roleDesc">Description:</label>
+						<div class="controls">
+							<textarea cols="80" rows="4" ng-model="data.selectedRole.description" id="roleDesc" class="form-control"></textarea>
+						</div>
+					</div>
+                    <button class="btn btn-primary" ng-click="saveRole()" class="btn btn-default">Save</button>
+                    <a class="btn btn-default"  href="#/projects/{{currentProject.ident}}/users">Manage Users</a>
+                    <a class="btn btn-default" href="#/projects/{{currentProject.ident}}/apikeys">Manage API Keys</a>
+				</form>
+			</tab>
+			<tab heading="Globals">
+				<div class="row">
+					<div class="col-md-3" style="border: solid 1px #AAAAAA; padding-left: 0px; padding-right: 0px;">
+						<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-xs btn-list-control" ng-click="createPermData()">
+								<span class="glyphicon glyphicon-plus-sign ScrollableListControl"></span>
+								Add
+							</button><button type="button" class="btn btn-xs btn-list-control" ng-click="deletePermData()" ng-disabled="!data.selectedPermData">
+								<span class="glyphicon glyphicon-remove-sign ScrollableListControl"></span>
+								Delete
+							</button></div>
+						<select size="10" style="min-width: 100%; border: 0px;" ng-model="data.selectedPermData"
+								ng-options="permData.name for permData in data.selectedRole.PermissionData | filter: filterPermData(permData)">
+						</select>
+					</div>
+					<div class="col-md-8">
+						<form role="form">
+							<div style="position:absolute;top:0;left:0;width:100%;height:100%; background-color:#FFFFFF; opacity: 0.5;"
+								ng-hide="data.selectedPermData"></div>
+							<div class="form-group">
+								<label for="permDataName">Global name:</label>
+								<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('roles', 'GlobalName')"></i>
+								<input type="text" class="form-control" ng-model="data.selectedPermData.name" id="permDataName" />
+							</div>
+							<div class="form-group">
+								<label for="permDataCode">Code:</label>
+								<textarea cols="80" rows="3" class="form-control" ng-model="data.selectedPermData.query" id="permDataCode"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="permDataLanguage">Language:</label>
+								<select size="1" ng-model="data.selectedPermData.code_type" id="permDataLanguage">
+									<option value="SQL">SQL</option>
+									<option value="javascript">JavaScript</option>
+								</select>
+								<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('roles', 'GlobalLanguage')"></i>
+							</div>
+							<div class="form-group" ng-show="data.selectedPermData.code_type == 'SQL'">
+								<label for="permDataPrefix">Database:</label>
+								<select size="1" ng-model="data.selectedPermData.prefix"
+									ng-options="prefix for prefix in allDbPrefixes" id="permDataPrefix"
+									class=""></select>
+							</div>
+							<div class="form-group">
+								<label for="permDataReq" class="checkbox">
+									Required
+									<input type="checkbox" ng-model="data.selectedPermData.required" id="permDataReq" />
+								</label>
+								<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('roles', 'GlobalRequired')"></i>
+							</div>
+							<button class="btn btn-primary" ng-click="saveRole()" class="btn btn-default">Save</button>
+						</form>
+					</div>
+				</div>
+			</tab>
+			<tab heading="Permissions">
+				<div class="row">
+					<div class="col-md-3" style="border: solid 1px #AAAAAA; padding-left: 0px; padding-right: 0px; overflow: auto;">
+						<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-xs btn-list-control" ng-click="createPerm()"  ng-disabled="!data.selectedRole">
+								<span class="glyphicon glyphicon-plus-sign ScrollableListControl"></span>
+								Add
+							</button><button type="button" class="btn btn-xs btn-list-control" ng-click="deletePerm()" ng-disabled="!permdata.selectedPerm">
+								<span class="glyphicon glyphicon-remove-sign ScrollableListControl"></span>
+								Delete
+							</button></div>
+						<select class="" size="20" style="min-width: 100%; border: 0px; " ng-model="permdata.selectedPerm"
+								ng-options="perm.name for perm in permdata.perms" ng-change="permSelected()"></select>
+					</div>
+
+					<div class="col-md-9">
+						<form role="form">
+							<div class="form-group">
+								<label for="tableSelect">Table:</label>
+								<select class="form-control" size="1" style="min-width: 100px;" ng-model="permdata.selectedPerm.entity_name"
+										ng-options="name as name for (name, table) in allTables" id="tableSelect">
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="permName">Permission name:</label>
+								<input type="text" class="form-control" ng-model="permdata.selectedPerm.name" id="permName" />
+							</div>
+							<div class="form-group">
+								<label for="accessType">Access type:</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" ng-model="permdata.permAccessRead"/>
+									Read
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" ng-model="permdata.permAccessInsert"/>
+									Insert
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" ng-model="permdata.permAccessUpdate"/>
+									Update
+								</label>
+								<label class="checkbox-inline">
+									<input type="checkbox" ng-model="permdata.permAccessDelete"/>
+									Delete
+								</label>
+							</div>
+							<div class="form-group">
+								<label for="permCols">Columns:</label>
+								<textarea cols="50" rows="3" ng-model="permdata.selectedPerm.column_names" id="permCols" class="form-control"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="permPredicate">Predicate:</label>
+								<textarea cols="50" rows="3" ng-model="permdata.selectedPerm.predicate" id="permPredicate" class="form-control"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="permDesc">Description:</label>
+								<textarea cols="50" rows="3" ng-model="permdata.selectedPerm.description" id="permDesc" class="form-control"></textarea>
+							</div>
+							<button class="btn btn-primary" ng-click="savePerm()">Save</button>
+						</form>
+					</div>
+				</div>
+			</tab>
+			<tab heading="REST End Points">
+			<tabset>
+				<tab heading="Tables">
+					<table style="border: 0px;">
+						<tr>
+							<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['TABLE']" id="apiVisibleTABLE" />
+							<label for="apiVisibleTABLE">&nbsp;&nbsp;Enable All Tables</label></td>
+						</tr>
+						<tr><table class="table" ng-hide="apiVisibility.enableAll['TABLE']">
+								<tr>
+									<td colspan="2">
+										<button class="btn" ng-click="setAllApiType('TABLE', true)">Check All</button>&nbsp;<button class="btn" ng-click="setAllApiType('TABLE', false)">Clear All</button></td>
+								</tr>
+								<tr ng-repeat="arg in apiVisibility.lists['TABLE'] | orderBy:[upcaseName, 'name']">
+									<td><input type="checkbox" ng-model="arg.enabled" />&nbsp;&nbsp;{{arg.name}}</td>
+								</tr>
+							</table>
+						</tr>
+					</table>
+				</tab>
+				<tab heading="Views">
+					<table style="border: 0px;">
+						<tr>
+							<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['VIEW']" id="apiVisibleVIEW" />
+							<label for="apiVisibleVIEW">&nbsp;&nbsp;Enable All Views</label></td>
+						</tr>
+						<tr>
+							<table class="table" ng-hide="apiVisibility.enableAll['VIEW']">
+								<tr>
+									<td colspan="2">
+										<button class="btn" ng-click="setAllApiType('VIEW', true)">Check All</button>&nbsp;<button class="btn" ng-click="setAllApiType('VIEW', false)">Clear All</button></td>
+								</tr>
+								<tr ng-repeat="arg in apiVisibility.lists['VIEW'] | orderBy:[upcaseName, 'name']">
+									<td><input type="checkbox" ng-model="arg.enabled" />&nbsp;&nbsp;{{arg.name}}</td>
+								</tr>
+							</table>
+						</tr>
+					</table>
+				</tab>
+				<tab heading="Procedures">
+					<table style="border: 0px;">
+						<tr>
+							<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['PROCEDURE']" id="apiVisiblePROCEDURE" />
+							<label for="apiVisiblePROCEDURE">&nbsp;&nbsp;Enable All Procedures</label></td>
+						</tr>
+						<tr>
+							<table class="table" ng-hide="apiVisibility.enableAll['PROCEDURE']">
+								<tr>
+									<td colspan="2">
+										<button class="btn" ng-click="setAllApiType('PROCEDURE', true)">Check All</button>&nbsp;<button class="btn" ng-click="setAllApiType('PROCEDURE', false)">Clear All</button></td>
+								</tr>
+								<tr ng-repeat="arg in apiVisibility.lists['PROCEDURE'] | orderBy:[upcaseName, 'name']">
+									<td><input type="checkbox" ng-model="arg.enabled" />&nbsp;&nbsp;{{arg.name}}</td>
+								</tr>
+							</table>
+						</tr>
+					</table>
+				</tab>
+				<tab heading="Resources">
+					<table style="border: 0px;">
+						<tr>
+							<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['RESOURCE']" id="apiVisibleRESOURCE" />
+							<label for="apiVisibleRESOURCE">&nbsp;&nbsp;Enable All Resources</label></td>
+						</tr>
+						<tr>
+							<table class="table" ng-hide="apiVisibility.enableAll['RESOURCE']">
+								<tr>
+									<td colspan="2">
+										<button class="btn" ng-click="setAllApiType('RESOURCE', true)">Check All</button>&nbsp;<button class="btn" ng-click="setAllApiType('RESOURCE', false)">Clear All</button></td>
+								</tr>
+								<tr ng-repeat="arg in apiVisibility.lists['RESOURCE'] | orderBy:[upcaseApiVersion, 'apiVersion', upcaseName, 'name']">
+									<td><input type="checkbox" ng-model="arg.enabled" />&nbsp;&nbsp;{{arg.apiVersion}} {{arg.name}}</td>
+								</tr>
+							</table>
+						</tr>
+					</table>
+				</tab>
+				<tab heading="Meta Tables">
+					<table style="border: 0px;">
+						<tr>
+							<td style="padding-bottom: 12px;"><input type="checkbox" ng-model="apiVisibility.enableAll['METATABLE']" id="apiVisibleMETATABLE" />
+							<label for="apiVisibleMETATABLE">&nbsp;&nbsp;Enable All Meta Tables</label></td>
+						</tr>
+						<tr>
+							<table class="table" ng-hide="apiVisibility.enableAll['METATABLE']">
+								<tr>
+									<td colspan="2">
+										<button class="btn" ng-click="setAllApiType('METATABLE', true)">Check All</button>&nbsp;<button class="btn" ng-click="setAllApiType('METATABLE', false)">Clear All</button></td>
+								</tr>
+								<tr ng-repeat="arg in apiVisibility.lists['METATABLE'] | orderBy:[upcaseName,'name']">
+									<td><input type="checkbox" ng-model="arg.enabled" />&nbsp;&nbsp;{{arg.name}}</td>
+								</tr>
+							</table>
+						</tr>
+					</table>
+				</tab>
+			</tabset>
+			<button class="btn btn-primary" ng-click="saveRole()" class="btn btn-default">Save</button>
+			</tab>
+		</tabset>
+	</div>
+</div>

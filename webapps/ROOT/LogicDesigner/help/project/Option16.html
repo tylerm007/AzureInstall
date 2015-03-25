@@ -1,0 +1,14 @@
+<h5>Allow Swagger without authentication</h5>
+If this option is set to <em>true</em>, then the Swagger schema can be retrieved
+without authentication.
+<p/>
+This is useful because many Swagger consumers do not support authentication (even
+though the <a href="http://swagger.io/" target="_blank">Swagger "standard"</a> itself does).
+<p/>
+The Swagger schema can be retrieved at a URL that looks something like:
+<pre>
+https://espresso.acme.com/rest/acme/proj1/v1/@docs
+</pre>
+<p/>
+If you need to connect your API to such a Swagger consumer, you can enable
+this option temporarily, then turn it off once the API has been retrieved.

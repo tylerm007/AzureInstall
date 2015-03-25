@@ -1,0 +1,32 @@
+<div style="padding: 7px;">
+<h1>Welcome!</h1>
+This server has not yet been set up. Please provide the following information,
+and click the <b>Save</b> button.
+<p/>
+
+<form role="form">
+  <div class="form-group">
+    <label for="dba_new_password">Password for repository database user:</label>
+    <i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('install', 'dbPassword')"></i>
+    <input type="text" class="form-control" id="dba_new_password" ng-model="data.dba_new_password" 
+    	length="20" maxlength="20">
+  </div>
+  <div class="form-group">
+    <label for="sa_new_password">Password for superuser <b>sa</b>:</label>
+    <i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('install', 'saPassword')"></i>
+    <input type="text" class="form-control" id="sa_new_password" ng-model="data.sa_new_password">
+  </div>
+  <div class="form-group">
+    <label for="admin_new_password">Password for user <b>admin</b>:</label>
+    <i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('install', 'adminPassword')"></i>
+    <input type="text" class="form-control" id="admin_new_password" ng-model="data.admin_new_password">
+  </div>
+</form>
+
+<p/>
+<button class="btn btn-primary" style="margin-right: 10px;" ng-click="saveInstall()">Save</button>
+<a class="btn btn-info" ng-click="helpDialog('install', 'Help')">Help</a>
+</div>

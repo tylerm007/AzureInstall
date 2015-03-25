@@ -1,0 +1,10 @@
+<h5>Checksum Size Limit</h5>
+In the JSON objects, the Metadata section contains a checksum which is
+used for optimistic locking.  Any binary or character data larger than
+this, only the LENGTH of the data is used for the checksum.  Objects smaller
+than this use the data itself for the checksum calculation.
+<p/>
+This has a minor impact on performace for BLOB, CLOB, VARBINARY(MAX) columns
+where the column data is normally retrieved from the database with
+secondary calls.  Making this number smaller than your typical BLOB size
+could improve performance in some scenarios.

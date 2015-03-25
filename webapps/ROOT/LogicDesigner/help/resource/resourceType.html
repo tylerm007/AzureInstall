@@ -1,0 +1,14 @@
+<h5>Resource - Resource Type</h5>
+
+There are three different types of resources:
+
+<ul>
+	<li><strong>Normal</strong> is the most common case: these are resources that join together one or more table, allowing you
+	to alias the table(s) and columns, and specify joins and filters.
+	<li><strong>Free SQL</strong> is for resources where you manually specify the SQL to execute. These resources are read-only,
+	but they do give you full latitude to set up the SQL any way you want.
+	<li><strong>JavaScript</strong> resources are the most difficult, and the most advanced: they allow you to write server-side
+	JavaScript code that will be executed whenever this resource is accessed. Your JavaScript code will be responsible
+	for retrieving data, and for formatting it into JSON. The most common use for this resource type is to make
+	a call to an outside REST service.
+</ul>

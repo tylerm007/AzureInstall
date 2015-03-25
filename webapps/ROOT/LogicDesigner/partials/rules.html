@@ -1,0 +1,113 @@
+<div class="row SingleRowView" style="padding-top: 8px;">
+	<tabset>
+		<tab heading="By table" active="data.rulesTab">
+			<div class="row">
+				<div class="col-md-12">
+					<a ng-click="openNewRuleDialog()" class="btn btn-primary" id="createRuleButtonTop">Create new rule</a>
+					<div class="input-append pull-right">
+						<form ng-submit="searchRules()">
+							<div class="pull-left">
+								<input type="search" class="input-medium" ng-model="data.searchText">
+								<span id="searchclear" ng-click="clearSearchText()"
+									style="position: absolute; right: 43px; top: 5px; bottom: 0; height: 12px; font-size: 10pt; cursor: pointer; color: #C0C0C0;"
+									class="glyphicon glyphicon-remove-circle"></span>
+							</div>
+							<button class="btn btn-xs pull-right" ng-click="searchRules()"><i class="glyphicon glyphicon-search"></i></button>
+						</form>
+					</div>
+					<div class="input-append pull-right" style="padding-right: 15px;">
+						<label for="showTopics">Show topics:</label>
+						<input type="checkbox" id="showTopics" ng-model="data.showTopics" />
+					</div>
+					<ul ui:sortable ng-model="allRulesByTable">
+						<li ng-repeat="(tableName, rules) in allRulesByTable" class="item">
+							<h3>{{tableName}}</h3>
+							<ul>
+								<li ng-repeat="rule in allRulesByTable[tableName]" style="margin-bottom: 8px;">
+									<a ng-class="getRuleClass(rule)"
+										href="#/projects/{{currentProject.ident}}/rule/{{rule.ident}}">{{getRuleName(rule)}}</a>
+									<span class="RuleTopic" ng-repeat="r in rule.RuleTopics" ng-show="data.showTopics"
+										ng-style="{'background-color': r.Topic.color}" title="{{r.Topic.summary}}"
+										ng-click="ruleTopicClicked(r.Topic.ident)">
+										{{r.Topic.name}}
+									</span>
+								</li>
+							</ul>
+						</li>
+						<div ng-show="objectIsEmpty(allRulesByTable)"><br/><br/>This project does not (yet) have any rules.<br/><br/>
+						Click Create new rule to start, using
+						<a href="http://docs.espressologic.com/docs/reference#TOC-Live-Logic" target="_blank"><strong>these rules.</strong></a>
+						<br/><br/></div>
+					</ul>
+
+					<a ng-click="openNewRuleDialog()" class="btn btn-primary">Create new rule</a>
+					<div id="newRuleDialog" title="Create new rule" class="ui-helper-hidden">
+						<label for="newRuleType">Rule type:</label>
+						<select size="1" required ng-model="data.selectedRuleType"
+							ng-options="name for (name, ruleType) in ruleTypes" id="newRuleType"
+							options-disabled="p for p in disabledRuleTypes"></select>
+						<a class="fa fa-question-circle ContextHelpButton" href="http://docs.espressologic.com/docs/reference#TOC-Live-Logic" target="_blank"> </a>
+						<br/>
+						<label for="newRuleTable">For table:</label>
+						<select size="1" required ng-model="data.selectedRuleTable"
+							ng-options="name for (name, table) in tables" id="newRuleTable"></select>
+						<div ng-show="javaRulesMessage" style="font-size: 8pt;" ng-bind-html-unsafe="javaRulesMessage"></div>
+					</div>
+
+					<a class="btn btn-default" ng-show="nextUrl" ng-click="fetchMoreRules()">More rules...</a>
+				</div>
+			</div>
+		</tab>
+		<tab heading="By topic" active="data.topicsTab">
+			<div style="float: right;">
+				<table>
+					<tr>
+						<td><input type="checkbox" ng-model="data.showDescriptions" id="showDescs" /></td>
+						<td><label for="showDescs">Show descriptions</label></td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" ng-model="data.showTopics" id="showTops" /></td>
+						<td><label for="showTops">Show topics</label></td>
+					</tr>
+				</table>
+			</div>
+			<label for="topicSelect">Topic:</label>
+			<ui-select ng-model="data.selectedTopic" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+				<ui-select-match placeholder="Select a topic">
+					<span ng-style="{'float': 'right', 'width': '20px', 'height': '15px', 'margin-top': '5px', 'background-color': $select.selected.color}"></span>
+					{{$select.selected.name}}
+				</ui-select-match>
+				<ui-select-choices repeat="topic in data.allTopics | filter: $select.search">
+					<span ng-style="{'float': 'right', 'width': '20px', 'height': '15px', 'background-color': topic.color}"></span>
+					<span ng-bind-html="topic.name | highlight: $select.search"></span>
+					<span> ({{data.allRulesByTopic[topic.ident].length}} items)</span>
+				</ui-select-choices>
+			</ui-select>
+			<button class="btn btn-link" ng-click="editTopic()" ng-disabled="!data.selectedTopic">Edit this topic</button>
+			<p/>
+			<div style="padding:20px 0;">
+				<b>Summary</b>
+				<div ng-bind-html="data.selectedTopic.summary" style="padding: 5px; background-color: #E8E8E8;"></div>
+				<div ng-show="data.showDescriptions">
+					<b>Description</b>
+					<div ng-bind-html="data.selectedTopic.description" style="padding: 5px; background-color: #E8E8E8;"></div>
+				</div>
+			</div>
+			<p/>
+			<b>Rules</b>
+			<div style="padding: 5px;" ng-repeat="(tableName, tableRules) in data.allRulesByTopicAndTable[data.selectedTopic.ident]">
+				<h4 style="border-bottom: solid 1px #AAAAAA;">Table {{tableName}}</h4>
+				<div style="padding: 5px;" ng-repeat="rule in tableRules" >
+					<a ng-class="getRuleClass(rule)"
+						href="#/projects/{{currentProject.ident}}/rule/{{rule.ident}}">{{getRuleName(rule)}}</a>
+					<span class="RuleTopic" ng-repeat="r in rule.RuleTopics" ng-show="data.showTopics"
+						ng-style="{'background-color': r.Topic.color}" title="{{r.Topic.summary}}"
+						ng-click="ruleTopicClicked(r.Topic.ident)">{{r.Topic.name}}</span>
+
+					<div ng-show="data.showDescriptions" style="padding: 7px; margin: 5px; margin-left: 25px; background-color: #E8E8E8;" ng-bind-html="rule.comments">
+					</div>
+				</div>
+			</div>
+		</tab>
+	</tabset>
+</div>

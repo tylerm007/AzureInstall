@@ -1,0 +1,13 @@
+<h5>Relationship - Parent Key Name</h5>
+<p>
+A foreign key is always defined using a unique set of columns in the parent.
+When defined in the database, Espresso will automatically create and utilize the relationship.
+</p>
+<p>
+When a relationship exists, but is not defined in the database, you can manually add the relationship.
+There does NOT need to a unique index or constraint defined in the database to define the relationship.
+</p>
+<p>
+However, Espresso assumes that the fields you select do represent an unique value.  Runtime errors
+will be generated when this assumption is violated.
+</p>

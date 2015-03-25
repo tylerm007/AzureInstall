@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=EDGE" />
+<meta charset="utf-8">
+<title>Test page</title>
+<style>
+	.jsonCode {
+		background-color: #E0E0E0;
+		padding: 10px;
+		border: solid 1px #C0C0C0;
+	}
+</style>
+<script type="text/javascript" src="//code.jquery.com/jquery-2.1.0.js"></script>
+<script>
+////////////////////////////////////////////////////////////////////////////////////////
+// This is a very simple example of how to interact with the Espresso Logic admin API
+// using nothing but basic jQuery.
+// We demonstrate how to get an API key, then how to create a new user, and how to
+// change that user's password.
+// You can do anything that the Logic Designer does using this API.
+
+// BEFORE YOU RUN, SET THESE VARIABLES:
+	
+// This should be the URL to your Espresso service. Typically only the host
+// should change.
+var serverBaseUrl = "https://eval.espressologic.com/rest/abl/admin/v2/";
+
+// This should be your Espresso *admin* user ID. You should have received it in an email.
+var adminName = "USERNAME";
+
+// This should be your Espresso *admin* password.
+var adminPassword = "PASSWORD";
+
+// This should be the ID of the Espresso project for which you want to create a new user.
+// Try creating a user in a project you don't own and see what happens...
+// You can get this from the Logic Designer, by selecting e.g. Resources and looking at the URL
+var projectIdent = 1000;
+
+var demo = {};
+$(document).ready(function () {
+	
+	// Do a POST with the user name and password to get back an API key
+	demo.getApiKey = function() {
+		$.ajax({
+			type: "POST",
+			url: serverBaseUrl + '@authentication', 
+			dataType: "json",
+			contentType: "application/json",
+			data: JSON.stringify({username: adminName, password: adminPassword}),
+			success: function(data) {
+				demo.apiKey = data.apikey;
+				console.log('API key: ' + demo.apiKey);
+				$('#apiKey').html(JSON.stringify(data, null, 2));
+			},
+			error: function(xhr, status, error) {
+				console.log('Error getting API key: ' + error + " - status " + status); 
+			}
+		});
+	};
+	
+	// Do a POST of a new user object
+	demo.createUser = function() {
+		if ( ! demo.apiKey) {
+			alert('Please get an API key first');
+			return;
+		}
+		var userSuffix = "" + Math.floor(Math.random() * 10000); // Randomize user name
+		$.ajax({
+			type: "POST",
+			url: serverBaseUrl + 'users', 
+			dataType: "json",
+			contentType: "application/json",
+			headers: {
+				Authorization: "Espresso " + demo.apiKey + ":1"
+			},
+			data: JSON.stringify({name: 'mmouse' + userSuffix, fullname: 'Mickey Mouse', status: 'A', password_hash: 'abc123', 
+			    roles: 'Sales rep,Sales Manager', data: 'region=West', project_ident: projectIdent}),
+			success: function(data) {
+				demo.newUser = data.txsummary[0];
+				console.log('New user ident: ' + demo.newUser.ident);
+				$('#userJson').html(JSON.stringify(demo.newUser, null, 2));
+				$('#userJson').show();
+			},
+			error: function(xhr, status, error) {
+				$('#userJson').html(xhr.responseText);
+				$('#userJson').show();
+			}
+		});
+	};
+
+	// Updated the newly created user with a new password.
+	// Note that the password is sent in clear but stored as a hash.
+	demo.updateUser = function() {
+		if ( ! demo.apiKey) {
+			alert('Please get an API key first');
+			return;
+		}
+		if ( ! demo.newUser) {
+			alert('Please create a user first');
+			return;
+		}
+		demo.newUser.password_hash = "FooBar" + Math.floor(Math.random() * 10000);
+		$.ajax({
+			type: "PUT",
+			url: demo.newUser['@metadata'].href, 
+			dataType: "json",
+			contentType: "application/json",
+			headers: {
+				Authorization: "Espresso " + demo.apiKey + ":1"
+			},
+			data: JSON.stringify(demo.newUser),
+			success: function(data) {
+				demo.newUser = data.txsummary[0];
+				console.log('Updated user password: ' + demo.newUser.password_hash);
+				$('#updatedUserJson').html(JSON.stringify(demo.newUser, null, 2));
+				$('#updatedUserJson').show();
+			},
+			error: function(xhr, status, error) {
+				$('#updatedUserJson').html(xhr.responseText);
+				$('#updatedUserJson').show();
+			}
+		});
+	};
+});
+</script>
+</head>
+<body>
+	<button onclick="demo.getApiKey()">Get API key</button><br/>
+	API Key: <pre id="apiKey" class="jsonCode"></pre>
+	<p/>
+	<br/><br/>
+	<button onclick="demo.createUser()">Create user</button>
+	<button onclick="$('#userJson').toggle()">Show/hide JSON</button>
+	<br/>
+	
+	New user: <pre id="userJson" class="jsonCode"></pre>
+	<p/>
+	<br/><br/>
+	<button onclick="demo.updateUser()">Update user</button>
+	<button onclick="$('#updatedUserJson').toggle()">Show/hide JSON</button>
+	<br/>
+	
+	Updated user: <pre id="updatedUserJson" class="jsonCode"></pre>
+</body>
+</html>

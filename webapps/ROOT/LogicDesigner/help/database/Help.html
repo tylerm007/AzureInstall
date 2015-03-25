@@ -1,0 +1,25 @@
+<h4>Databases</h4>
+Each project has a main
+<a href="http://docs.espressologic.com/docs/logic-designer/database" target="_blank"><strong>database</strong></a>
+(you can also integrate Mongo databases, and use JavaScript to integrate other data sources).
+ <br/><br/>
+
+You can define  
+<a href="http://docs.espressologic.com/docs/logic-designer/database/multiple-databases" target="_blank"><strong>multiple active databases,</strong></a>
+each with their own distinct prefix.  Inactive databases may have prefix values that
+are not unique.  When an inactive database is made <strong>active</strong>, any active database with the same prefix is made inactive.
+<br/><br/>
+Multiple entries with the same prefix might be used for test, development, production environments.
+<br/><br/>
+Relationships can be added manually between tables in <strong>different</strong> databases, even if one is (say) Oracle and the other Azure SQL.
+Rules can be used with these manually defined relationships.  Commits will be peformed on a best-efforts basis.
+<br/><br/>
+Use
+<a href="http://docs.espressologic.com/docs/logic-designer/database#TOC-Reload-Schema" target="_blank"><strong>reload schema</strong></a>
+when you have modified your schema, so that Espresso sees the changes. 
+<br/><br/>
+
+Run Project &gt; <strong>Verify</strong> to detect schema / resource issues.
+<br/><br/>
+
+<strong>Issues</strong> entries (left nav bar) will be created if your resources refer to tables/columns that no longer exist.

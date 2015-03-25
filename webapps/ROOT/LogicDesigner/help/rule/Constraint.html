@@ -1,0 +1,33 @@
+<h4>Validation</h4>
+<br><a href="http://docs.espressologic.com/docs/logic-designer/business-logic/validation" target="_blank"><strong>Validations</strong></a>
+
+ are expressions assigned to a table, that must be true for a transaction to commit.  
+ <br/><br/>
+ 
+Failed transactions are rolled back, and a suitable message is returned to the client.
+ <br/><br/>
+ 
+ Validations are specified using JavaScript notation, providing an easy way to perform if/else logic, looping, 
+ invoke other JavaScript functions such as date, etc.<br/><br/>
+ 
+ They can reference other columns in the row as <code>row.attribute</code>, as well as parent columns.  
+ <br/><br/>
+ <ul> 
+ 
+ <li>The Expression help link provides a list of attribute names.<br/><br/></li>
+ 
+<li>Changes to parent columns referenced in child logic cascade to all children, so the validation can be rechecked.<br/><br/></li>
+</ul>
+Whenever the validation's table is altered - either directly by the client or through logic chaining - the system verifies that the result values still meet the validation.  This is reactive programming.  
+<blockquote>Contrast this with imperative programming, where such dependency management often accounts for substantial code to detect changes and update dependent data.</blockquote>
+
+For example, altering a Line Item may adjust the Purchase Orders amount_total, which adjusts the Customer's balance.  Such derivations are always subjected to validation checks at each level.  
+<br/><br/>
+
+So, our transaction might fail due to the following validation:
+
+<blockquote><code>Validation row.balance > row.credit_limit</code></blockquote>
+
+<br><br>It is a <strong>Best Practice</strong> (a
+<a href="http://docs.espressologic.com/docs/logic-designer/business-logic/logic-patterns" target="_blank"><strong>Key Logic Pattern</strong></a>) 
+for validations to reference derivation results, such as the example described below in Commit Validations.

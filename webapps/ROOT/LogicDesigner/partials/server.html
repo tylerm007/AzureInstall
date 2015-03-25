@@ -1,0 +1,135 @@
+<h3>Server information</h3>
+<tabset>
+	<tab heading="Server">
+		<table class="PropTable">
+			<tr>
+				<td class="PropTableName">Public IP address:</td>
+				<td class="PropTableValue">{{serverinfo.publicAddress}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Hostname:</td>
+				<td class="PropTableValue">{{serverinfo.hostname}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Current date/time:</td>
+				<td class="PropTableValue">{{serverinfo.currentDateTime}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">OS:</td>
+				<td class="PropTableValue">{{serverinfo.osName}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Number of cores:</td>
+				<td class="PropTableValue">{{serverinfo.numCores}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Free memory:</td>
+				<td class="PropTableValue">{{serverinfo.freeMemoryStr}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Maximum memory:</td>
+				<td class="PropTableValue">{{serverinfo.maxMemoryStr}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Total memory:</td>
+				<td class="PropTableValue">{{serverinfo.totalMemoryStr}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Uptime:</td>
+				<td class="PropTableValue">{{serverinfo.uptimeStr}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Load average:</td>
+				<td class="PropTableValue">{{serverinfo.loadAverageStr}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Admin schema version:</td>
+				<td class="PropTableValue">{{serverinfo.adminSchemaVersion}}</td>
+			</tr>
+			<tr>
+				<td class="PropTableName">Server version:</td>
+				<td class="PropTableValue">{{serverinfo.serverVersion}}</td>
+			</tr>
+		</table>
+		<br/>
+		<button class="btn btn-primary" ng-click="refreshServer()">Refresh</button>
+	</tab>
+	
+	<tab heading="License" active="licenseTab">
+		<div ng-show="license.status == 'invalid'" style="padding: 10px;">
+			There is a problem with the license: 
+			<span style="background-color: #E0E0E0; padding: 2px;">{{license.error}}</span>
+			<p/>
+			This server is now running in <b>read-only mode</b>. 
+			<p/>
+			To get a valid license, please contact Espresso Logic:
+			<p/>
+			<ul>
+				<li>Phone: +1-844-GO-ESPRESSO (844-463-7773)
+				<li>Email: license@espressologic.com
+			</ul>
+		</div>
+		<div ng-show="license.status != 'invalid'">
+			<table class="PropTable">
+				<tr>
+					<td class="PropTableName">License type:</td>
+					<td class="PropTableValue">{{license.license_typeStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">License expiration:</td>
+					<td class="PropTableValue">{{license.expiration_dateStr}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Company name:</td>
+					<td class="PropTableValue">{{license.company}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Organization:</td>
+					<td class="PropTableValue">{{license.organization}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Location:</td>
+					<td class="PropTableValue">{{license.location}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum cores:</td>
+					<td class="PropTableValue">{{license.max_cores}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum memory:</td>
+					<td class="PropTableValue">{{license.max_memory}} MB</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum projects:</td>
+					<td class="PropTableValue">{{license.max_projects}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum requests:</td>
+					<td class="PropTableValue">{{license.max_requests}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum resources:</td>
+					<td class="PropTableValue">{{license.max_resources}}</td>
+				</tr>
+				<tr>
+					<td class="PropTableName">Maximum rules:</td>
+					<td class="PropTableValue">{{license.max_rules}}</td>
+				</tr>
+			</table>
+		</div>
+		<p/>
+		<button class="btn btn-primary" ng-click="uploadLicense()">Upload license</button>
+		<div id="licenseImportDialog" title="Import License" class="ui-helper-hidden">
+			<div style="padding: 10px;">
+				You should have received a license file from Espresso Logic.
+				Please select it using
+				the controls below, and click OK.
+			</div>
+			<p/>
+			<label for="licenseFile">License file (normally license.json) :</label>
+			<input type="file" id="licenseFile" class="btn" style="width: 400px;" />
+			<br/><br/><br/>
+			<code style="font-size: 10pt; margin: 3px;" ng-show="importFileName">{{importFileName}}</code>
+		</div>
+	</tab>
+</tabset>

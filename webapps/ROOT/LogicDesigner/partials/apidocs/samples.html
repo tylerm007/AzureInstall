@@ -1,0 +1,146 @@
+Here are some very basic samples of connecting to your Espresso Logic API for various languages.
+<p/>
+These are only meant as a starting point: there are an infinite number ways to connect and utilize your API once it's up and running.
+<p/>
+<accordion close-others="true">
+	<accordion-group heading="JavaScript (using jQuery)">
+<pre><code class="javascript"
+>$.ajax({
+	type: 'GET',
+	dataType: 'json',
+	headers: {
+		Accept: 'application/json',
+		Authorization: 'Espresso {{data.selectedApiKey.apikey}}:1'},
+	url: '{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}',
+	success: function(data) {
+		for (var i = 0; i &lt; data.length; i++) {
+			console.log(data[i]);
+		}
+	},
+	error: function(data) {
+		console.log('Error code: ' + data.errorCode);
+		console.log('Error message: ' + data.errorMessage);
+	}
+});
+</code></pre>
+	</accordion-group>
+	<accordion-group heading="Java (using java.net classes)">
+<pre><code class="java"
+>URL url = new URL("{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("GET");
+conn.setRequestProperty("Accept", "application/json");
+conn.setRequestProperty("Authorization", "Espresso {{data.selectedApiKey.apikey}}:1");
+ 
+BufferedReader br;
+if (conn.getResponseCode() == 200)
+	br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+else
+	br = new BufferedReader(new InputStreamReader((conn.getErrorStream())));
+ 
+String output;
+System.out.println("Output from server:\n");
+while ((output = br.readLine()) != null) {
+	System.out.println(output);
+}
+
+conn.disconnect();
+</code></pre>
+	</accordion-group>
+	<accordion-group heading="PHP (using curl)">
+<pre><code class="php"
+>$curl = curl_init();
+curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+	'Accept: application/json',
+	'Authorization: Espresso {{data.selectedApiKey.apikey}}:1'
+));
+curl_setopt($curl, CURLOPT_URL, 
+	"{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}");
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+$response = curl_exec($curl);
+$json = json_decode($response);
+var_dump($json);
+</code></pre>
+	</accordion-group>
+	<accordion-group heading="Python (using httplib)">
+<pre><code class="python"
+>import httplib
+import json
+
+conn = httplib.HTTPConnection("{{data.hostname}}")
+headers = {'Accept': 'application/json', 'Authorization': 'Espresso {{data.selectedApiKey.apikey}}:1'}
+conn.request('GET', '/rest/{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}', None, headers)
+resp = conn.getresponse()
+json = json.loads(resp.read())
+if type(json) == dict and json.has_key('errorCode'):
+	print "Error : " + json['errorMessage']
+else:
+	print "Success : " + str(json)
+</code></pre>
+	</accordion-group>
+	<accordion-group heading="Node.js">
+	<p>Installing our <a href="https://github.com/EspressoLogicCafe/npm-espressologic">npm package</a> is as simple as:</p>
+	<pre><code>npm install espressologic</code></pre>
+	<p>Once installed, using the SDK to begin making requests we point an instance of espressologic to our project and can immediately get started:</p>
+<pre><code class="javascript">var espressologic, api, customers, newCustomer;
+
+espressologic = require('espressologic');
+api = espressologic.connect('https://{{data.hostname}}/rest/{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}', '{{data.selectedApiKey.apikey}}');
+
+customers = api.endpoint('/demo:customers');
+alphaCustomer = {
+    name: "Alpha",
+    credit_limit: "1234"
+};
+
+//PUT
+customers.put(alphaCustomer, params).then(function (txSummary) {
+    console.log(txSummary); //an array of objects updated
+});
+
+//GET
+customers.get().then(function (data) {
+    console.log(data); //an array which will now include customer: Alpha
+
+    //objects returned include metadata specific to each record,
+    //the most useful to us here is the endpoint href
+    var alphaEndpoint = espressologic.endpoint(data[0]['@metadata'].href);
+
+    //POST
+        data[0].name = 'Alpha Updated';
+        alphaEndpoint.post(data[0]).then(function(txSummary) {
+            console.log(txSummary);
+        });
+
+    //DELETE
+        alphaEndpoint.delete(data[0]).then(function(txSummary) {
+            console.log(txSummary);
+        });
+});</code></pre>
+    </accordion-group>
+    
+    <accordion-group heading="Node & the sample app Entrospect">
+        <pre><code>npm install entrospect
+npm start entrospect
+        </code></pre>
+        <p>Then visit: http://localhost:3000. Replace the code in the file <a href="https://github.com/EspressoLogicCafe/entrospect/blob/master/config.js">config.js</a> in {dir}/node_modules/entrospect/ with:</p>
+       <pre><code>var espressologic;
+
+espressologic = require('espressologic');
+
+//Export the espressologic API object
+//@ex used in routes.index.js for making all our application's REST calls
+module.exports = espressologic.connect('https://{{data.hostname}}/rest/{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}', '{{data.selectedApiKey.apikey}}');
+        </code></pre>
+    </accordion-group>
+    
+</accordion>
+
+<script>
+$(function() {
+	hljs.tabReplace = '    ';
+//	hljs.initHighlightingOnLoad();
+	$('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+	console.log('Highlight done');
+});
+</script>

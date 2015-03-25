@@ -1,0 +1,19 @@
+<h4>Count</h4>
+
+<br><a href="http://docs.espressologic.com/docs/logic-designer/business-logic/count" target="_blank"><strong>Counts</strong></a>
+ declares a Parent attribute to be maintained as the count of a designated child rows, with an optional qualification to filter child objects.   
+ Parent reference names are derived from Foreign Key Relationships.
+<br/><br/>
+
+For example:<br/><br/>
+
+<code>Derive orders.item_count as count(lineitemsList)</code>
+<br/><br/>
+
+Counts are <br/><br/>
+<ol>
+<li>Significantly simpler than events<br/><br/></li>
+<li>Efficient - parent data is adjusted via a 1 row update - the system does not issue a select sum() SQL command<br/><br/></li>
+<li><a href="http://docs.espressologic.com/docs/logic-designer/business-logic/logic-patterns#TOC-Counts-for-Existence-Checks" target="_blank"><strong>Best Practice</strong></a>
+Counts as existence checks</li>
+</ol>

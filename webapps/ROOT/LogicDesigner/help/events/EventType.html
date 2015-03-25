@@ -1,0 +1,10 @@
+<h5>Event Type</h5>
+The event type determines when this event handler will be called:
+<ul>
+	<li>a <strong>request event</strong> is invoked right after a request has been received, but before any "serious" work
+	has begun. Your request handler will have access to all the relevant information, such as which API key is being used,
+	what the request verb is (GET, POST, etc...), the JSON payload for POST and PUT, and what the URL parameters are.
+	<li>a <strong>response event</strong> is invoked after the request has been processed, but before the response is
+	sent back to the client. You have the opportunity to do additional work, and even to modify the response (though
+	you should be careful when doing that!).
+</ul>

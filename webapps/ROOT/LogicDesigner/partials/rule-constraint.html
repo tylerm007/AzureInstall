@@ -1,0 +1,114 @@
+<div ng:controller="kahuna.rules.RuleConstraintCtrl" class="row">
+	<div class="col-md-12">
+		<h5>Validation for {{data.currentRule.entity_name}}</h5>
+		<span class="dropdown pull-right" style="cursor: pointer;">
+			<a class="dropdown-toggle">{{ruleVersions.length}} version{{ruleVersions.length &gt; 1 ? 's' : ''}}</a>
+			<ul class="dropdown-menu">
+				<li ng-repeat="ruleVersion in ruleVersions" ng-click="ruleVersionSelected(ruleVersion)">
+					<a>{{ruleVersion.formattedDate}}</a>
+				</li>
+			</ul>
+		</span>
+		<form role="form">
+			<div class="form-group">
+				<label for="constraintName">Validation name:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleValidationName')"></i>
+						<input type="text" class="form-control" ng-model="data.currentRule.name" 
+							placeholder="Rule name (optional)" id="constraintName" />
+			</div>
+			<div class="form-group">
+ 				<rule-topics></rule-topics>
+				<span style="width: 50%;">
+					<label for="TableSelect">Table:</label>
+					<select size="1" class="form-control" required ng-model="data.selectedTable"
+						ng-options="name for (name, table) in tables" ng-change="tableSelected()"
+						id="TableSelect"></select>
+				</span>
+			</div>
+			<div class="form-group" ng-show="data.currentRule.prop4 == 'java'">
+				This a system-defined Java Validation. These are special rules, which
+				cannot be created or modified.
+			</div>
+			<div class="form-group" ng-show="data.currentRule.prop4 == 'java'">
+				<label for="actionClass">Class name:</label>
+				<input readonly type="text" class="form-control" ng-model="data.currentRule.rule_text1" id="actionClass" />
+			</div>
+			<div class="form-group" ng-show="data.currentRule.prop4 == 'java'">
+				<label for="actionMethod">Method name:</label>
+				<input readonly type="text" class="form-control" ng-model="data.currentRule.rule_text2" id="actionMethod" />
+			</div>
+			<div class="form-group" ng-hide="data.currentRule.prop4 != 'java'">
+				<label for="constraintJavaClass">Java class name:</label>
+				<input type="text" class="form-control" ng-model="data.currentRule.rule_text1" id="constraintJavaClass"/>
+			</div>
+			<div class="form-group" ng-hide="data.currentRule.prop4 != 'java'">
+				<label for="constraintJavaMethod">Java method name:</label>
+				<input type="text" class="form-control" ng-model="data.currentRule.rule_text2" id="constraintJavaMethod"></textarea>
+			</div>
+			<div class="form-group" ng-hide="data.currentRule.prop4 != 'javascript'">
+				<label for="constraintJSCode">Code:</label><i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleValidationCode')"></i>
+				<pre id="ruleJSCode" style="height: 15em;"></pre>
+				<div style="font-size: 7pt; color: #888888; padding: 4px; margin: 3px;">
+					<span ng-click="showAttribsHelp = !showAttribsHelp" style="margin-bottom: 4px; cursor: default;">
+						<i ng-class="{true: 'icon-chevron-down', false: 'icon-chevron-right'}[showAttribsHelp]"></i>
+						Expression help
+					</span>
+					<button class="pull-right btn btn-xs" ng-click="switchCodeSize()">{{codeSizeText}}</button>
+					<div ng-show="showAttribsHelp" style="border: solid 1px #888888; padding: 3px; background-color: #F2F2F2; width: 50%;">
+						<select size="1" ng-model="data.insertAttrib" ng-change="insertAttributeSelected()"
+							style="margin-bottom: 5px;"
+							ng-options="column.name as column.name for column in data.currentTable.columns" id="InsertAttribSelect">
+							<option value="">&lt;select attribute to insert&gt;</option>
+						</select> or
+						<br/>
+						<select size="1" ng-model="data.selectedParent" ng-change="parentSelected()"
+							ng-options="parent as parent.name for parent in data.currentTable.parents" id="InsertParentSelect">
+							<option value="">&lt;select parent role&gt;</option>
+						</select>
+	 					<select size="1" ng-model="data.insertParentAttrib" ng-change="parentAttributeSelected()"
+	 						ng-disabled="!data.selectedParent"
+							ng-options="column.name as column.name for column in data.parentTableDetails.columns" 
+									id="InsertParentAttribSelect">
+							<option value="">&lt;select parent attribute to insert&gt;</option>
+						</select><br/>
+						<a href="http://docs.espressologic.com/docs/logic-designer/business-logic/formula" 
+								target="_blank">Validation reference</a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="constraintCommit" class="checkbox">
+					Commit-time only
+					<input type="checkbox" ng-model="commitConstraint" id="constraintCommit" />
+						<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleValidationCommit')"></i>
+				</label>
+			</div>
+			<div class="form-group">
+				<label for="constraintError">Error message:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleValidationErrorMessage')"></i>
+				<textarea cols="60" rows="2" ng-model="data.currentRule.rule_text2" id="constraintError" class="form-control"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="constraintAttribs">Problem attributes:</label>
+						<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleValidationErrCols')"></i>
+				<textarea cols="60" rows="2" ng-model="data.currentRule.prop1" id="constraintAttribs" class="form-control"></textarea>
+			</div>
+			<div class="form-group">
+				<label for="constraintActive" class="checkbox">
+					Active
+					<input type="checkbox" ng-model="data.currentRule.active" id="constraintActive" />
+				</label>
+			</div>
+			<div class="form-group">
+				<label for="constraintDesc">Comments:</label>
+				<textarea cols="60" rows="2" ng-model="data.currentRule.comments" id="constraintDesc" class="form-control"></textarea>
+			</div>
+			<button class="btn btn-primary" ng-click="saveAndCloseRule()" style="float: clear;">Activate and close</button>
+			&nbsp;
+			<button class="btn btn-default" ng-click="saveRule()" style="float: clear;">Save</button>
+			&nbsp;
+			<button class="btn btn-default" ng-click="deleteRule()" style="float: clear;">Delete this rule</button>
+			<div ng-show="javaRulesMessage" style="padding: 7px; font-size: 8pt;">Note: {{javaRulesMessage}}</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,95 @@
+<div ng:controller="kahuna.rules.RuleFormulaCtrl" class="row">
+	<div class="col-md-12">
+		<h5>Formula for {{data.currentRule.entity_name}}</h5>
+		
+		<span class="dropdown pull-right" style="cursor: pointer;">
+			<a class="dropdown-toggle">{{ruleVersions.length}} version{{ruleVersions.length &gt; 1 ? 's' : ''}}</a>
+			<ul class="dropdown-menu">
+				<li ng-repeat="ruleVersion in ruleVersions" ng-click="ruleVersionSelected(ruleVersion)">
+					<a>{{ruleVersion.formattedDate}}</a>
+				</li>
+			</ul>
+		</span>
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label for="formulaName">Formula name:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleFormulaName')"></i>
+				<input type="text" class="form-control" ng-model="data.currentRule.name" 
+					placeholder="Rule name (optional)" id="formulaName"/>
+			</div>
+			<rule-topics></rule-topics>
+			<span>
+				<div class="form-group">
+					<label for="TableSelect">Table/column:</label>
+					<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleFormulaTableCol')"></i>
+					<table><tr><td>
+						<select size="1" required ng-model="data.selectedTable"
+							ng-options="name for (name, table) in tables" ng-change="tableSelected()"
+							id="TableSelect"></select>
+					</td><td>
+						<select size="1" required ng-model="data.currentRule.attribute_name"
+							ng-options="column.name as column.name for column in data.currentTable.columns" id="DerivedAttribSelect"></select>
+					</td></tr></table>
+				</div>
+			</span>
+<!-- 			<div class="form-group">
+				<label for="DerivedAttribSelect" class="control-label">Derived column:</label>
+				<div class="controls">
+					<select size="1" required ng-model="data.currentRule.attribute_name"
+						ng-options="column.name as column.name for column in data.currentTable.columns" id="DerivedAttribSelect"></select>
+				</div>
+			</div> -->
+			<div class="form-group" ng-show="data.currentRule.prop4 == 'java'">
+				This a system-defined Java Formula. These are special rules, which
+				cannot be created or modified.
+			</div>
+			<div class="form-group" ng-show="data.currentRule.prop4 == 'javascript'">
+				<label for="ruleJSCode">Code:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'RuleFormulaCode')"></i>
+				<pre id="ruleJSCode" class="form-control" style="height: 10em;"></pre>
+				<div style="font-size: 7pt; color: #888888; padding: 4px; margin: 3px;">
+					<span ng-click="showAttribsHelp = !showAttribsHelp" style="margin-bottom: 4px; cursor: default;">
+						<i ng-class="{true: 'icon-chevron-down', false: 'icon-chevron-right'}[showAttribsHelp]"></i>
+						Expression help
+					</span>
+					<button class="pull-right btn btn-xs" ng-click="switchCodeSize()">{{codeSizeText}}</button>
+					<div ng-show="showAttribsHelp" style="border: solid 1px #888888; padding: 3px; background-color: #F2F2F2; width: 50%;">
+						<select size="1" ng-model="data.insertAttrib" ng-change="insertAttributeSelected()"
+							style="margin-bottom: 5px;"
+							ng-options="column.name as column.name for column in data.currentTable.columns" id="InsertAttribSelect">
+							<option value="">&lt;select attribute to insert&gt;</option>
+						</select> or
+						<br/>
+						<select size="1" ng-model="data.selectedParent" ng-change="parentSelected()"
+							ng-options="parent as parent.name for parent in data.currentTable.parents" id="InsertParentSelect">
+							<option value="">&lt;select parent role&gt;</option>
+						</select>
+	 					<select size="1" ng-model="data.insertParentAttrib" ng-change="parentAttributeSelected()"
+	 						ng-disabled="!data.selectedParent"
+							ng-options="column.name as column.name for column in data.parentTableDetails.columns" id="InsertParentAttribSelect">
+							<option value="">&lt;select parent attribute to insert&gt;</option>
+						</select><br/>
+						<a href="http://docs.espressologic.com/docs/logic-designer/business-logic/formula" target="_blank">Formula reference</a>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="checkbox" for="formulaActive">
+					<input type="checkbox" ng-model="data.currentRule.active" id="formulaActive" />
+					Active
+				</label>					
+			</div>
+			<div class="form-group">
+				<label for="formulaComments">Comments:</label>
+				<textarea cols="60" rows="3" ng-model="data.currentRule.comments" id="formulaComments" class="form-control"></textarea>
+			</div>
+			<button class="btn btn-primary" ng-click="saveAndCloseRule()" style="float: clear;">Activate and close</button>
+			&nbsp;
+			<button class="btn btn-default" ng-click="saveRule()" style="float: clear;">Save</button>
+			&nbsp;
+			<button class="btn btn-default" ng-click="deleteRule()" style="float: clear;">Delete this rule</button>
+			<div ng-show="javaRulesMessage" style="padding: 7px; font-size: 8pt;" ng-bind-html-unsafe="javaRulesMessage"></div>
+		</form>
+	</div>
+</div>

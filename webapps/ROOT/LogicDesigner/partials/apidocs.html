@@ -1,0 +1,332 @@
+<div class="row" style="padding-left: 6px;">
+	<div class="col-md-12" style="padding: 5px;">
+		<tabset>
+			<tab heading="Connecting">
+				<h4>
+					Connecting to your API :
+					<select size="1" style="font-size: 12pt;" ng-model="data.selectedApiVersion"
+						ng-options="apiVersion.name for apiVersion in data.apiVersions"></select>
+					, resource:
+					<select size="1" style="font-size: 12pt;" ng-model="data.selectedResourceName"
+						ng-options="res for res in data.resourceNames"></select>
+					with API key:
+					<select size="1" style="font-size: 12pt;" ng-model="data.selectedApiKey"
+						ng-options="apiKey.name for apiKey in data.apiKeys"></select>
+				</h4>
+				This page is only a quick reference&ndash;see
+				<a href="http://docs.espressologic.com/docs" target="_blank">the documentation</a> for more details.
+				<p/>
+				Your base URL is: <code>{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}</code>
+				<p/>
+				You can add the name of a resource or table to interact with it, e.g.:
+				<code>{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}</code>
+				<p/>
+				You can also add the primary key of a resource to target it specifically, e.g.:
+				<code>{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/{{data.selectedResourceName}}/42</code>
+
+				<h4>Authentication</h4>
+				Every request must include an HTTP header named <code>Authorization</code>, e.g.:
+				<code>Authorization: Espresso {{data.selectedApiKey.apikey}}:1</code>
+				Note the <code>:1</code> suffix, which must be present. For GETs, this can be passed on the URL (see below).<br><br>
+
+				Client apps typically obtain an ApiKey with a <code>POST</code> like:<p/>
+				<code>{{data.serverUrl}}{{currentAccount.url_name}}/{{currentProject.url_name}}/{{data.selectedApiVersion.name}}/@authentication</code><p/>
+				with a request such as
+				<p/>
+				<code>{ "username": "demo1",  "password": "demo123"}</code>
+				<p/>
+				<br>
+				<p/>
+				<h5>GET</h5>
+				A GET request retrieves data from a table or resource. The result is an array of objects if successful,
+				or an error object if not.
+				<p/>
+				The URL may contain any of the following parameters after a question mark. Note that all parameters must be URL-encoded.
+				<table class="table table-bordered">
+					<tr style="font-weight: bold; background-color: #EEEEEE;"><td>Parameter name</td><td>Description</td><td>Example</td></tr>
+					<tr>
+						<td><code>auth</code></td>
+						<td>API key: this is a convenience so you can do a GET from a web browser.</td>
+						<td><code>auth={{data.selectedApiKey.apikey}}:1</code>
+						<br/>
+						(See Project Properties/Settings to enable/disable this feature)
+						</td>
+					</tr>
+					<tr>
+						<td><code>filter</code></td>
+						<td>
+							Specifies a clause for the underlying query
+						</td>
+						<td>
+							<code>filter=name like 'Acme%' or balance &gt; 999</code>
+							<br/>
+							Once URL-encoded, this would look like:
+							<code>filter=name%20like%20'Acme%'%20or%20balance%20%3E%20999</code>
+						</td>
+					</tr>
+					<tr>
+						<td><code>order</code></td>
+						<td>
+							One or more columns to sort by
+						</td>
+						<td><code>order=name,balance desc</code></td>
+					</tr>
+					<tr>
+						<td><code>pagesize</code></td>
+						<td>
+							Sets the number of objects to retrieve in one batch. The default is 20.
+							You cannot make this number smaller than 1, or larger than 1,000.
+						</td>
+						<td><code>pagesize=100</code></td>
+					</tr>
+					<tr>
+						<td><code>offset</code></td>
+						<td>
+							This is generated internally for pagination in next_batch links.  It is not recommended to set this manually, as
+							security and JavaScript filters can make this value jump by more than pagesize for each page.
+						</td>
+						<td><code>offset=20</code></td>
+					</tr>
+					<tr>
+						<td><code>chunksize</code></td>
+						<td>
+							An advanced tuning parameter, used to control SQL generation, normally defined at a project level. On occassion,
+							it may be useful to set to 1 (one) to simplify the SQL for easier human consumption.
+						</td>
+						<td><code>chunksize=2</code></td>
+					</tr>
+					<tr>
+						<td><code>logging</code></td>
+						<td>
+							Sets the logging levels for this request only
+						</td>
+						<td><code>logging=buslog=FINE,persis=FINEST</code></td>
+					</tr>
+					<tr>
+						<td><code>debug</code></td>
+						<td>
+							If true, all JavaScript will be executed in debug mode.
+						</td>
+						<td><code>debug=true</code></td>
+					</tr>
+					<tr>
+						<td><code>downloadName</code></td>
+						<td>
+							Used to specified download name.
+						</td>
+						<td><code>downloadName=Foo.json</code></td>
+					</tr>
+					<tr>
+						<td><code>deferred</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>deferred</strong> links.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>deferred=Cust.Orders.LineItem.Product.Photo,Cust.Orders.SalesRep.EmployeePicture</code></td>
+					</tr>
+					<tr>
+						<td><code>inline</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>inline</strong> values.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>inline=Cust.Address.Map</code></td>
+					</tr>
+					<tr>
+						<td><code>inlinelimit</code></td>
+						<td>
+							Overrides the project setting.
+							Number of characters or bytes used to decide whether a value
+							is returned inline in the JSON or deferred to a link for BINARY or STRING data.
+							<br>both 'deferred' and 'inline' take precedence over 'inlinelimit' values.
+							<br>A value of 0 will result in ALL non-null values returned as a link.  A value of -1
+							will result in all values returned as a link.
+						</td>
+						<td><code>inlinelimit=1000</code></td>
+					</tr>
+				</table>
+
+				<h5>POST and PUT</h5>
+				A POST request inserts one or more objects into a table or a resource.
+				<p/>
+				A PUT request updates one or more object.
+				<p/>
+				Both POST and PUT requests must have a body consisting of either one object, or an array of objects.
+				<p/>
+				Both POST and PUT requests can have the following parameters:
+				<table class="table table-bordered">
+					<tr style="font-weight: bold; background-color: #EEEEEE;"><td>Parameter name</td><td>Description</td><td>Example</td></tr>
+					<tr>
+						<td><code>logging</code></td>
+						<td>
+							Sets the logging levels for this request only
+						</td>
+						<td><code>logging=buslog=FINE,persis=FINEST</code></td>
+					</tr>
+					<tr>
+						<td><code>debug</code></td>
+						<td>
+							If true, all JavaScript logic will be executed in debug mode.
+						</td>
+						<td><code>debug=true</code></td>
+					</tr>
+					<tr>
+						<td><code>txsummary</code></td>
+						<td>
+							If true, the response will include a description of all database objects
+							updated during the transaction.  Default value is 'true'.
+						</td>
+						<td><code>txsummary=false</code></td>
+					</tr>
+					<tr>
+						<td><code>rulesummary</code></td>
+						<td>
+							If true, the response will include a description of all the rules executed
+							during the transaction.
+						</td>
+						<td><code>rulesummary=true</code></td>
+					</tr>
+					<tr>
+						<td><code>deferred</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>deferred</strong> links.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>deferred=Cust.Orders.LineItem.Product.Photo,Cust.Orders.SalesRep.EmployeePicture</code></td>
+					</tr>
+					<tr>
+						<td><code>inline</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>inline</strong> values.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>inline=Cust.Address.Map</code></td>
+					</tr>
+						<td><code>inlinelimit</code></td>
+						<td>
+							Overrides the project setting.
+							Number of characters or bytes used to decide whether a value
+							is returned inline in the JSON or deferred to a link for BINARY or STRING data.
+							<br>both 'deferred' and 'inline' take precedence over 'inlinelimit' values.
+							<br>A value of 0 will result in ALL non-null values returned as a link.  A value of -1
+							will result in all values returned as a link.
+						</td>
+						<td><code>inlinelimit=1000</code></td>
+					</tr>
+				</table>
+
+				<h5>DELETE</h5>
+				A DELETE request deletes an object from a table or a resource. A primary key must always be specified in the URL.
+				The following parameters can be added to the URL:
+				<table class="table table-bordered">
+					<tr style="font-weight: bold; background-color: #EEEEEE;"><td>Parameter name</td><td>Description</td><td>Example</td></tr>
+					<tr>
+						<td><code>checksum</code> (required)</td>
+						<td>
+							The checksum for the object to be deleted (can be <code>override</code> to bypass optimistic locking)
+						</td>
+						<td><code>checksum=954cc2f46ff16bb1</code></td>
+					</tr>
+					<tr>
+						<td><code>logging</code></td>
+						<td>
+							Sets the logging levels for this request only
+						</td>
+						<td><code>logging=buslog=FINE,persis=FINEST</code></td>
+					</tr>
+					<tr>
+						<td><code>debug</code></td>
+						<td>
+							If true, all JavaScript logic will be executed in debug mode.
+						</td>
+						<td><code>debug=true</code></td>
+					</tr>
+					<tr>
+						<td><code>txsummary</code></td>
+						<td>
+							If true, the response will include a description of all database objects
+							updated during the transaction.  Default value is 'true'.
+						</td>
+						<td><code>txsummary=false</code></td>
+					</tr>
+					<tr>
+						<td><code>rulesummary</code></td>
+						<td>
+							If true, the response will include a description of all the rules executed
+							during the transaction.
+						</td>
+						<td><code>rulesummary=true</code></td>
+					</tr>
+					<tr>
+						<td><code>deferred</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>deferred</strong> links.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>deferred=Cust.Orders.LineItem.Product.Photo,Cust.Orders.SalesRep.EmployeePicture</code></td>
+					</tr>
+					<tr>
+						<td><code>inline</code></td>
+						<td>
+							Comma-separated list of Resource.attribute names that will be returned
+							as <strong>inline</strong> values.  This applies only to BINARY and STRING data.
+							<br>'deferred' values take precedence over 'inline' and 'inlinelimit' values.
+							<br>The value is also used for transaction summaries, but database names must be used.
+						</td>
+						<td><code>inline=Cust.Address.Map</code></td>
+					</tr>
+					<tr>
+						<td><code>inlinelimit</code></td>
+						<td>
+							Overrides the project setting.
+							Number of characters or bytes used to decide whether a value
+							is returned inline in the JSON or deferred to a link for BINARY or STRING data.
+							<br>both 'deferred' and 'inline' take precedence over 'inlinelimit' values.
+							<br>A value of 0 will result in ALL non-null values returned as a link.  A value of -1
+							will result in all values returned as a link.
+						</td>
+						<td><code>inlinelimit=1000</code></td>
+					</tr>
+					<tr>
+						<td><code>ignoredeleted</code>
+						<td>
+							When this query parameter (which takes no values) is included, requests for delete
+							of a non-existent item are considered to be successful and will return an HTTP status of 200.
+							The txsummary will not have any entry for this object.  Without this, a delete of a
+							non-existent object would return a 404 - not found error.
+						</td>
+						<td><code>ignoredeleted</code></td>
+					</tr>
+				</table>
+			</tab>
+			<tab heading="Code samples">
+				<div  ng-include="'partials/apidocs/samples.html'">
+				</div>
+			</tab>
+			<tab class="" heading="API documentation">
+				API version:
+				<select class="form-control" size="1" ng-model="data.selectedApiVersion" ng-select="apiVersionSelected()"
+						ng-options="apiVersion.name for apiVersion in data.apiVersions"></select>
+
+				API key:
+				<select class="form-control" size="1" ng-model="data.selectedApiKey" ng-options="key.name for key in data.apiKeys"></select>
+
+                <br/>
+				<button ng-click="viewDocs()">View documentation</button>
+				<br/>
+				<iframe id="docsView" style="width: 100%; margin-top:10px; height: 600px;">
+				</iframe>
+			</tab>
+		</tabset>
+	</div>
+</div>

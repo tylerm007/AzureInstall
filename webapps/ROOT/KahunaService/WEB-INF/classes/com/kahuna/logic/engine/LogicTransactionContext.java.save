@@ -1,0 +1,629 @@
+package com.kahuna.logic.engine;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Stack;
+
+import com.kahuna.admin.entity.AdminManager;
+import com.kahuna.admin.entity.DatabaseSchema;
+import com.kahuna.logic.engine.phase.Actions;
+import com.kahuna.logic.engine.phase.Constraints;
+import com.kahuna.logic.event.LogicEvent;
+import com.kahuna.logic.event.ObjectEvent.EventType;
+import com.kahuna.logic.event.TransactionSummary;
+import com.kahuna.logic.js.JavascriptDebugger;
+import com.kahuna.logic.rule.ActionRule;
+import com.kahuna.server.KahunaException;
+import com.kahuna.server.data.PersistenceContext;
+import com.kahuna.server.data.PersistentBean;
+import com.kahuna.server.data.PersistentBeanCache;
+import com.kahuna.server.data.PersistentKey;
+import com.kahuna.server.db.DatabaseHandle;
+import com.kahuna.server.db.SqlUtils;
+import com.kahuna.server.logging.LogicLogger;
+import com.kahuna.server.permissions.PermissionContext;
+import com.kahuna.server.resource.CustomResourceExecutor;
+import com.kahuna.server.rest.RestRequest;
+
+/**
+ * The class that holds all the information needed by the business rules engine
+ * to keep track of the current state of things. This object is created whenever
+ * a transaction is started, and it goes away once the transaction ends.
+ * <br>
+ * While the transaction is open, the current instance of this class can be retrieved
+ * using LogicTransactionManager:<br>
+ * <code>LogicTransactionManager.getCurrentLogicTransactionContext()</code>
+ */
+public class LogicTransactionContext {
+
+	/**
+	 * The request for which this context was created. We need this in the case of
+	 * object deletion, because we need to check what access we have to an object before
+	 * adding it to the transaction summary.
+	 */
+	private RestRequest req;
+
+	private int stackLevel = 0;
+
+	private QueuedEventPhase queuedEventPhase = QueuedEventPhase.SUBMIT;
+
+	private String useCaseName = null;
+
+	/**
+	 * The set of LogicRunners to be run on commit
+	 */
+	private List<LogicRunner> objectsToProcess = new ArrayList<LogicRunner>();
+
+	private Stack<LogicRunner> logicRunnerStack = new Stack<LogicRunner>();
+
+	private LogicEngine logicEngine;
+
+	private HashMap<String, DatabaseSchema> databaseSchemaMap = new HashMap<>();
+	private HashMap<String, Connection> databaseConnectionMap = new HashMap<>();
+
+	private PersistenceContext persContext;
+
+	private PermissionContext permContext = new PermissionContext();
+
+	/**
+	 * Keep track of all objects deleted in this transaction. 
+	 */
+	private PersistentBeanCache deletedObjectStates = new PersistentBeanCache();
+
+	/**
+	 * Objects processed by LogicRunner at nestLevel = 0
+	 */
+	private Set<PersistentBean> userSubmittedObjects = new HashSet<PersistentBean>();
+
+	private LogicRunner masterRunner = null;  // first runner we see
+
+	/**
+	 * for key(domain object), set of actions already run
+	 */
+	private Map<Object, Set<ActionRule>> executedActions = new HashMap<Object, Set<ActionRule>>();
+
+	/**
+	 * Keep track of all modified objects within this transaction.
+	 */
+	private TransactionSummary transactionSummary = new TransactionSummary();
+
+	private JavascriptDebugger debugger;
+
+	public LogicTransactionContext(RestRequest req, LogicEngine engine, List<DatabaseSchema> databaseSchemas) {
+		this.req = req;
+		this.logicEngine = engine;
+		for (DatabaseSchema s : databaseSchemas) {
+			this.databaseSchemaMap.put(s.getPrefix(), s);
+		}
+	}
+
+	public void incrementStackLevel() {
+		stackLevel++;
+	}
+
+	public void decrementStackLevel() {
+		stackLevel--;
+		if (stackLevel < 0)
+			throw new KahunaException(5004, "LogicTransactionContext stack level < 0!");
+	}
+
+	public int getStackLevel() {
+		return stackLevel;
+	}
+
+	/**
+	 * Get the LogicEngine for this context
+	 */
+	public LogicEngine getLogicEngine() {
+		return logicEngine;
+	}
+
+	public void setLogicEngine(LogicEngine logicEngine) {
+		this.logicEngine = logicEngine;
+	}
+
+	public RestRequest getRestRequest() {
+		return req;
+	}
+
+	public PersistenceContext getPersistenceContext() {
+		if (persContext == null)
+			persContext = new PersistenceContext(getDataConnection());
+		return persContext;
+	}
+
+	public DatabaseHandle getDatabaseHandle() {
+		return dbHandle;
+	}
+
+	public void setDatabaseHandle(DatabaseHandle dbHandle) {
+		this.dbHandle = dbHandle;
+	}
+
+	public void closeDataConnection() {
+		if (dataConnection != null) {
+			try {
+				dataConnection.close();
+			}
+			catch (SQLException ex) {
+				throw new KahunaException(5004, ex);
+			}
+		}
+		dataConnection = null;
+	}
+
+	public Connection getDataConnection() {
+		if (dataConnection == null)
+			dataConnection = dbHandle.getNewConnection();
+		return dataConnection;
+	}
+
+	public boolean hasOpenDataConnection() throws SQLException {
+		return null != dataConnection && !dataConnection.isClosed();
+	}
+
+	public JavascriptDebugger getDebugger() {
+		if (debugger == null) {
+			debugger = JavascriptDebugger.getDebuggerForRequest(req);
+		}
+		return debugger;
+	}
+
+	/**
+	 * Get the permission context for this transaction.
+	 */
+	public PermissionContext getPermissionContext() {
+		return permContext;
+	}
+
+	/**
+	 * Get the first LogicRunner we ever saw.
+	 */
+	public LogicRunner getMasterRunner() {
+		return masterRunner;
+	}
+
+	public void setMasterRunner(LogicRunner masterRunner) {
+		this.masterRunner = masterRunner;
+	}
+
+	public Set<PersistentBean> getUserSubmittedObjects() {
+		return userSubmittedObjects;
+	}
+
+	public void setUserSubmittedObjects(Set<PersistentBean> userSubmittedObjects) {
+		this.userSubmittedObjects = userSubmittedObjects;
+	}
+
+	/**
+	 * Get all the level 0 LogicRunners, i.e. those that have been run, are running or will run as part of the
+	 * top-level line-up. This does not include level 1 and above LogicRunners that are created as part of an
+	 * Action, or during cascade.
+	 */
+	public List<LogicRunner> getObjectsToProcess() {
+		return objectsToProcess;
+	}
+
+	/**
+	 * Add the given LogicRunner to the list of objects to process.
+	 * @param logicRunner A LogicRunner that will get added to the end of the queue.
+	 */
+	public void addObjectToProcess(LogicRunner logicRunner) {
+		objectsToProcess.add(logicRunner);
+		registerLogicRunner(logicRunner);
+	}
+
+	/**
+	 * Empty the objectsToProcess and move all the runners from newObjectsToProcess into
+	 * objectstToProcess.
+	 */
+	public void removeObjectsToProcess(Collection<LogicRunner> runners) {
+		objectsToProcess.removeAll(runners);
+	}
+
+	/**
+	 * Push a LogicRunner on the LogicRunner stack.
+	 */
+	public void pushLogicRunner(LogicRunner runner) {
+		logicRunnerStack.push(runner);
+	}
+
+	/**
+	 * Pop the top LogicRunner from the LogicRunner stack. The only reason we require the LogicRunner
+	 * to be passed is as a sanity check, to make sure we're popping the correct LogicRunner.
+	 */
+	public void popLogicRunner(LogicRunner runner) {
+		if (logicRunnerStack.size() == 0)
+			throw new RuntimeException("Attempted to pop an empty LogicRunner stack: " + runner.classAndKey());
+		if (!runner.equals(logicRunnerStack.peek()))
+			throw new RuntimeException("Attempted to pop wrong LogicRunner from the stack: " + runner.classAndKey());
+		logicRunnerStack.pop();
+	}
+
+	public LogicRunner getCurrentLogicRunner() {
+		if (logicRunnerStack.size() == 0)
+			throw new RuntimeException("No current LogicRunner on the stack");
+		return logicRunnerStack.peek();
+	}
+
+	/**
+	 * Try to find a LogicRunner in the stack for the given PersistentBean. If none is found,
+	 * null is returned.
+	 */
+	public LogicRunner getRunningLogicRunner(PersistentBean bean) {
+		if (logicRunnerStack.size() == 0)
+			return null;
+		for (int i = logicRunnerStack.size() - 1; i >= 0; i--) {
+			LogicRunner runner = logicRunnerStack.get(i);
+			if (runner.getCurrentDomainObject().equals(bean))
+				return runner;
+		}
+		return null;
+	}
+
+	/**
+	 * Keep track of all logic runners created within the scope of a transaction. The idea is to keep
+	 * only the latest LogicRunner for each instance of each class, so that we can reuse them at the end
+	 * for commit actions and commit constraints.
+	 */
+	private Map<String, Map<PersistentKey, LogicRunner>> allLogicRunners = new HashMap<String, Map<PersistentKey, LogicRunner>>();
+
+	/**
+	 * This must be called by anyone who creates a LogicRunner. It keeps track of them so that,
+	 * at the end of a transaction, we can run the commit-time actions and constraints.
+	 */
+	public void registerLogicRunner(LogicRunner runner) {
+		String entityName = runner.getCurrentDomainObject().getEntityName();
+		Map<PersistentKey, LogicRunner> runnersForClass = allLogicRunners.get(entityName);
+		if (runnersForClass == null) {
+			runnersForClass = new HashMap<PersistentKey, LogicRunner>();
+			allLogicRunners.put(entityName, runnersForClass);
+		}
+		PersistentKey pk = runner.getCurrentDomainObject().getPk();
+		runnersForClass.put(pk, runner); // Note that this will overwrite a LogicRunner already there for this object. This is as intended.
+
+//		if (runner.getVerb() == Verb.INSERT)
+//			persContext.insert(runner.getCurrentDomainObject());
+//		else if (runner.getVerb() == Verb.UPDATE)
+//			persContext.update(runner.getCurrentDomainObject());
+//		else if (runner.getVerb() == Verb.DELETE)
+//			persContext.delete(runner.getCurrentDomainObject());
+//		else
+//			throw new KahunaException(5005, "Logic runner has unknown verb: " + runner);
+	}
+
+	/**
+	 * Get the LogicRunners for all objects touched during the transaction.
+	 */
+	public Set<LogicRunner> getAllLogicRunners() {
+		Set<LogicRunner> allRunners = new HashSet<LogicRunner>();
+		for (Map<PersistentKey, LogicRunner> runnerEntry : allLogicRunners.values()) {
+			allRunners.addAll(runnerEntry.values());
+		}
+		return allRunners;
+	}
+
+	/**
+	 * See if we have a LogicRunner for the given PersistentBean.
+	 * @param aBean The bean to check for
+	 * @return <em>any</em> LogicRunner whose currentDomainObject matches aBean, or null
+	 * if none is found.
+	 */
+	public LogicRunner findLogicRunner(PersistentBean aBean) {
+		if (aBean == null)
+			return null;
+
+		for (LogicRunner eachLogicRunner : objectsToProcess) {
+			PersistentBean eachLogicRunnerCurrentState = eachLogicRunner.getCurrentDomainObject();
+			if (eachLogicRunnerCurrentState.equals(aBean))
+				return eachLogicRunner;
+		}
+		return null;
+	}
+
+	/**
+	 * Find the most-recently-queued LogicRunner for the given PersistentBean.
+	 * @return Null if none is found.
+	 */
+	public LogicRunner findNewestLogicRunner(PersistentBean aBean) {
+		ArrayList<LogicRunner> revObjectsToProcess = new ArrayList<LogicRunner>(objectsToProcess);
+		Collections.reverse(revObjectsToProcess);
+		for (LogicRunner eachLogicRunner : revObjectsToProcess) {
+			PersistentBean eachLogicRunnerCurrentState = eachLogicRunner.getCurrentDomainObject();
+			if (eachLogicRunnerCurrentState.equals(aBean))
+				return eachLogicRunner;
+		}
+		return null;
+	}
+
+	/**
+	 * Add an object event to the transaction summary.
+	 * @param bean The bean
+	 * @param pk The bean's primary key
+	 * @param eventType What type of event this is
+	 */
+	public void addObjectEvent(PersistentBean bean, EventType eventType) {
+
+		if (req != null && !req.getKeepTransactionSummary())
+			return;
+
+		bean = bean.duplicate();
+
+		transactionSummary.addObjectEvent(bean, eventType);
+	}
+
+	/**
+	 * Record the state of a deleted object for the transaction.
+	 */
+	public void addDeletedObjectState(PersistentBean bean) {
+		deletedObjectStates.addBean(bean);
+	}
+
+	/**
+	 * Get the deleted ObjectState for the given object.
+	 * @param pBean The entity to check for
+	 * @return The PersistentBean for the given object at the moment it was deleted, or null
+	 * if the object is null, or was not deleted.
+	 */
+	public PersistentBean getDeletedObjectState(PersistentBean pBean) {
+		return deletedObjectStates.getBean(pBean.getPk());
+	}
+
+	/**
+	 * Has the given object been deleted within this transaction? This works with a full object or a proxy.
+	 * @return True if the given object was deleted within this transaction, false otherwise or if the
+	 * given object is null.
+	 */
+	public boolean objectIsDeleted(PersistentBean pBean) {
+		return pBean.isDeleted();
+//		return getDeletedObjectState(pBean) != null;
+	}
+
+	public QueuedEventPhase getQueuedEventPhase() {
+		return queuedEventPhase;
+	}
+
+	public void setQueuedEventPhase(QueuedEventPhase queuedEventPhase) {
+		this.queuedEventPhase = queuedEventPhase;
+	}
+
+	/**
+	 * Execute all the rules for all objects changed in the scope of this LogicTranactionContext,
+	 * and commit the database transaction if successful. If unsuccessful, the database transaction
+	 * is rolled back.
+	 */
+	public void commit() {
+		setQueuedEventPhase(QueuedEventPhase.LOGIC);
+
+		try {
+			try {
+				processCommit();
+			}
+			catch (LogicException ex) {
+				ex.printStackTrace();
+				SqlUtils.rollbackQuietly(dataConnection);
+				throw ex;
+			}
+			catch (KahunaException ex) {
+				ex.printStackTrace();
+				SqlUtils.rollbackQuietly(dataConnection);
+				throw ex;
+			}
+			catch (Exception ex) {
+				SqlUtils.rollbackQuietly(dataConnection);
+				ex.printStackTrace();
+				if (ex.getCause() != null) {
+					ex.getCause().printStackTrace();
+				}
+				throw new KahunaException(5004, ex);
+			}
+
+			CustomResourceExecutor.cleanup(req);
+
+			try {
+				dataConnection.commit();
+			}
+			catch (SQLException ex) {
+				try {
+					dataConnection.rollback();
+				}
+				catch (SQLException ex2) {
+					throw new KahunaException(5004, ex);
+				}
+				ex.printStackTrace();
+				throw new KahunaException(5004, ex);
+			}
+
+			// If we're editing the admin database, invalidate the admin cache
+			if (AdminManager.connectionIsAdmin(dataConnection))
+				AdminManager.getInstance().reset();
+		}
+		finally {
+			try {
+				if (dataConnection != null)
+					dataConnection.close();
+			}
+			catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			dataConnection = null;
+		}
+	}
+
+	/**
+	 * Roll back the current transaction
+	 */
+	public void rollback() {
+		try {
+			if (dataConnection != null)
+				dataConnection.rollback();
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new KahunaException(ex);
+		}
+		finally {
+			if (dataConnection != null)
+				try {
+					dataConnection.close();
+				}
+				catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			dataConnection = null;
+		}
+	}
+
+	/**
+	 * This should be used ONLY when re-reading data after a commit.
+	 */
+	public void beginTransaction() {
+		getDataConnection();
+	}
+
+	/**
+	 * This should be used ONLY when re-reading data after a commit.
+	 */
+	public void endTransaction() {
+
+		try {
+			dataConnection.close();
+			dataConnection = null;
+		}
+		catch (SQLException ex) {
+			ex.printStackTrace();
+			throw new KahunaException(5004, ex);
+		}
+	}
+
+	/**
+	 * Get the TransactionSummary for this transaction.
+	 */
+	public TransactionSummary getTransactionSummary() {
+		return transactionSummary;
+	}
+
+	public Map<Object, Set<ActionRule>> getExecutedActions() {
+		return executedActions;
+	}
+
+	public void setExecutedActions(Map<Object, Set<ActionRule>> executedActions) {
+		this.executedActions = executedActions;
+	}
+
+	/**
+	 * Get the use case name for this context.
+	 */
+	public String getUseCaseName() {
+		return useCaseName;
+	}
+
+	/**
+	 * Set the use case name for this context.
+	 * @param useCaseName
+	 */
+	public void setUseCaseName(String useCaseName) {
+		this.useCaseName = useCaseName;
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// Private methods
+
+	private void processCommit() {
+		// Now iterate over all the LogicRunners accumulated during the transaction until they're
+		// all gone.
+		int numIterations = 0;
+		long startTime = System.nanoTime();
+
+		LogicLogger log = LogicLogger.getLogger(LogicLogger.LoggerName.RULES_ENGINE);
+
+		while (!getObjectsToProcess().isEmpty()) {
+			numIterations++;
+			//if (numIterations > 1)
+			//	throw new RuntimeException("MORE THAN ONE LOOP!!!");
+			if (numIterations > 10000)
+				throw new RuntimeException("Too many iterations in logic execution loop");
+
+			Set<LogicRunner> processedObjects = new HashSet<LogicRunner>();
+			// invoke rules
+			for (LogicRunner eachRunner : getObjectsToProcess()) {
+				//@formatter:off
+				switch (eachRunner.getVerb()) {
+				case UPDATE: eachRunner.update(); break;
+				case INSERT: eachRunner.insert(); break;
+				case DELETE: eachRunner.delete(); break;
+				default: throw new LogicException("Unexpected Verb from LogicRunner: " + eachRunner.toString());
+				}
+				//@formatter:on
+				processedObjects.add(eachRunner);
+			}
+
+			removeObjectsToProcess(processedObjects);
+			log.finer("********** Logic Phase completed");
+		}
+		log.finer("********** Commit Phase starting");
+
+		LogicEvent beforeEvt = new LogicEvent(LogicEvent.EventType.BEFORE_COMMIT, this, null, null, "");
+		this.getTransactionSummary().addLogicEvent(beforeEvt);
+
+		Set<LogicRunner> allRunners = getAllLogicRunners();
+
+		// Invoke commit-time actions and constraints.
+		Actions.executeAllCommitActions(allRunners);
+		Constraints.executeAllCommitConstraints(allRunners);
+
+		LogicEvent afterEvt = new LogicEvent(LogicEvent.EventType.AFTER_COMMIT, this, null, null, "");
+		afterEvt.setExecutionTime(System.nanoTime() - startTime);
+		this.getTransactionSummary().addLogicEvent(afterEvt);
+
+		// Commit everything to the database
+		if (persContext != null) {
+			// persContext can be null if exception was thrown
+			for (PersistentBean bean : persContext.getUpdatedBeans()) {
+				if (!bean.isDeleted()) {
+					bean.update();
+				}
+
+				// This is done here rather than in the LogicRunner because the object may have been re-read from the database on update
+				// to get e.g. timestamps and other generated columns.
+				addObjectEvent(bean, EventType.UPDATE);
+
+				//PreEventHandler.afterUpdate(bean, this);
+			}
+
+			for (PersistentBean bean : persContext.getDeletedBeans()) {
+				bean.delete(this);
+			}
+		}
+
+		// need to re-read all records with security to ensure they remain in valid space after all updates for both inserts and updates
+		// deletes have already been deleted from the database and security is checked just before the physical delete
+		// as part of this process, the transaction summary of final state is constructed.
+		new SecurityAndTransactionSummary().perform(this.getRestRequest(), this.getTransactionSummary(), this.getPersistenceContext());
+
+		// Now finalize the transaction summary
+		getTransactionSummary().setCommitTimestamp(new Timestamp(System.currentTimeMillis()));
+
+		if (log.isDebugEnabled())
+			log.debug("End current transaction: (" + numIterations + " iterations)");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		sb.append("LogicTransactionContext: ");
+		if (useCaseName != null)
+			sb.append(" [use case : " + useCaseName + "]");
+		return sb.toString();
+	}
+}

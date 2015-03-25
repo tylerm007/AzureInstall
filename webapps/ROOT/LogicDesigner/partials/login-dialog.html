@@ -1,0 +1,54 @@
+	<div class="modal-header">
+		<img src="images/EspressoLogicLogo.png" style="width: 190px; height: 53px;" />
+		<span style="float: right; padding: 10px;">
+			{{licensePreMsg}} <br/>
+			<span style="color: #600000; font-weight: bold;" ng-show="licenseMsg">{{licenseMsg}}</span>
+		</span>
+	</div>
+	<div class="modal-body" style="padding-left: 50px;"  ui-keypress="{enter: 'login()'}">
+		<form role="form">
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="serverName">Server:</label>
+					<input id="serverName" class="form-control" type="text" 
+						ng-model="loginValues.serverName" {{focusOnServer}} ng-change="serverAddressChanged()" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="userName">User name:</label>
+					<input id="userName" type="text" class="form-control" ng-model="loginValues.userName" 
+						placeholder="Your Espresso Logic user name" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="password">Password:</label>
+					<input id="password" type="password" class="form-control" ng-model="loginValues.password" 
+						ng-hide="loginValues.showPassword" />
+					<input id="clearPassword" type="text" class="form-control" ng-model="loginValues.password" 
+						ng-hide="!loginValues.showPassword" ui-keypress="{enter: 'login()'}" autocomplete="off"/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="showPassword">Show password</label>
+					<input type="checkbox" id="showPassword" ng-model="loginValues.showPassword" />
+				</div>
+			</div>
+			<div style="color: #FFFFFF; background-color: #F78181; padding: 5px;" ng-hide="!errorMessage">{{errorMessage}}</div>
+		</form>
+		<div class="hint">
+			You should have received an email with the proper values for your account. If you have not,
+			please <a href="http://www.espressologic.com/contact">contact us</a> and we'll be happy to help you out.
+		</div>
+	</div>
+	<div class="modal-footer">
+		<ul class="pull-left" style="text-align: left;">
+<!-- 			<li><a href="">I forgot my password</a></li>
+			<li><a href="">I forgot my user name</a></li> -->
+			<li><a href="https://mgmt2.espressologic.com/Management">I don't have an account</a></li>
+			<li><a onclick="Zenbox.show();" style="cursor: pointer;">Ask a support question</a></li>
+		</ul>
+		<button ng-click="login()" class="btn btn-primary pull-right" >Log in</button>
+	</div>

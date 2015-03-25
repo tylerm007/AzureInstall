@@ -1,0 +1,79 @@
+<div class="modal-header">
+	<h3>Logic library</h3>
+</div>
+<div class="modal-body" style="padding-left: 50px;">
+	<form role="form">
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libName">Name:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryName')"></i>
+				<input id="libName" class="form-control" type="text" ng-model="library.name" placeholder="My library"/>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libVersion">Version:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryVersion')"></i>
+				<input id="libVersion" type="text" class="form-control" ng-model="library.version" placeholder="1.0" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libShortName">Short name:</label>
+				<input id="libShortName" type="text" class="form-control" ng-model="library.lib_name" placeholder="mylib" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libDesc">Description:</label>
+				<textarea id="libDesc" class="form-control" ng-model="library.description" 
+						placeholder="This is a library that does etc..." ></textarea>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libFile">Code:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryCode')"></i>
+				<input id="libFile" class="btn btn-default" type="file" ng-model="selectedFile" 
+						ng-change="fileSelected()" style="width: 100%;"/>
+			</div>
+		</div>
+		<div class="form-group row" ng-show="upload.fileSize">
+			File size: {{upload.fileSize}} - File type: {{upload.fileType}}
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libType">Library type:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryType')"></i>
+				<select ng-model="library.logic_type">
+					<option value="javascript">JavaScript</option>
+					<option value="java">Java</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libDocUrl">Docs URL:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryDocs')"></i>
+				<input id="libDocUrl" type="text" class="form-control" ng-model="library.doc_url" placeholder="http://mylibrary.org/" />
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-lg-10">
+				<label for="libRefUrl">Reference URL:</label>
+				<i class="glyphicon glyphicon-question-sign ContextHelpButton" 
+						ng-click="helpDialog('library', 'LibraryRef')"></i>
+				<input id="libRefUrl" type="text" class="form-control" ng-model="library.ref_url" placeholder="http://mylibrary.org/docs/" />
+			</div>
+		</div>
+		<progressbar id="lib-progress-bar" max="100" value="data.uploaded"
+			type="{{data.progressBarType}}" style="width: 80%; margin-bottom: 20px;">{{data.progressBarMessage}}</progressbar>
+		<button class="btn btn-primary" ng-click="saveLib()">Save</button>
+		<button class="btn btn-defaut" ng-click="cancelEdit()">Cancel</button>
+	</form>
+</div>

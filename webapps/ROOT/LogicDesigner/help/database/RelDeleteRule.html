@@ -1,0 +1,7 @@
+<h5>Relationship - On Delete</h5>
+This option determines what happens when a parent row gets deleted. The options are:
+<br/>
+<ul style="padding: 5px;">
+	<li><em>Null</em>: the children rows' foreign keys will be set to null (note that this will result in an error if the foreign key is not nullable)
+	<li><em>Restrict</em>: the deletion of the parent row will fail if it has any children rows.
+</ul>

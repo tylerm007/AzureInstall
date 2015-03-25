@@ -1,0 +1,39 @@
+<div ng-switch on="data.currentRule.ruletype_ident">
+	<div ng-switch-when="1">
+		<div ng-include="'partials/rule-sum.html'"></div>
+	</div>
+	<div ng-switch-when="2">
+		<div ng-include="'partials/rule-count.html'"></div>
+	</div>
+	<div ng-switch-when="3">
+		<div ng-include="'partials/rule-formula.html'"></div>
+	</div>
+	<div ng-switch-when="4">
+		<div ng-include="'partials/rule-parentcopy.html'"></div>
+	</div>
+	<div ng-switch-when="5">
+		<div ng-include="'partials/rule-constraint.html'"></div>
+	</div>
+	<div ng-switch-when="6">
+		<div ng-include="'partials/rule-constraint.html'"></div>
+	</div>
+	<div ng-switch-when="7">
+		<div ng-include="'partials/rule-action.html'"></div>
+	</div>
+	<div ng-switch-when="8">
+		<div ng-include="'partials/rule-action.html'"></div>
+	</div>
+	<div ng-switch-when="9">
+		<div ng-include="'partials/rule-action.html'"></div>
+	</div>
+	<div ng-switch-when="11">
+		<div ng-include="'partials/rule-minmax.html'"></div>
+	</div>
+	<div ng-switch-when="12">
+		<div ng-include="'partials/rule-minmax.html'"></div>
+	</div>
+	<div ng-switch-when="13">
+		<div ng-include="'partials/rule-managedparent.html'"></div>
+	</div>
+	<div ng-switch-default>No editor for this! Rule type is: {{data.currentRule.ruletype_ident}}</div>
+</div>

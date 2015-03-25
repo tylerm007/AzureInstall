@@ -1,0 +1,19 @@
+<h5>Library Type</h5>
+Espresso supports two types of libraries:
+<ul>
+	<li>JavaScript libraries are JavaScript code that define reusable objects and functions.
+	<li>Java libraries are Jar files that contain reusable classes. The classes defined in such
+	a library will be accessible from your JavaScript code using syntax like:
+	<pre>
+// Import a whole package
+importPackage(Packages.com.acme);
+var c = new MyClass('hello', 123);
+
+// Import a single class
+importClass(Packages.com.acme.MyOtherClass);
+var d = MyOtherClass.doIThis(false, 'hi');
+
+// Use a class directly
+Packages.com.acme.MyFinalClass.doThat();
+	</pre>
+</ul>

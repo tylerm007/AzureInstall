@@ -1,0 +1,350 @@
+<div class="row" style="height: 100%;">
+	<div class="col-md-12" style="height: 100%;">
+		<tabset style="height: 100%;">
+			<tab heading="Request" active="data.activeTab[0]" style="height: 100%;">
+				<div class="row">
+					<form class="form-inline" role="form">
+						<div class="form-group">
+							<label for="apiTypeControl">End Point</label>
+							<select id="apiTypeControl" class="form-control"
+								required
+								ng-model="apiType.selected"
+								ng-options="t.name for t in apiType.list"
+								ng-change="apiTypeSelected()">
+							</select>
+						</div>
+						<div class="form-group" id="resourceSelects">
+							<ui-select id="resources" ng-model="data.selectedResource" theme="selectize"
+									ng-disabled="disabled" style="width: 250px;"
+									ng-change="resourceSelected()"
+									ng-show="'Resource' === apiType.selected.name" class="inline-block">
+								<ui-select-match placeholder="Select or search a resource in the list...">{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices repeat="resource in data.topResources[data.selectedApiVersion] | filter: $select.search">
+									<span ng-bind-html="resource.name | highlight: $select.search"></span><br/>
+									<small style="color: #777777;" ng-bind-html="resource.description | shorten: 38 | highlight: $select.search"></small>
+								</ui-select-choices>
+							</ui-select>
+							<div ng-if="'Resource' === apiType.selected.name" class="inline-block btn" title="Edit Resource" ng-click="editResource();">
+								<a><i class="fa fa-pencil-square-o"></i> Edit</a>
+							</div>
+
+							<ui-select ng-model="data.selectedTable" theme="selectize" ng-disabled="disabled"
+									style="width: 250px;" ng-change="tableSelected()"
+									ng-show="'Table' === apiType.selected.name" class="inline-block">
+								<ui-select-match placeholder="Select or search a table in the list..."  ng-focus="log('focus2');">{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices repeat="table in data.listOfTables | filter: $select.search">
+									<span ng-bind-html="table.name | highlight: $select.search"></span><br/>
+									<small ng-bind-html="table.remarks | shorten: 38 | highlight: $select.search"></small>
+								</ui-select-choices>
+							</ui-select>
+							<div ng-if="'Table' === apiType.selected.name" ng-show="hasUserTakenResourceTour" class="inline-block btn" title="Create custom resource for current table"
+								ng-click="confirmCreateResource();">
+								<a><i class="fa fa-plus-square-o"></i> Add</a>
+							</div>
+
+							<ui-select ng-model="data.selectedView" theme="selectize" ng-disabled="disabled"
+									style="width: 250px;" ng-change="viewSelected()"
+									ng-show="'View' === apiType.selected.name">
+								<ui-select-match placeholder="Select or search a view in the list...">{{$select.selected.name}}</ui-select-match>
+								<ui-select-choices repeat="view in data.listOfViews | filter: $select.search">
+									<span ng-bind-html="view.name | highlight: $select.search"></span>
+								</ui-select-choices>
+							</ui-select>
+
+							<select id="procedures" class="form-control" ng-model="data.selectedProcedure"
+								ng-options="name for (name, proc) in data.allProcedures"
+								ng-change="procedureSelected()" ng-show="'Procedure' === apiType.selected.name">
+								<option value="">-- Select a procedure --</option>
+							</select>
+						</div>
+						<div class="form-group"  ng-show="!params.evalMode">
+							<label for="apiVersions">API version:</label>
+							<select id="apiVersions" class="form-control" ng-model="data.selectedApiVersion"
+								ng-options="version for version in data.apiVersions"
+								ng-change="apiVersionSelected()"></select>
+						</div>
+						<div class="form-group">
+							<label for="apiKey">API key:</label>
+							<select id="apiKey" class="form-control" ng-model="data.selectedApiKey"
+								ng-options="key.name for key in data.apiKeys"></select>
+						</div>
+						<div class="form-group" ng-show="!params.evalMode">
+							<label>
+								<input type="checkbox" ng-model="data.debuggerActive" ng-disabled="debugDisabled()"/>
+								Debug logic
+							</label>
+							<i class="glyphicon glyphicon-question-sign ContextHelpButton"
+								ng-click="helpDialog('restlab', 'DebugLogic')"></i>
+						</div>
+						<div class="form-group" ng-show="!params.evalMode">
+							<label>
+								<input type="checkbox" ng-model="data.useHttps" ng-change="useHttpsChanged();" />
+								Use HTTPS
+							</label>
+							<i class="glyphicon glyphicon-question-sign ContextHelpButton"
+								ng-click="helpDialog('restlab', 'UseHttps')"></i>
+						</div>
+					</form>
+				</div>
+				<div class="row" style="padding-top: 4px; width: 100%;">
+					<table style="width: 100%;"><tr><td style="width: 275px;">
+					<div class="btn-group" id="restLabAction" style="width: 275px;">
+						<button type="button" class="btn btn-primary-restlab"
+							style="background: #067D7D;" ng-click="sendRequest('GET')">GET</button>
+						<button type="button" class="btn btn-primary-restlab"
+							style="background: #1A9696;" ng-click="sendRequest('POST')">POST</button>
+						<button type="button" class="btn btn-primary-restlab"
+							style="background: #58C3C3;" ng-click="sendRequest('PUT')">PUT</button>
+						<button type="button" class="btn btn-primary-restlab"
+							style="background: #8BDDDD; color: #000000;" ng-click="sendRequest('DELETE')">DELETE</button>
+					</div>
+					</td><td>
+					<div id="url" style="width: 100%; padding-bottom: 4px;">
+						<table style="width: 100%;"><tr><td style="width: 50px; text-align: right; padding-right: 5px; padding-top: 5px;">
+						<label for="urlHistory">URL:</label>
+						</td><td>
+						<input type="text" id="urlHistory" class="form-control" ng-model="data.requestUrl" />
+						</td><td width="15%" ng-if="'Procedure' !== apiType.selected.name">
+							<div class="margin-left-10 margin-right-10">
+								<input id="showFiltering" type="checkbox" ng-model="data.showFiltering"/>
+								<label for="showFiltering">Args</label>
+								<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('restlab', 'QueryArguments');"></i>
+							</div>
+						</td></tr></table>
+					</div>
+					</td></tr></table>
+				</div>
+				<div ng-if="data.showFiltering" class="padding-10 margin-10 restlab-filters-container">
+					<div class="filter-url-fragment"><input placeholder="Query Arguments" ng-disabled="true" class="form-control" ng-model="filterOutput"/></div>
+					<div class="margin-top-10" ng-if="!requestFilters.length">
+						<!--<a href="javascript:void(0);" ng-click="setSampleFilters();" class="btn btn-primary-restlab">Example</a>-->
+						<a href="javascript:void(0);" ng-click="addRequestFilter()" class="btn btn-primary-restlab">Add Filter</a>
+					</div>
+					<div class="restlab-filter margin-top-10" ng-repeat="filterObj in requestFilters">
+						<a href="javascript:void(0);" ng-click="addRequestFilter();"><i class="fa fa-plus-circle"></i></a>
+						<a href="javascript:void(0);" ng-click="removeRequestFilter($index);"><i class="fa fa-minus-circle"></i></a>
+						<ui-select ng-model="filterObj.type" theme="selectize" style="width: 250px;" class="inline-block" ng-change="refreshFilters();">
+							<ui-select-match placeholder="Select a filter" >{{$select.selected.name}}</ui-select-match>
+							<ui-select-choices repeat="filterType in filterTypes.GET">
+								<div ng-bind-html="filterType.name"></div>
+							</ui-select-choices>
+						</ui-select>
+						<input type="text" ng-if="filterObj.type.defineArg" ng-model="filterObj.filterName" class="form-control display-inline-block width-300"/>
+						<input type="text" ng-model="filterObj.value" class="form-control display-inline-block width-300"/>
+					</div>
+				</div>
+				<div class="row request-response-container" style="height: 80%;">
+					<div style="width: 100%; background-color: #94D1A6; font-size: 11pt; padding: 3px;">
+						Request body&nbsp;
+						<span class="fa fa-caret-up" ng-click="collapseJsonUp()"></span>
+						&nbsp;
+						<span class="fa fa-sort" ng-click="collapseJsonMiddle()"></span>
+						&nbsp;
+						<span class="fa fa-caret-down" ng-click="collapseJsonDown()"></span>
+					</div>
+					<div id="requestJsonDiv" style="width: 100%; height: 200px; border-bottom: solid 5px #CCCCCC;">
+						<pre id="requestJsonBox" style="height: 100%; border-radius: 0px;"></pre>
+					</div>
+					<div class="response-header" style="width: 100%; font-size: 11pt; padding: 3px;">
+						Response&nbsp;
+						<span class="fa fa-caret-down" ng-click="collapseJsonDown()"></span>
+						&nbsp;
+						<span class="fa fa-sort" ng-click="collapseJsonMiddle()"></span>
+						&nbsp;
+						<span class="fa fa-caret-up" ng-click="collapseJsonUp()"></span>
+					</div>
+					<div id="responseJsonDiv" style="width: 100%; height: 200px; border-bottom: solid 5px #CCCCCC;">
+						<pre id="responseJsonBox" style="height: 100%; border-radius: 0px;"></pre>
+					</div>
+				</div>
+			</tab>
+<!--			<tab heading="Response" active="data.activeTab[1]">
+				<pre id="responseJsonBox" style="height: 45em;"></pre>
+				<br/>
+				<button class="btn btn-default" ng-click="copyToRequestJson()">Copy to request JSON</button>
+			</tab>
+ -->
+			<tab ng-show="!params.evalMode" heading="Tx Summary" active="data.activeTab[2]">
+				<div style="width: 100%; height: 100%; overflow: auto;">
+					<accordion close-others="false">
+						<accordion-group heading="{{obj['@metadata'].verb}} : {{obj['@metadata'].href}}"
+								ng-class="getTxSummaryItemClass(obj['@metadata'].verb)" ng-repeat="obj in data.txSummary">
+							<pre>{{formatTxSummary(obj)}}</pre>
+						</accordion-group>
+					</accordion>
+				</div>
+				<div ng-hide="data.txSummary">
+					There is no transaction summary to display.
+					<p/>
+					Transaction summaries exist only for requests that change the data,
+					i.e. anything but GET.
+				</div>
+			</tab>
+			<tab ng-show="!params.evalMode" heading="Rule Summary" active="data.activeTab[3]">
+				<div id="txSummary" class="row" ng-hide="!data.ruleSummary">
+					<div class="col-md-6" style="padding-bottom: 10px;">
+						<div id="eventsTree" class="LogicTreeContainer"></div>
+					</div>
+					<div id="eventDetails" class="col-md-6">
+						Select a node in the tree
+					</div>
+				</div>
+				<div ng-hide="data.ruleSummary">
+					There is no rule summary to display.
+					<p/>
+					Rule summaries exist only for requests that change the data,
+					i.e. anything but GET, and that exercise the project's rules.
+				</div>
+			</tab>
+			<tab ng-show="!params.evalMode" heading="Debugger" active="data.activeTab[4]">
+				<div ng-controller="kahuna.debug.DebugCtrl">
+					<div class="row">
+						<div class="col-md-12">
+							<button class="btn btn-warning pull-right" ng-click="helpDialog('database', 'DatabaseLatency')">BETA</button>
+							<form class="form-inline">
+								<label for="selectedLogicType">Logic type:</label>
+								<select class="form-control" size="1" required ng-model="data.selectedLogicType" ng-change="logicTypeSelected()" id="selectedTable">
+									<option value="rules">Rules</option>
+									<option value="events">Events</option>
+								</select>
+								&nbsp;&nbsp;
+								<span ng-hide="data.selectedLogicType != 'rules'">
+									<label for="selectedTable">Table:</label>
+									<select class="form-control" size="1" required ng-model="data.selectedTable" ng-change="tableSelected()"
+										ng-options="name for (name, table) in data.allTables" id="selectedTable"></select>
+									&nbsp;&nbsp;
+									<label for="selectedRule">Rule:</label>
+									<select class="form-control" size="1" required ng-model="data.selectedRule" ng-change="ruleSelected()"
+										ng-options="rule.name for (ruleIdent, rule) in data.rules" id="selectedRule"></select>
+								</span>
+								<span ng-hide="data.selectedLogicType != 'events'">
+									<label for="selectedEvent">Event:</label>
+									<select class="form-control" size="1" required ng-model="data.selectedEvent" ng-change="eventSelected()"
+										ng-options="evt.name for evt in data.allEvents" id="selectedEvent"></select>
+								</span>
+								&nbsp;&nbsp;
+								<label for="selectedApiKey">API key:</label>
+								<select class="form-control" ng-model="data.selectedApiKey" ng-options="key.name for key in data.apiKeys"
+									ng-change="apiKeySelected()" id="selectedApiKey"></select>
+							</form>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="btn-group restlab-controls-group" style="margin-bottom: 2px;">
+								<a class="btn btn-default" ng-click="debugStep()"><i class="glyphicon glyphicon-step-forward"></i>&nbsp;Step</a>
+								<a class="btn btn-default" ng-click="debugContinue()"><i class="glyphicon glyphicon-play"></i>&nbsp;Continue</a>
+								<a class="btn btn-default" ng-click="debugStop()"><i class="glyphicon glyphicon-stop"></i>&nbsp;Stop</a>
+								<a class="btn btn-default" ng-click="debugReleaseAll()"><i class="glyphicon glyphicon-fast-forward"></i>&nbsp;Release all</a>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-7">
+							<pre id="codeEditor" style="height: 30em; padding-left: 5px;"></pre>
+						</div>
+						<div class="col-md-5" style="overflow: auto; border: none; width: 400px; height: 500px;">
+							<tabs>
+								<pane heading="Variables" active="data.debugTab[0]">
+									<table id="DebugVarsTable" style="width: 98%; font: 9pt Verdana, sans-serif; border: none;">
+										<thead>
+											<tr>
+												<td>Name</td>
+												<td>Value</td>
+											</tr>
+										</thead>
+									</table>
+									<textarea class="form-control" readonly style="width: 100%; height: 100px;" id="VariableValue" placeholder="Click on a variable to display its value here"></textarea>
+								</pane>
+								<pane heading="Breakpoints" active="data.debugTab[1]">
+									Breakpoints go here (not yet implemented)
+								</pane>
+							</tabs>
+						</div>
+					</div>
+					<div ng-show="!fullJavascriptAllowed" style="background-color: #EEEEEE; color: #888888; font-size: 8pt; padding: 8px; margin: 7px;">
+						Note: JavaScript is restricted in this project because it is running on a shared server.
+						<p/>
+						Full access to JavaScript rules is allowed only in the Developer edition of Espresso Logic.
+					</div>
+
+					<link href="treetable/stylesheets/jquery.treetable.css" rel="stylesheet"
+						type="text/css" media="screen" />
+					<link href="treetable/stylesheets/jquery.treetable.theme.espresso.css" rel="stylesheet"
+						type="text/css" media="screen" />
+					<script type="text/javascript" src="treetable/javascripts/jquery.treetable.js"></script>
+
+					<script>
+						$("#DebugVarsTable").treetable({
+							expandable: true
+						});
+
+						$("#DebugVarsTable tbody").on("mousedown", "tr", function() {
+							  $(".selected").not(this).removeClass("selected");
+							  $(this).toggleClass("selected");
+							});
+					</script>
+				</div>
+			</tab>
+			<tab heading="Documentation" active="data.activeTab[5]">
+				<tab-heading ng-click="viewDocs();">Documentation</tab-heading>
+				API version:
+				<select class="form-control" size="1" ng-model="data.selectedApiVersion" ng-select="apiVersionSelected()"
+						ng-options="version for version in data.apiVersions"></select>
+				API key:
+				<select class="form-control" size="1" ng-model="data.selectedApiKey" ng-options="key.name for key in data.apiKeys"></select>
+				<br/>
+				<button ng-click="viewDocs()">View documentation</button>
+				<br/>
+				<iframe ng-init="viewDocs()" id="docsView" style="width: 100%; margin-top:10px; height: 600px;">
+				</iframe>
+			</tab>
+<!--
+			<tab heading="Table editor" active="data.activeTab[5]">
+				<style>
+					.gridUpdatedRow {
+						background-color: #DDDDFF;
+						color: #000033;
+					}
+					.gridInsertedRow {
+						background-color: #EEFFEE;
+						color: #440000;
+					}
+					.gridDeletedRow {
+						background-color: #CCCCCC;
+						color: #888888;
+					}
+				</style>
+				<div class="row">
+					<div class="row">
+						<div class="col-md-4">
+							API key:
+							<select ng-model="data.selectedApiKey" ng-options="key.name for key in data.apiKeys"></select>
+						</div>
+						<div class="col-md-4">
+							Table:
+							<select ng-model="data.selectedTable" ng-options="name for (name, table) in data.allTables"
+													ng-change="tableSelected()">
+								<option value="">--- Select a table --</option>
+							</select>
+						</div>
+						<div class="col-md-4">
+							Filter:
+							<input type="text" class="input-xlarge" ng-model="gridFilter" />
+						</div>
+					</div>
+					<div class="row">
+						<button class="btn btn-primary" ng-click="fetchGridData()">Fetch data</button>
+						&nbsp;
+						<button class="btn btn-default" ng-click="saveGridChanges()">Save changes</button>
+						&nbsp;
+						<button class="btn btn-default" ng-click="gridInsertRow()">Add new row</button>
+					</div>
+				</div>
+				<div class="gridStyle span11" style="border: 1px solid rgb(212,212,212); height: 500px; overflow: auto;" ng-grid="gridOptions">
+				</div>
+			</tab>
+ -->
+		</tabset>
+	</div>
+</div>

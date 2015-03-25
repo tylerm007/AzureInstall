@@ -1,0 +1,22 @@
+<span style="float: right;">
+	<label for="topics">Topics:
+		<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('rule', 'Topics')"></i>
+	</label>
+	
+	<ui-select multiple ng-model="data.ruleTopics" theme="select2" ng-disabled="disabled" 
+			style="width: 300px; vertical-align: top;" id="topics">
+		<ui-select-match placeholder="Select topic..." 
+			ng-dblclick="topicClicked($event)">
+				<span title="{{$item.summary | limitTo: 100}}" 
+					style="background-color: {{$item.color}}; background-image: none; padding: 2px;"
+					>{{$item.name}}</span>
+		</ui-select-match>
+		<ui-select-choices repeat="topic in data.allTopics | filter: $select.search">
+			<span style="float: right; width: 20px; height: 15px; background-color: {{topic.color}};"></span>
+			<div ng-bind-html="topic.name | highlight: $select.search"></div>
+			<small>
+				<span ng-bind-html="''+topic.summary | limitTo: 50 | highlight: $select.search"></span>
+			</small>
+		</ui-select-choices>
+	</ui-select>
+</span>

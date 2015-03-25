@@ -1,0 +1,49 @@
+
+<h4>Reactive Logic</h4>
+<img  src="images/update-logic.png" border="0"  />
+<br/>
+<h5>What</h5>
+<ol>
+	<li>Logic <strong>enforces database integrity</strong> on RESTful update requests - 
+	<a href="http://docs.espressologic.com/docs/reference#TOC-Live-Logic" target="_blank"><strong>Business Rules</strong></a>
+	for derivations, validations, integration, and events. <br />
+	<br /></li>
+
+		<li>Logic is specified using <strong>Reactive Programming,</strong> 
+		plus a familiar server side <strong>JavaScript</strong> event model, 
+		so there are no limits on what you can do.<br/><br/></li>
+		
+	<li><a href="http://docs.espressologic.com/docs/logic-designer/business-logic" target="_blank"><strong>Reactive
+						Logic</strong></a> is conceptually similar to spreadsheet cell formulas:
+		<ul>
+			<li>You bind expressions to database columns</li>
+			<li>On RESTful updates, (Post, Put, Delete), the system <em>watches for changes</em> to dependent data, 
+			and <em>reacts</em> with automatic Change Propagation.</li>
+			<li>Rules apply to all updates - both tables, and resources.</li><br/><br/></li>
+		</ul></li>
+		<li>Reactive logic has key differences to conventional procedural code:
+		<ul>
+			<li><strong>Invocation is automatic</strong> - the <em>engine</em> (not your code) calls the logic - it never forgets</li>
+			<li><strong>Automatic Change Propagation</strong> to dependent data - including related tables</li>
+			<li><strong>Automated SQL</strong> and transaction bracketing for 
+			Change Propagation to related tables<br/><br/> </li></ul>
+			
+		</ol>
+
+<h5>Why</h5>
+		Reactive <strong>eliminates tedious boilerplate code</strong> for Change Detection and Propagation, Persistence and Transaction
+		Management.  <br/><br/>
+		
+		As a result, a small handful of reactive logic is equivalent to <a
+				href="http://www.espressologic.com/example-of-reactive-programming-vs-conventional-programming-for-database/"
+				target="_blank"><strong>many hundreds of lines</strong></a> of conventional code.
+		<br/><br/>
+
+<h5>Example: Check Credit</h5>
+	The sample logic illustrates typical <em>multi-table</em> logic:
+		<ul>
+			<li><strong>Adjusts</strong> the Customer Balance when Order Details are changed</li>
+			<li><strong>Validates</strong> your data, with roll back and an error message (e.g., Credit Limit exceeded)</li>
+			<li>More complex examples <a href="http://docs.espressologic.com/docs/tutorial" target="_blank"> here</a></li>
+		</ul>
+

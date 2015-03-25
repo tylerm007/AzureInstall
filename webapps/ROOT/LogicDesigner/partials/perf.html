@@ -1,0 +1,156 @@
+<div class="row">
+	<div class="col-md-12">
+		<tabset>
+			<tab heading="Rules" active="data.rulesTab" active="data.rulesActive">
+				<button class="btn btn-default" ng-click="fetchRuleStats()"><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+				<button class="btn btn-default" ng-click="resetRuleStats()"><i class="glyphicon glyphicon-trash"></i> Reset</button>
+				<div>&nbsp;</div>
+				<table class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th class="sortable-header" ng:click="changeSorting('rule.entity')">
+								Table <i ng-class="selectedCls('rule.entity')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('rule.type')">
+								Rule type <i ng-class="selectedCls('rule.type')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('rule.name')">
+								Rule <i ng-class="selectedCls('rule.name')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('totalExecutionTime')">
+								Total <i ng-class="selectedCls('totalExecutionTime')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('numberOfExecutions')">
+								# execs <i ng-class="selectedCls('numberOfExecutions')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('averageExecutionTime')">
+								Avg time <i ng-class="selectedCls('averageExecutionTime')"></i>
+							</th>
+							<th>&nbsp;</th>
+<!--
+ 							<th class="sortable-header" ng:class="selectedCls(7)" ng:click="changeSorting(7)">First exec</th>
+							<th ng:class="selectedCls(8)" ng:click="changeSorting(8)">Last exec</th>
+							<th ng:class="selectedCls(9)" ng:click="changeSorting(9)">Shortest</th>
+							<th ng:class="selectedCls(10)" ng:click="changeSorting(10)">Longest</th>
+-->
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="stat in ruleStats | orderBy:sort.column:sort.descending">
+							<td>{{stat.rule.entity}}</td>
+							<td>{{stat.rule.type}}</td>
+							<td>{{stat.rule.name}}</td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.totalExecutionTime)"></td>
+							<td style="text-align: right;" ng-bind-html="formatNumber(stat.numberOfExecutions)"></td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.averageExecutionTime)"></td>
+<!--
+							<td>{{formatDate(stat.firstExecutionTime, currentTime)}}</td>
+							<td>{{formatDate(stat.lastExecutionTime, currentTime)}}</td>
+							<td>{{formatTime(stat.shortestExecutionTime)}}</td>
+							<td>{{formatTime(stat.longestExecutionTime)}}</td>
+ -->
+							<td style="text-align: right;">
+								<button class="btn-link" ng-click="data.detailsShown[$index] = !data.detailsShown[$index]">
+									<i ng-class="iconForDetails($index)"></i></button>
+								<table class="table table-bordered table-condensed" ng-hide="!data.detailsShown[$index]">
+									<tr><td>First execution:</td><td>{{formatDate(stat.firstExecutionTime)}}</td></tr>
+									<tr><td>Last execution:</td><td>{{formatDate(stat.lastExecutionTime)}}</td></tr>
+									<tr><td>Shortest execution:</td><td>{{formatTime(stat.shortestExecutionTime)}}</td></tr>
+									<tr><td>Longest execution:</td><td>{{formatTime(stat.longestExecutionTime)}}</td></tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</tab>
+			<tab heading="SQL" active="data.sqlsTab" ng-click="console.log('SQL tab clicked')" active="data.sqlActive">
+				<button class="btn btn-default" ng-click="fetchSqlStats(false)"><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+				<button class="btn btn-default" ng-click="resetSqlStats(false)"><i class="glyphicon glyphicon-trash"></i> Reset</button>
+				<div>&nbsp;</div>
+				<table class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th class="sortable-header" ng:click="changeSorting('sql')">
+								SQL <i ng-class="selectedCls('sql')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('totalExecutionTime')">
+								Total <i ng-class="selectedCls('totalExecutionTime')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('numberOfExecutions')">
+								# execs <i ng-class="selectedCls('numberOfExecutions')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('averageExecutionTime')">
+								Avg time <i ng-class="selectedCls('averageExecutionTime')"></i>
+							</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="stat in sqlStats | orderBy:sort.column:sort.descending">
+							<td>{{stat.sql}}</td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.totalExecutionTime)"></td>
+							<td style="text-align: right;" ng-bind-html="formatNumber(stat.numberOfExecutions)"></td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.averageExecutionTime)"></td>
+							<td style="text-align: right;">
+								<button class="btn-link" ng-click="data.detailsShown[$index] = !data.detailsShown[$index]">
+									<i ng-class="iconForDetails($index)"></i></button>
+								<table class="table table-bordered table-condensed" ng-hide="!data.detailsShown[$index]">
+									<tr><td>First execution:</td><td ng-bind-html="formatDate(stat.firstExecutionTime)"></td></tr>
+									<tr><td>Last execution:</td><td ng-bind-html="formatDate(stat.lastExecutionTime)"></td></tr>
+									<tr><td>Shortest execution:</td><td ng-bind-html="formatTime(stat.shortestExecutionTime)"></td></tr>
+									<tr><td>Longest execution:</td><td ng-bind-html="formatTime(stat.longestExecutionTime)"></td></tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</tab>
+			<tab heading="Admin SQL" active="data.adminTab">
+				<button class="btn btn-default" ng-click="fetchSqlStats(true)"><i class="glyphicon glyphicon-refresh"></i> Refresh</button>
+				<button class="btn btn-default" ng-click="resetSqlStats(true)"><i class="glyphicon glyphicon-trash"></i> Reset</button>
+				<div>&nbsp;</div>
+				<table class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<th class="sortable-header" ng:click="changeSorting('sql')">
+								SQL <i ng-class="selectedCls('sql')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('totalExecutionTime')">
+								Total <i ng-class="selectedCls('totalExecutionTime')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('numberOfExecutions')">
+								# execs <i ng-class="selectedCls('numberOfExecutions')"></i>
+							</th>
+							<th class="sortable-header" ng:click="changeSorting('averageExecutionTime')">
+								Avg time <i ng-class="selectedCls('averageExecutionTime')"></i>
+							</th>
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="stat in adminSqlStats | orderBy:sort.column:sort.descending">
+							<td>{{stat.sql}}</td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.totalExecutionTime)"></td>
+							<td style="text-align: right;" ng-bind-html="formatNumber(stat.numberOfExecutions)"></td>
+							<td style="text-align: right;" ng-bind-html="formatTime(stat.averageExecutionTime)"></td>
+							<td style="text-align: right;">
+								<button class="btn-link" ng-click="data.detailsShown[$index] = !data.detailsShown[$index]">
+									<i ng-class="iconForDetails($index)"></i></button>
+								<table class="table table-bordered table-condensed" ng-hide="!data.detailsShown[$index]">
+									<tr><td>First execution:</td><td ng-bind-html="formatDate(stat.firstExecutionTime)"></td></tr>
+									<tr><td>Last execution:</td><td ng-bind-html="formatDate(stat.lastExecutionTime)"></td></tr>
+									<tr><td>Shortest execution:</td><td ng-bind-html="formatTime(stat.shortestExecutionTime)"></td></tr>
+									<tr><td>Longest execution:</td><td ng-bind-html="formatTime(stat.longestExecutionTime)"></td></tr>
+								</table>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</tab>
+<!--
+			<pane heading="URLs" active="data.urlsTab">
+			</pane>
+ -->
+		</tabset>
+	</div>
+</div>

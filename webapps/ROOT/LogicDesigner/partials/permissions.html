@@ -1,0 +1,78 @@
+<div class="row">
+	<div class="col-md-2">
+		<label for="roleSelect">Role:</label><br/>
+		<select size="20" style="min-width: 100%;" ng-model="selectedRole" ng-options="role.name for role in roles" 
+				ng-change="roleSelected()" id="roleSelect"></select>
+	</div>
+	<div class="col-md-2">
+		<label for="rolePerms">Permissions:</label><br/>
+		<select size="20" style="min-width: 100%;" ng-model="selectedPerm" ng-options="perm.name for perm in perms" 
+				ng-change="permSelected()" id="rolePerms"></select>
+		<div class="CreateDeleteButtonContainer" style="height: 20%; float: bottom;">
+			<button class="CreateDeleteButton" ng-click="createPerm()" ng-disabled="!selectedRole"><i class="glyphicon glyphicon-plus"></i></button>
+			<button class="CreateDeleteButton" ng-click="deletePerm()" ng-disabled="!selectedPerm"><i class="glyphicon glyphicon-minus"></i></button>
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<form class="form-horizontal">
+			<div class="form-group">
+				<label for="tableSelect" class="control-label">Table:</label>
+				<div class="controls">
+					<select size="1" style="min-width: 150px;" ng-model="selectedPerm.entity_name" 
+							ng-options="name as name for (name, table) in allTables" id="tableSelect"></select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="permName" class="control-label">Permission name:</label>
+				<div class="controls">
+					<input type="text" size="50" ng-model="selectedPerm.name" id="permName" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="accessType" class="control-label">Access type:</label>
+				<div class="controls" id="accessType">
+					<label class="checkbox-inline">
+						<input type="checkbox" ng-model="permAccessRead"/>
+						Read
+					</label>
+					<label class="checkbox-inline">
+						<input type="checkbox" ng-model="permAccessInsert"/>
+						Insert
+					</label>
+					<label class="checkbox-inline">
+						<input type="checkbox" ng-model="permAccessUpdate"/>
+						Update
+					</label>
+					<label class="checkbox-inline">
+						<input type="checkbox" ng-model="permAccessDelete"/>
+						Delete
+					</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="permCols" class="control-label">Columns:</label>
+				<div class="controls">
+					<textarea cols="50" rows="3" ng-model="selectedPerm.column_names" id="permCols" class="col-md-8"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="permPredicate" class="control-label">Predicate:</label>
+				<div class="controls">
+					<textarea cols="50" rows="3" ng-model="selectedPerm.predicate" id="permPredicate" class="col-md-8"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="permDesc" class="control-label">Description:</label>
+				<div class="controls">
+					<textarea cols="50" rows="3" ng-model="selectedPerm.description" id="permDesc" class="col-md-8"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="controls">
+					<button class="btn btn-primary" ng-click="savePerm()">Save</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

@@ -1,0 +1,58 @@
+<div class="row">
+	<div class="col-md-3">
+		<div class="ScrollableListHeader">Handlers</div>
+		<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-list-control btn-xs" ng-click="createHandler()">
+				<span class="glyphicon glyphicon-plus-sign ScrollableListControl"></span>
+				Add
+			</button><button type="button" class="btn btn-list-control btn-xs" ng-click="deleteHandler()" ng-disabled="!selectedHandler">
+				<span class="glyphicon glyphicon-remove-sign ScrollableListControl"></span>
+				Delete
+			</button></div>
+		<select size="20" ng-model="selectedHandler" ng-change="handlerSelected()"
+			ng-options="handler.name for handler in handlers" 
+			style="width:100%; margin-right: 10px;"></select>
+	</div>
+	<div class="col-md-9">
+		<form role="form">
+			<div class="form-group">
+				<label for="handlerName">Handler name:</label>
+				<input type="text" class="form-control" ng-model="selectedHandler.name" 
+					placeholder="Handler name" id="handlerName" />
+			</div>
+			<div class="form-group">
+				<label for="urlPattern">
+					URL pattern:
+					<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('handlers', 'URLPattern')"></i>
+				</label>
+				<input type="text" class="form-control" ng-model="selectedHandler.url_pattern" 
+						placeholder="/path/.*" id="urlPattern" />
+				<div class="help-block hint">Your handler will be called for all URLs matching: {{data.serverUrl}}http/{{currentAccount.url_name}}/{{currentProject.url_name}}/{{selectedHandler.url_pattern}}</div>
+			</div>
+			<div class="form-group">
+				<label for="handlerJSCode">Code:</label>
+				<pre id="handlerJSCode" class="form-control" style="height: 15em;"></pre>
+				<a href="http://docs.espressologic.com/docs/reference" target="_blank">Reference</a>
+			</div>
+			<div class="form-group">
+				<label>Verbs:</label>
+				<label class="checkbox-inline"><input type="checkbox" ng-model="handlerGet" />GET</label>&nbsp;&nbsp;
+				<label class="checkbox-inline"><input type="checkbox" ng-model="handlerPost" />POST</label>&nbsp;&nbsp;
+				<label class="checkbox-inline"><input type="checkbox" ng-model="handlerPut" />PUT</label>&nbsp;&nbsp;
+				<label class="checkbox-inline"><input type="checkbox" ng-model="handlerDelete" />DELETE</label>
+			</div>
+			<div class="form-group">
+				<label for="handlerActive">
+					Active&nbsp;
+					<input type="checkbox" ng-model="selectedHandler.active" id="handlerActive" />
+					<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('handlers', 'Active')"></i>
+				</label>
+				
+			</div>
+			<div class="form-group">
+				<label for="handlerComments">Comments:</label>
+				<textarea cols="60" rows="3" ng-model="selectedHandler.comments" id="handlerComments" class="form-control"></textarea>
+			</div>
+			<button class="btn btn-primary" ng-click="saveHandler()" style="float: clear;">Save</button>
+		</form>
+	</div>
+</div>

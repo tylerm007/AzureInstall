@@ -1,0 +1,13 @@
+<h4>Min/Max</h4>
+
+<br><a href="http://docs.espressologic.com/docs/logic-designer/business-logic/min-max" target="_blank"><strong>Min/Max</strong></a>
+ declares a Parent attribute to be maintained as the Min/Max of a designated child role's  attribute, with an optional qualification to filter child objects.   
+ Parent reference names are derived from Foreign Key Relationships.
+<br/><br/>
+
+Min/Max rules are <br/><br/>
+<ol>
+<li>Significantly simpler than events<br/><br/></li>
+<li>Efficient - parent data is adjusted via a 1 row update - the system does not issue a select min() SQL command</li>
+</ol>
+

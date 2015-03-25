@@ -1,0 +1,109 @@
+<div class="row">
+	<div class="col-md-4" style="padding-left: 0px; padding-right: 0px;">
+		<div class="ScrollableListHeader">API Keys</div>
+		<div><input type="text" size="8" placeholder="search" ng-model="apiKeySearch" class="form-control margin-0" style="float: right; margin-bottom: 2px;"/></div>
+		<div class="ScrollableListControlHeader btn-horizontal-2"><button type="button" class="btn btn-xs btn-list-control" ng-click="createApiKey()">
+				<span class="glyphicon glyphicon-plus-sign ScrollableListControl"></span>
+				Add
+			</button><button type="button" class="btn btn-xs btn-list-control" ng-click="deleteApiKey()" ng-disabled="!selectedApiKeys">
+				<span class="glyphicon glyphicon-remove-sign ScrollableListControl"></span>
+				Delete
+			</button></div>
+		<div class="ResizableColumn" style="height: 85%; width: 100%; min-height: 350px;" id="resourcesDiv">
+			<select size="25" style="width: 100%; border: 0px;" ng-model="selectedApiKeys" ng-options="apiKey.name for apiKey in apiKeys" 
+					ng-change="apiKeySelected()" multiple></select>
+		</div>
+		<div style="padding: 4px; background-color: #CCCCCC;">
+			<label for="showAuto">Show auto keys:</label>
+			<input type="checkbox" id="showAuto" ng-model="showAutoKeys" />
+			<span style="float: right; color: #888888; font-size: smaller; margin: 2px;">{{selectedApiKeys.length}}/{{apiKeys.length}}</span>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<tabset>
+			<tab heading="Key">
+				<form role="form">
+					<div class="form-group">
+						<label for="apiKeyName">API key label:</label>
+						<input type="text" class="form-control" ng-model="selectedApiKey.name" id="apiKeyName" />
+					</div>
+					<div class="form-group">
+						<label for="apiKeyKey">Key:</label>
+						<input type="text" class="form-control" ng-model="selectedApiKey.apikey" id="apiKeyKey" />
+					</div>
+					<div class="form-group">
+						<label for="userIdentifier">User identifier:</label>
+						<i class="glyphicon glyphicon-question-sign ContextHelpButton" ng-click="helpDialog('apikey', 'UserIdentifier')"></i>
+						<input type="text" class="form-control" ng-model="selectedApiKey.user_identifier" id="userIdentifier" />
+					</div>
+					<div class="form-group">
+						<label for="apiKeyStatus">Status:</label>
+						<fieldset id="apiKeyStatus">
+							<label class="radio" ng-disabled="!selectedApiKey">
+								<input type="radio" ng-model="selectedApiKey.status" value="A" id="apiKeyStatusActive" />
+								Active
+							</label>
+							<label class="radio" ng-disabled="!selectedApiKey">
+								<input type="radio" ng-model="selectedApiKey.status" value="P" id="apiKeyStatusInactive" />
+								Inactive
+							</label>
+						</fieldset>
+					</div>
+					<div class="form-group">
+						<label for="apiKeyDesc">Description:</label>
+						<textarea cols="80" rows="4" ng-model="selectedApiKey.description" id="apiKeyDesc" class="form-control"></textarea>
+					</div>
+					<button class="btn btn-primary" ng-click="saveApiKey()" style="margin-left: 20px;" ng-disabled="!selectedApiKey">Save</button>
+                    <a class="btn btn-default"  href="#/projects/{{currentProject.ident}}/roles">Manage Roles</a>
+                    <a class="btn btn-default"  href="#/projects/{{currentProject.ident}}/users">Manage Users</a>
+				</form>
+			</tab>
+			<tab heading="Details">
+				<form role="form">
+					<div class="form-group">
+						<label for="apiKeyData">Globals:</label>
+						<textarea cols="80" rows="8" ng-model="selectedApiKey.data" id="apiKeyData" id="apiKeyData" class="form-control"></textarea>
+					</div>
+					<div class="form-group">
+						<label for="apiKeyExpiration">Expiration:</label>
+						<input type="datetime" ng-model="selectedApiKey.expiration" id="apiKeyExpiration">
+					</div>
+					<button class="btn btn-primary" ng-click="saveApiKey()" style="margin-left: 20px;" ng-disabled="!selectedApiKey">Save</button>
+				</form>
+			</tab>
+			<tab heading="Roles">
+				<form role="form">
+					<div class="form-group">
+						<label class="checkbox" ng-repeat="role in roles">
+							<input type="checkbox" ng-model="role.checked" ng-change="roleCheckClicked(role)" />
+							{{role.name}}
+						</label>
+						<button class="btn btn-primary" ng-click="saveApiKey()" style="margin-left: 20px;" ng-disabled="!selectedApiKey">Save</button>
+					</div>
+				</form>
+			</tab>
+			<tab heading="Logging">
+				<div class="form">
+					<div class="form-group" ng-repeat="(logIdent, logDetails) in loggers">
+                        <label for="logLevel{{logIdent}}">{{logDetails.name}}</label>
+						<select class="form-control" ng-model="logDetails.level" id="logLevel{{logIdent}}">
+							<option value="OFF">Off
+							<option value="SEVERE">Error
+							<option value="WARNING">Warning
+							<option value="INFO">Info
+							<option value="FINE">Debug
+							<option value="FINER">Finer debug
+							<option value="FINEST">Finest debug
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="loggingString">Logging string:</label>
+						<textarea cols="80" rows="2" id="loggingString" 
+							ng-model="selectedApiKey.logging" disabled class="form-control"></textarea>
+					</div>
+					<button class="btn btn-primary" ng-click="saveLogging()" ng-disabled="!selectedApiKey">Save</button>
+				</div>
+			</tab>
+		</tabset>
+	</div>
+</div>
