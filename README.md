@@ -1,5 +1,6 @@
 # AzureInstall
 Windows Azure Installation WAR
 
-automatic install to Azure WAR Deploy
-add MySQL and connection string with name AdminDB.
+automatic install to Azure WAR 
+
+make sure you have a MySQL setting name AdminDB
