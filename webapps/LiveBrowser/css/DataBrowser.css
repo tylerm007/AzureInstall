@@ -1,0 +1,1298 @@
+/*** BODY ***/
+    @font-face{
+        font-family: calibri;
+        src: url("CALIBRI.TTF") format('embedded-opentype'), url("CALIBRI.woff") format('woff');
+    }
+    *:not(select){ font-family: "calibri"; }
+
+    .clear-both{ clear: both; }
+    body .float-right{ float:right; }
+
+/*** Layout & UI ***/
+	.position-relative{ position:relative !important; }
+    .eslo-container:after{ visibility: hidden; display: block; font-size: 0; content: " "; clear: both; height: 0; }
+    .eslo-col{ float: left; }
+    .eslo-button{ cursor: pointer; background: #f6f6f6; color: #005966; border: none; border-right: 1px solid #c0c0c0; border-left: 1px solid #c0c0c0; height: 100%; font-size: 18px; margin-right:-3px; max-height: 73px !important; }
+    .eslo-button[disabled] { color: #B0B8C0 !important; cursor: not-allowed;  }
+    .eslo-button i{ font-size: 14px; margin-right: 5px; }
+    .eslo-button:hover{ background:#f0f0f0; box-shadow: inset 0 0 15px rgba(0,0,0,.2); }
+    .ui-layout-resizer{ background: #f6f6f6; border: 1px solid #c0c0c0; width: 14px; border-top: none; }
+    .outerLayout-center{ margin-left: -2px !important; }
+    .ui-layout-toggler{ display: none !important; }
+    #rightSide .ui-layout-resizer{ border-left: none; border-right: none; border-top: 1px solid #c0c0c0; height: 8px !important; }
+    body > .ui-layout-resizer{ border-bottom: none; }
+    .ngCanvas *{ font-size: 18px; }
+    body .large{ font-size: 18px; }
+    .ngCanvas .fa, .ngCanvas .glyphicon{ color: #000; }
+    .exitModal{ position:absolute; top:10px; right:10px; }
+    .bootstrap-datetimepicker-widget ul{ padding-left:0; }
+    .NotificationsModal .modal-dialog{ text-align:center; }
+    .NotificationsModal .modal-content{ width: 40%; margin:0 auto;}
+    .NotificationContent{ text-align:left; padding: 10px; font-size:20px; line-height:20px; }
+    .NotificationContent .btn{ position:absolute; bottom:10px; right:10px; }
+    @media (min-width: 1281px) {
+        .hideForDesktopWidths{ display:none; }
+    }
+    .fa-toggle-up {
+        cursor: pointer;
+        font-size: 20px;
+    }
+    .dragModalHandle{
+        background: rgba(0,0,0,.1);
+        border-radius: 4px;
+        padding-left: 5px;
+    }
+    .dragModalHandle:before{
+        content:"\f047";
+        font-family: FontAwesome;
+        float:right;
+        font-size:10px !important;
+        margin: 5px;
+    }
+    .nav-tabs>li>a { cursor: pointer; }
+    .fill-container{
+        display: block;
+        width:  100%;
+        height: 100%;
+    }
+    .eslo-modal-header{font-size:1.5em; border-bottom:1px solid #bbb; }
+    .tab-list{padding:0;margin:0;}
+    .tab-list li{display:inline; background: #ddd; padding: 4px; border-top-left-radius: 5px; border-top-right-radius: 5px;}
+    .tab-list li.active{background:#f6f6f6;}
+    .tab-list a:hover{text-decoration:none;}
+    .tab-section{display:none; border: 1px solid #f6f6f6; background: #fafafa; padding: 6px;}
+    .tab-section.active{display:block;}
+    .dragHandle{ cursor:move; }
+    .horizontal-menu{padding:0; margin:0 0 6px 0;}
+    .horizontal-menu li{display:inline; background: #f6f6f6; padding:3px 8px; margin-right:3px; cursor:pointer;}
+    .horizontal-menu li.active{background: #e6e6e6;}
+    .margin2{margin:2px;}
+    .margin5{margin:5px;}
+    body strong{font-weight:bold; font-size:1.1em; margin:0px;}
+    .full-screen-modal .modal-dialog{width: 90%; height:800px;}
+    .full-screen-modal iframe{width: 100%;height:800px;}
+    .text-align-right{text-align:right;}
+    .eslo-child-resource-tree{margin-top:15px;}
+    .eslo-resource-footer{position:fixed; width:100%; bottom:0;}
+    .eslo-resource-footer {min-height:40px;}
+    .eslo-resource-footer .eslo-button {height:40px;}
+    .visibility-none{visibility:hidden; height:0; width:0; padding:0; margin:0;}
+    .AnyTime-pkr .AnyTime-cur-btn{color:#000;}
+    .AnyTime-win{z-index:1000;}
+    .fa{font-family:FontAwesome !important;}
+    .datepicker .active{background:#e6e6e6;}
+    .display-inline{display:inline;}
+    .border-none{border:none;}
+    .padding-0{padding:0;}
+    .box-shadow-none{box-shadow:none;}
+    .input-group{ background:#eaeaea; padding:10px; width:100%; }
+    small{ font-size: 80% !important; }
+    
+/*** Author Mode Specific Styles ***/
+.authormode-true .dynamic-column-row .column-container{ display:block !important; }
+
+/*** Intro/Tour ***/
+    h4 {font-weight: bold !important; padding:0; margin:0; padding-bottom:0px; font-size: 1.1em !important;}
+    .introjs-tooltip ul{padding:0px 0 0 15px;}
+    .introjs-tooltiptext > ul > li{padding-top:10px;}
+    .intro-gif-container{text-align:center;}
+
+/*** Forms ***/
+    .form-control{
+        border-radius:0px;
+        font-size: 18px;
+    }
+    .datepickerToggle{ margin:10px; position:relative; top:4px; }
+    .column-container:after{ clear:both; content: " "; display:block; }
+
+/*** HEADER ***/
+    .header{ height: 40px; position:relative; z-index:100; background-image: linear-gradient(to right, #35A9A9, #15B9B9); font-size: 18px; overflow:hidden; }
+    .header a{ color: #007C7C; }
+    .header-column{ float: left; }
+    .header-menu{ border: 1px solid #ccc; background: #f6f6f6; margin: 3px; padding: 3px; cursor: pointer; }
+    .header-menu a:hover{ text-decoration: none; }
+    .header-menu:hover{ box-shadow: inset 0px 0px 5px rgba(0,0,0,.2); background:#f3f3f3; border-color:#888; }
+    .header-menu.open,.header-menu.active{ box-shadow: inset 0px 0px 15px rgba(0,0,0,.2); background:#f0f0f0; border-color:#888; }
+    .header-menu.left-side-menu .dropdown-menu{ margin-left:100%; left:-70px; background: #f6f6f6; margin-top:8px; }
+    .header-menu.left-side-menu .dropdown-menu:before{
+        position: absolute;
+        top: -7px;
+        right: 92px;
+        display: inline-block;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #CCC;
+        border-left: 7px solid transparent;
+        border-bottom-color: #f6f6f6;
+        content: '';
+    }
+    .header-menu.right-side-menu .dropdown-menu{ left: initial; background: #f6f6f6; margin-left:-41%; margin-top: 8px; }
+    .header-menu.right-side-menu .dropdown-menu:before{
+        position: absolute;
+        top: -7px;
+        right: 3px;
+        display: inline-block;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #CCC;
+        border-left: 7px solid transparent;
+        border-bottom-color: #f6f6f6;
+        content: '';
+    }
+    .mode-action .active-state{display:none;}
+    .mode-action.active .inactive-state{display:none;}
+    .mode-action.active .active-state{display:inline-block;}
+    .header-menu .menu-icon{ margin:0 5px; }
+    .header-menu .menu-caret{ margin:0 5px 0 10px; opacity:.8; }
+    .header-menu .vertical-divider{ width: 1px; height: 25px; background: #e0e0e0; position: relative; top: -25px; right: 20px; float: right; }
+    .logo{ background-image:url('../images/EspressoLogicLogo.png'); background-size: 95px 27px; width: 95px; height: 27px; padding: 0px; margin: 5px 20px 0px 5px; }
+    .icon-divider img{ margin: 6px; }
+    .icon-divider hr{ margin-top:0px; margin-bottom: 0px; display:inline-block; width:80%; vertical-align:middle; }
+    .large-menu-icon i{ font-size:18px; }
+    .window-toggle .active{ display:none; }
+    .window-toggle.active > .active{ display:inline; }
+    .window-toggle.active > .inactive{ display:none; }
+
+/*** Filters Section ***/
+    body #leftGridTop{ padding-top:0; overflow:visible; }
+    .filters-pane{ font-size: 18px; color: #005966; vertical-align: middle; }
+        .filters-pane .pane-collapsed{ background: #f6f6f6; height: 40px; border-bottom:1px solid #c0c0c0; }
+        .filter-icon{ padding: 2px 7px 0px 7px; font-size: 24px; border-right:1px solid #c0c0c0; }
+        .table-select label{ margin: 2px 10px 0px 4px; }
+        .search-input-container{ margin: 3px 5px; width: 80%; float: right; }
+        .search-input-container input{ padding: 0 5px; margin-left: -40px; display:inline-block; }
+        .default-search{ width:50%; }
+        .search-icon{ background: #eee; border: 1px solid #c0c0c0; padding: 3px 5px 9px 5px; margin-left: -5px; font-size: 20px; }
+        .table-select select.form-control{ padding-right:0px; margin-top:2px; }
+        #tableSelect{ position: relative; top: -2px; height: 32px; }
+    .flyout-toggle-container{ margin: 0 3px 0 -29px; display: inline-block; }
+    .filter-flyout-icon{ width: 25px; height: 25px; background: transparent; border: none; position:relative; z-index: 999; }
+    .filter-flyout-icon:hover{ background: transparent; box-shadow: none; }
+    #leftGridTop{ z-index: 50 !important; }
+    .filter-flyout{ z-index: 10; clear: both; background: #fff; border: 1px solid #c0c0c0; width: 440px; position: relative; top: -5px; left: -15px; float: right; }
+    .filters-add-remove-container{ padding: 10px; }
+    .filters-add-remove-container .btn-group{ width: 60px; }
+    .filters-add-remove-container .btn-inline{ font-size:15px; padding-left:5px;}
+    #tableSelect option{ border-right: 1px solid #c0c0c0; }
+    @media all and (max-width: 1280px) {
+        .table-select{ max-width: 40%; }
+        #tableSelect{ margin-top:5px; max-width: 100%; }
+    }
+    .ngTopPanel{z-index:1000;}
+    #eslo-table-select{margin-left:-80px; position:relative; left:80px; max-width:66%;}
+
+/*** Resource Main Grid Window ***/
+	.resource-utility-column{height:35px; vertical-align:middle; text-align:center; padding-top:5px;color: #bbb;}
+	.set-column{ display:inline-block; }
+	.eslo-set-container{margin-left:20px;}
+    .eslo-set-container{color:black; font-size:12}
+    .eslo-set-container .fa{font-size:.8em; vertical-align:middle; margin:0 5px 2px 0;}
+    .beta-sticker{position: absolute; right: 0; background: #ACCFEB; padding: 4px; color: white; border-radius: 5px; margin: 5px;}
+    .resources-form-window.details-content{ padding: 0 20px; margin-top:20px; }
+	
+
+/*** Search Grid Pane ***/
+    #leftGridFooter{ background: #f6f6f6 !important; border-top: 1px solid #c0c0c0; }
+    .filter-flyout td{ max-width:50%; }
+    #leftGridContainer .ngTopPanel{ position:absolute; }
+    #leftGridContainer .ngViewport{ height: 100% !important; width: auto !important; }
+    #leftGridContainer .ngViewport > .ngCanvas{ margin-top:35px; }
+    #leftTableDiv{ height:100%; }
+    .searchGridActionButton{ display:none; }
+    .selected .searchGridActionButton{ display: inline-block; }
+    .colt0{ background: #f6f6f6; border-right: 1px solid #c0c0c0; }
+    .ngHeaderContainer{ background: #f6f6f6; font-size: 18px; }
+    .ngHeaderContainer span{ font-size: 18px; }
+    .ngHeaderContainer .colt0{ border: 1px solid #c0c0c0; border-left: none; border-top: none; }
+    .ngVerticalBarVisible{ display: none; }
+    .ngHeaderCell{ border-bottom: 1px solid #c0c0c0; border-right: 1px solid #c0c0c0; }
+    .ngHeaderGrip{ background: transparent !important; }
+    .ngRow.even{ background: #fafafa; }
+    .ngRow.odd{ background: #fff; }
+    .ngRow.selected{ background: #eafae5; }
+    .ngRow.selected .colt1{ border-left: 2px solid #97bd98; }
+    .ngRow.selected > div:last-child{ border-right: 5px solid #97bd98; }
+    .ngRow.selected > div:last-child .ngCellElement{ padding-right: 10px; }
+    .ngCellElement:focus{ background: rgba(127,127,127,.1); }
+    #leftGridContainer{ overflow-x:hidden; }
+    .gridQuickDate{ position:fixed; display:block !important; z-index:9999}
+    #leftGridContainer .ngHeaderText.colt0{height:35px;}
+
+/*** REST Log Pane ***/
+    .restLogWindow{ height:100%; }
+    .restLogWindow .logs{ width:auto; height:100%; }
+    .panel-title{ word-break: break-all; }
+
+/*** Form Pane ***/
+    .details-header{ background: #f6f6f6; font-size: 18px; height: 40px; border-bottom: 1px solid #c0c0c0; position:fixed; width: 100%; z-index:100; }
+    .searchAttributesInput{ width:20%; display: inline-block; position:fixed; right: 0; margin-top:3px; margin-right:4px; }
+    .details-pane .details-breadcrumbs{
+        font-size: 18px; font-weight: bold;
+        width: 100%;
+        padding-bottom: 4px;
+        padding-top: 3px;
+        padding-left: 10px;
+        margin-left: -15px;
+        display: inline;
+        background: #20B4B4;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        padding-right: 10px;
+        color: #fff;
+    }
+    .details-pane{ font-size: 16px; }
+    .details-pane .eslo-button{ height: 39px; }
+    .details-pane .eslo-button:first-child{ margin-left:-1px; }
+    .details-pane .eslo-button{ margin-right:-5px; }
+    .details-pane .control-label{ display:inline-block; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; }
+    .detailsForm{margin-top:20px;}
+    .details-content{ margin-top:40px; }
+    .form-input-group{background: #f6f6f6; padding:15px 15px 5px 15px; margin:0 10px 10px 0; border:1px solid #e6e6e6;}
+    /*.form-input-group.odd-true{background: #fff;}*/
+
+/*** Child Grid Pane ***/
+    #childCollections, #childCollections .ngViewport{ background: #f6f6f6; }
+    .childrenLayout-center{ background: #f6f6f6; }
+    .children-search-grid .ngHeaderContainer .colt0{ border-top: 1px solid #c0c0c0; }
+    .children-search-grid .ngHeaderCell{ border-top: 1px solid #c0c0c0; }
+    .children-search-grid .colt0{ padding:0; }
+    #childFooter{ background: #f6f6f6; height: 35px !important; border-top: 1px solid #c0c0c0; }
+    #childFooter .gridHeaderButton{ padding: 4px 0 0 0; }
+    #childFooter .eslo-button:first-child{ border-left: none; }
+    #childFooter .eslo-button{ font: 18px calibri; }
+    .gridActionButton{ display: none; }
+    .selected .gridActionButton{ display: inline-block; }
+    .children-search-grid .ui-widget-header{ background: #f6f6f6; border-radius:0; border: none; font-weight: normal; }
+    .children-search-grid .nav-tabs li{ overflow:hidden; height:25px; }
+    .children-search-grid .nav-tabs li:first-child a{ margin: 0px 0px 0 -6px; }
+    .children-search-grid .nav-tabs li a{ margin: 0px -12px 0 -6px; border-top-right-radius: 25px 170px; border-top-left-radius: 20px 90px;
+        padding: 0 30px 0 25px; font-size:18px; height: 170px; background: #eee; position: relative; border-color: #c0c0c0; }
+        .children-search-grid .nav-tabs li a,.children-search-grid .nav-tabs li a span{ font-size:18px; background:transparent; }
+    .children-search-grid .nav-tabs li.active a{ background:#f9f9f9; }
+    .emptyRelationships{ padding-left: 10px; }
+    .children-search-grid .ngViewport{ overflow:visible;}
+    .children-search-grid .nav-tabs li.active a {
+        background-color: #20B4B4;
+        color: #FFFFFF;
+    }
+    .fa-sort-up{ position: relative; z-index: 999; }
+    .numeric-cell{text-align:right;}
+    #childCollections .quickdate-popup{position:relative; top:-400px; left:-50px;}
+
+/*** GridOptions modal***/
+    .grouping-area{ padding:5px; margin: 15px 0; border-radius: 5px; border: 1px dashed #a7a7a7; background: #ececec; }
+    .grouping-area ul{ list-style:none; }
+    .grouping-area li{
+        border: 1px solid #c9c9c9;
+        border-radius:4px;
+        padding: 3px 8px;
+        margin: 10px;
+        background: rgb(239,239,239); /* Old browsers */
+        background: -moz-linear-gradient(top,  rgba(239,239,239,1) 0%, rgba(204,204,204,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(239,239,239,1)), color-stop(100%,rgba(204,204,204,1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(top,  rgba(239,239,239,1) 0%,rgba(204,204,204,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(top,  rgba(239,239,239,1) 0%,rgba(204,204,204,1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(top,  rgba(239,239,239,1) 0%,rgba(204,204,204,1) 100%); /* IE10+ */
+        background: linear-gradient(to bottom,  rgba(239,239,239,1) 0%,rgba(204,204,204,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+    }
+    .grouping{ border: 1px dashed #ccc; padding:10px; margin:5px; }
+    .column-params .input-group{}
+
+/*** TOOLBARS ***/
+    .horizontal-toolbar{margin:0; padding:0; list-style:none;}
+    .horizontal-toolbar li{display:inline-block;}
+    .horizontal-toolbar .dropdown-menu li{display:block;}
+    .toolbar-switch{min-width:100px;}
+    .horizontal-toolbar .toolbar-switch-label{color:#333;}
+    .horizontal-toolbar .flyout{height:100%; vertical-align:top;}
+    .horizontal-toolbar .divider{margin:0; display:inline;}
+    .horizontal-toolbar .divider hr{margin:2px 5px;}
+    .horizontal-toolbar .hang-right{right:0;left:auto;}
+
+/*** HEADER TOOLBAR ***/
+    #header-toolbar .container{
+        width:100%; height: 100%;
+        background: #DDDDDD;
+        box-shadow: 0px 1px 2px #888;
+    }
+    #header-toolbar .container .row{height: 100%;}
+    #header-toolbar .container .row .col{ height: 100%;}
+    #header-toolbar .horizontal-toolbar{margin:0; padding:0; height:100%;}
+    #header-toolbar .flyout:first-child{left:0;margin-right:-2px;}
+    #header-toolbar .flyout{font-size:1.3em; position:relative; left:-1px;}
+    #header-toolbar .action{padding-top:2px;}
+    #header-toolbar .flyout .dropdown{padding:10px 5px 0; width:100%; height:100%; display:block;}
+    #header-toolbar .flyout .dropdown.open{background:rgba(255, 255, 255, .9);}
+    #header-toolbar .flyout .dropdown-menu{margin-top:-2px;}
+    #header-toolbar .switch-candy{background:#8e8e8e;}
+    #header-toolbar{overflow:visible; z-index:5 !important;}
+
+/*** Parent Select Modal ***/
+    .column-content{ max-height: 45px; overflow:hidden; }
+    .column-content .CLOB{ white-space:nowrap; text-overflow:ellipsis; max-width:200px; display:block; overflow:hidden; }
+
+.full-width{width:100%;}
+.min-height-150{min-height:150px;}
+.min-height-200{min-height:200px;}
+.min-height-300{min-height:300px;}
+
+.row-image{max-height:25px;}
+#TopLogo {
+    content:url('../images/EspressoLogicLogo.png');
+    width: 95px;
+    height: 27px;
+    padding: 0px;
+    margin: 5px 20px 0px 5px ;
+    float: left;
+}
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+button.btn {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+button.btn.fa {
+    font-family: 'FontAwesome';
+}
+
+.outerLayout-west {
+    padding: 0px;
+}
+
+.outerLayout-center {
+    padding:    0; /* IMPORTANT - remove padding so pane can 'collapse' to 0-width */
+}
+
+.outerLayout-center > .wrapper {
+    padding:    10px;
+}
+
+.outerLayout-pane {
+    border-width: 0;
+}
+
+.outerLayout-north {
+    border-bottom-width: 1px;
+    padding: 0px;
+}
+.updating{
+    background-color:rgba(105, 255, 227 , .2 );
+    background-color:rgba(0, 194, 26 , .2 );
+    background-color:rgba(235, 231, 19 , .2 );
+}
+.updatable{ transition:background-color 1s;-webkit-transition:background-color 1s; }
+.notifyjs-wrapper{ z-index: 1000; }
+.columns-1 .dynamic-column-row{ display:block; }
+.columns-2 .dynamic-column-row{ display:inline-block; }
+.columns-3 .dynamic-column-row{  display:inline-block; }
+.columns-4 .dynamic-column-row{ display:inline-block; }
+.columns-5 .dynamic-column-row{  display:inline-block; }
+.columns-6 .dynamic-column-row{  display:inline-block; }
+.alert-notice{ background: #fcf8e3; color:#c09853; }
+.ui-pnotify-title{ font-size: 1.1em; font-weight:bold; }
+.alert-error{ background: #f2dede; color:#b94a48; }
+.introjs-tooltip { min-width: 375px; max-width: 500px; }
+.introjs-tooltiptext{ font-size: 12pt; }
+.introjs-helperNumberLayer {display: none; }
+.introjs-helperLayer { background-color: rgba(255,255,255,.4); }
+.control-label .icon{ position:relative; color:#aaa; }
+.control-label .icon:hover{ color:#000; }
+.modal-column-container{ margin:15px; }
+.outerLayout-south {
+    border-top-width: 1px;
+    padding: 0px;
+    padding-top:0px;
+    background: rgb(255,255,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(238,238,238,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(238,238,238,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(238,238,238,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+}
+#tableSelect{ font-weight:bold; }
+body select.form-control{ padding: 0 5px; }
+
+.ui-layout-pane {
+    border: 0;
+    padding: 0px;
+}
+
+.outerLayout-south{ overflow:hidden; }
+
+#leftGridTop{ padding-top:5px; }
+
+.outerLayout-resizer-west {
+    border-width:   0 1px;
+}
+
+.outerLayout-toggler-west {
+    border-width: 0;
+}
+.outerLayout-toggler-west div {
+    width:  8px;
+    height: 30px; /* 3x 35 = 105 total height */
+}
+
+div.btnCenter {
+    width: 14px;
+    background-image: url(../images/BottomArrowActive_12x30.jpg);
+    background-size: 12px 30px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+div.btnWest {
+    width: 14px;
+    background-image: url(../images/TopArrowActive_12x30.jpg);
+    background-size: 12px 30px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+}
+div.btnBoth {
+    width: 14px;
+    background-image: url(../images/CenterSlider_12x20.jpg);
+    background-size: 12px 20px;
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+}
+
+.childrenLayout-south.ui-layout-pane {
+    font-size: 10px;
+    background-color: #DDDDDD;
+}
+
+th  { background: #DDD; }
+
+/* .tab-content {
+    height: 100%;
+} */
+
+.ui-tabs .ui-tabs-nav li {
+    font-size: 10pt;
+}
+
+/* Turned off for now because can't figure out how to disable this for search inputs
+input.ng-dirty {
+    border-color: #CC0000;
+}
+*/
+
+label.scalar-label {
+    text-align: left !important;
+}
+
+input[readonly] {
+    color: #000000;
+    background-color: #F0F0F0;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+    padding-right: 13px;
+}
+
+div.btn-group.highlighted>button {
+    background-color: #FE9A2E;
+}
+
+button.gridActionButton {
+    width: 1.3em !important;
+    padding-left: 1px;
+    padding-right: 1px;
+    background-color: transparent;
+    color: #AAAAAA;
+}
+
+button.gridActionButton:hover {
+    color: #000000;
+}
+
+i.gridHeaderButton {
+    font-size: 9pt;
+    color: #999999;
+    padding-left: 10px;
+}
+
+button.gridTabsButton {
+    border: 1px solid transparent;
+    background-color: transparent;
+    padding: 2px 8px 2px 7x;
+}
+
+i.gridTabsButton {
+    font-size: 12pt;
+    color: #666666;
+}
+
+button.gridTabsButton:hover {
+    color: #000000;
+}
+
+i.gridHeaderButton:hover {
+    color: #000000;
+}
+
+div.parentColumnCell {
+    color: #888888;
+}
+
+div.parentHeader {
+    background-color: #CCCCCC;
+}
+
+button.searchParamsButton {
+    width: 1.8em !important;
+    padding-left: 4px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: transparent;
+    border: solid 1px #AAAAAA;
+    font-size: 9pt;
+    color: #666666;
+    margin-bottom: 5px;
+}
+
+button.btn-default {
+    background: linear-gradient(to right, #F0F0F0, #FFFFFF);
+}
+
+button.parentNavButton {
+    width: 1.7em !important;
+    padding-left: 3px;
+    margin-top: 9px;
+    font-size: 10pt;
+}
+
+button.glyphicon {
+    font-family: 'Glyphicons Halflings';
+}
+
+/**********************************/
+/* Alerts */
+
+.MessageBox {
+    padding: 7px;
+    min-width: 500px;
+    max-width: 500px;
+    font: 11pt Verdana, sans-serif;
+    border: solid 1px #777777;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    z-index: 100000;
+}
+
+.MessageBoxClose {
+    margin-left: 30px;
+    margin-right: 8px;
+    float: right;
+    cursor: default;
+    color: #888888;
+}
+
+.MessageBoxClose:hover {
+    font-weight: bold;
+    color: #000000;
+}
+
+.AlertInfo {
+    background-color: #BBEEBB;
+}
+
+.AlertWarning {
+    background-color: #FFFFDD;
+}
+
+.AlertError {
+    background-color: #FFDDDD;
+}
+
+/**********************************/
+/* Grid */
+
+.ngHeaderText {
+    font-size: 10pt;
+    text-align: center;
+}
+
+.ngCellText {
+    font-size: 11pt;
+}
+
+.gridDeletedRow {
+    color: #888888;
+    background-color: #EEDDDD;
+}
+
+div.gridDeletedRow div.ngCellText {
+text-decoration: line-through;
+}
+
+.gridUpdatedRow {
+    background-color: #DDDDFF;
+}
+
+.gridInsertedRow {
+    background-color: #DDFFDD;
+}
+
+/* In grids, the leftmost column (with the controls) clips the control icons unless we tweak it here */
+.ngRow.selected > div:last-child .ngCellElement {
+padding-right: 7px;
+}
+
+/* Popup menu for column selection does not show up without this */
+.ngHeaderContainer {
+    /**overflow: visible;/**/
+}
+
+#childCollections .ngHeaderContainer{ overflow: visible; }
+
+.ngHeaderGrip {
+    background: #dddddd;
+    background: -moz-linear-gradient(left,  #dddddd 0%, #ffffff 50%, #dddddd 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#dddddd), color-stop(50%,#ffffff), color-stop(100%,#dddddd));
+    background: -webkit-linear-gradient(left,  #dddddd 0%,#ffffff 50%,#dddddd 100%);
+    background: -o-linear-gradient(left,  #dddddd 0%,#ffffff 50%,#dddddd 100%);
+    background: -ms-linear-gradient(left,  #dddddd 0%,#ffffff 50%,#dddddd 100%);
+    background: linear-gradient(to right,  #dddddd 0%,#ffffff 50%,#dddddd 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', endColorstr='#dddddd',GradientType=1 );
+}
+
+.column-selector-popup {
+    margin-left: 10px;
+    background-color: #FCFADD;
+    padding-left: 5px;
+    border-width: 2px;
+    text-align: left;
+}
+
+.column-selector-name {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    position: relative;
+    /*top: -.3em;*/
+    padding-left: 3px;
+}
+
+/** FORMS **/
+input[type="radio"], input[type="checkbox"]{
+    max-width:1.3em;
+    height: 1.2em;
+}
+
+form-control {
+    font-size: 11pt;
+}
+
+.opentip-container,.opentip-container *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.opentip-container{position:absolute;max-width:300px;z-index:100;-webkit-transition:-webkit-transform 1s ease-in-out;-moz-transition:-moz-transform 1s ease-in-out;-o-transition:-o-transform 1s ease-in-out;-ms-transition:-ms-transform 1s ease-in-out;transition:transform 1s ease-in-out;pointer-events:none;-webkit-transform:translateX(0) translateY(0);-moz-transform:translateX(0) translateY(0);-o-transform:translateX(0) translateY(0);-ms-transform:translateX(0) translateY(0);transform:translateX(0) translateY(0)}.opentip-container.ot-fixed.ot-going-to-show.stem-top.stem-center,.opentip-container.ot-fixed.ot-hidden.stem-top.stem-center,.opentip-container.ot-fixed.ot-hiding.stem-top.stem-center{-webkit-transform:translateY(-5px);-moz-transform:translateY(-5px);-o-transform:translateY(-5px);-ms-transform:translateY(-5px);transform:translateY(-5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-top.stem-right,.opentip-container.ot-fixed.ot-hidden.stem-top.stem-right,.opentip-container.ot-fixed.ot-hiding.stem-top.stem-right{-webkit-transform:translateY(-5px) translateX(5px);-moz-transform:translateY(-5px) translateX(5px);-o-transform:translateY(-5px) translateX(5px);-ms-transform:translateY(-5px) translateX(5px);transform:translateY(-5px) translateX(5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-middle.stem-right,.opentip-container.ot-fixed.ot-hidden.stem-middle.stem-right,.opentip-container.ot-fixed.ot-hiding.stem-middle.stem-right{-webkit-transform:translateX(5px);-moz-transform:translateX(5px);-o-transform:translateX(5px);-ms-transform:translateX(5px);transform:translateX(5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-bottom.stem-right,.opentip-container.ot-fixed.ot-hidden.stem-bottom.stem-right,.opentip-container.ot-fixed.ot-hiding.stem-bottom.stem-right{-webkit-transform:translateY(5px) translateX(5px);-moz-transform:translateY(5px) translateX(5px);-o-transform:translateY(5px) translateX(5px);-ms-transform:translateY(5px) translateX(5px);transform:translateY(5px) translateX(5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-bottom.stem-center,.opentip-container.ot-fixed.ot-hidden.stem-bottom.stem-center,.opentip-container.ot-fixed.ot-hiding.stem-bottom.stem-center{-webkit-transform:translateY(5px);-moz-transform:translateY(5px);-o-transform:translateY(5px);-ms-transform:translateY(5px);transform:translateY(5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-bottom.stem-left,.opentip-container.ot-fixed.ot-hidden.stem-bottom.stem-left,.opentip-container.ot-fixed.ot-hiding.stem-bottom.stem-left{-webkit-transform:translateY(5px) translateX(-5px);-moz-transform:translateY(5px) translateX(-5px);-o-transform:translateY(5px) translateX(-5px);-ms-transform:translateY(5px) translateX(-5px);transform:translateY(5px) translateX(-5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-middle.stem-left,.opentip-container.ot-fixed.ot-hidden.stem-middle.stem-left,.opentip-container.ot-fixed.ot-hiding.stem-middle.stem-left{-webkit-transform:translateX(-5px);-moz-transform:translateX(-5px);-o-transform:translateX(-5px);-ms-transform:translateX(-5px);transform:translateX(-5px)}.opentip-container.ot-fixed.ot-going-to-show.stem-top.stem-left,.opentip-container.ot-fixed.ot-hidden.stem-top.stem-left,.opentip-container.ot-fixed.ot-hiding.stem-top.stem-left{-webkit-transform:translateY(-5px) translateX(-5px);-moz-transform:translateY(-5px) translateX(-5px);-o-transform:translateY(-5px) translateX(-5px);-ms-transform:translateY(-5px) translateX(-5px);transform:translateY(-5px) translateX(-5px)}.opentip-container.ot-fixed .opentip{pointer-events:auto}.opentip-container.ot-hidden{display:none}.opentip-container .opentip{position:relative;font-size:13px;line-height:120%;padding:9px 14px;color:#4f4b47;text-shadow:-1px -1px 0 rgba(255,255,255,.2)}.opentip-container .opentip .header{margin:0;padding:0}.opentip-container .opentip .ot-close{pointer-events:auto;display:block;position:absolute;top:-12px;left:60px;color:rgba(0,0,0,.5);background:rgba(0,0,0,0);text-decoration:none}.opentip-container .opentip .ot-close span,.opentip-container .opentip .ot-loading-indicator{display:none}.opentip-container.ot-loading .ot-loading-indicator{width:30px;height:30px;font-size:30px;line-height:30px;font-weight:700;display:block}.opentip-container.ot-loading .ot-loading-indicator span{display:block;-webkit-animation:otloading 2s linear infinite;-moz-animation:otloading 2s linear infinite;-o-animation:otloading 2s linear infinite;-ms-animation:otloading 2s linear infinite;animation:otloading 2s linear infinite;text-align:center}.opentip-container.style-alert .opentip,.opentip-container.style-dark .opentip{color:#f8f8f8;text-shadow:1px 1px 0 rgba(0,0,0,.2)}.opentip-container.style-glass .opentip{padding:15px 25px;color:#317cc5;text-shadow:1px 1px 8px rgba(0,94,153,.3)}.opentip-container.ot-hide-effect-fade{-webkit-transition:-webkit-transform .5s ease-in-out,opacity 1s ease-in-out;-moz-transition:-moz-transform .5s ease-in-out,opacity 1s ease-in-out;-o-transition:-o-transform .5s ease-in-out,opacity 1s ease-in-out;-ms-transition:-ms-transform .5s ease-in-out,opacity 1s ease-in-out;transition:transform .5s ease-in-out,opacity 1s ease-in-out;opacity:1;-ms-filter:none;filter:none}.opentip-container.ot-hide-effect-fade.ot-hiding{opacity:0;filter:alpha(opacity=0);-ms-filter:"alpha(Opacity=0)"}.opentip-container.ot-show-effect-appear.ot-going-to-show,.opentip-container.ot-show-effect-appear.ot-showing{-webkit-transition:-webkit-transform .5s ease-in-out,opacity 1s ease-in-out;-moz-transition:-moz-transform .5s ease-in-out,opacity 1s ease-in-out;-o-transition:-o-transform .5s ease-in-out,opacity 1s ease-in-out;-ms-transition:-ms-transform .5s ease-in-out,opacity 1s ease-in-out;transition:transform .5s ease-in-out,opacity 1s ease-in-out}.opentip-container.ot-show-effect-appear.ot-going-to-show{opacity:0;filter:alpha(opacity=0);-ms-filter:"alpha(Opacity=0)"}.opentip-container.ot-show-effect-appear.ot-showing,.opentip-container.ot-show-effect-appear.ot-visible{opacity:1;-ms-filter:none;filter:none}@-moz-keyframes otloading{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes otloading{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg)}}@-o-keyframes otloading{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg)}}@-ms-keyframes otloading{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes otloading{0%{-webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);-o-transform:rotate(0deg);-ms-transform:rotate(0deg);transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg);-moz-transform:rotate(360deg);-o-transform:rotate(360deg);-ms-transform:rotate(360deg);transform:rotate(360deg)}}
+
+.rest-title ~ a.accordion-toggle {
+    font-size: 10pt;
+}
+
+a.accordion-toggle {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: larger;
+}
+
+/*
+ * CSS TOGGLE SWITCHES
+ * Unlicense
+ *
+ * Ionut Colceriu - ghinda.net
+ * https://github.com/ghinda/css-toggle-switch
+ *
+ */
+/* Toggle Switches
+ */
+/* Shared
+ */
+/* Checkbox
+ */
+/* Radio Switch
+ */
+/* Hide by default
+ */
+.switch-toggle a, .switch-light span span {
+  display: none; }
+
+/* We can't test for a specific feature,
+ * so we only target browsers with support for media queries.
+ */
+@media only screen {
+  /* Checkbox switch
+     */
+  /* Radio switch
+     */
+  /* Standalone Themes */
+  /* Candy Theme
+     * Based on the "Sort Switches / Toggles (PSD)" by Ormal Clarck
+     * http://www.premiumpixels.com/freebies/sort-switches-toggles-psd/
+     */
+  /* Android Theme
+     */
+  /* iOS Theme
+     */
+  .switch-light {
+    display: block;
+    height: 30px;
+    /* Outline the toggles when the inputs are focused
+     */
+    position: relative;
+    overflow: visible;
+    padding: 0;
+    /* Position the label over all the elements, except the slide-button (<a>)
+     * Clicking anywhere on the label will change the switch-state
+     */
+    /* Don't hide the input from screen-readers and keyboard access
+     */ }
+    .switch-light * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
+    .switch-light a {
+      display: block;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out; }
+    .switch-light label, .switch-light > span {
+      line-height: 30px;
+      vertical-align: middle; }
+    .switch-light input:focus ~ a, .switch-light input:focus + label {
+      outline: 1px dotted #888888; }
+    .switch-light label {
+      position: relative;
+      z-index: 3;
+      display: block;
+      width: 100%; }
+    .switch-light input {
+      position: absolute;
+      opacity: 0;
+      z-index: 5; }
+      .switch-light input:checked ~ a {
+        right: 0%; }
+    .switch-light > span {
+      position: absolute;
+      left: -100px;
+      width: 100%;
+      margin: 0;
+      padding-right: 100px;
+      text-align: left; }
+      .switch-light > span span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 5;
+        display: block;
+        width: 50%;
+        margin-left: 100px;
+        text-align: center; }
+        .switch-light > span span:last-child {
+          left: 50%; }
+    .switch-light a {
+      position: absolute;
+      right: 50%;
+      top: 0;
+      z-index: 4;
+      display: block;
+      width: 50%;
+      height: 100%;
+      padding: 0; }
+  .switch-toggle {
+    display: block;
+    height: 30px;
+    /* Outline the toggles when the inputs are focused
+     */
+    position: relative;
+    /* For callout panels in foundation
+     */
+    padding: 0 !important;
+    /* Generate styles for the multiple states */ }
+    .switch-toggle * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
+    .switch-toggle a {
+      display: block;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out; }
+    .switch-toggle label, .switch-toggle > span {
+      line-height: 30px;
+      vertical-align: middle; }
+    .switch-toggle input:focus ~ a, .switch-toggle input:focus + label {
+      outline: 1px dotted #888888; }
+    .switch-toggle input {
+      position: absolute;
+      opacity: 0; }
+    .switch-toggle input + label {
+      position: relative;
+      z-index: 2;
+      float: left;
+      width: 50%;
+      height: 100%;
+      margin: 0;
+      text-align: center; }
+    .switch-toggle a {
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 0;
+      z-index: 1;
+      width: 50%;
+      height: 100%; }
+    .switch-toggle input:last-of-type:checked ~ a {
+      left: 50%; }
+    .switch-toggle.switch-3 label, .switch-toggle.switch-3 a {
+      width: 33.33333%; }
+    .switch-toggle.switch-3 input:checked:nth-of-type(2) ~ a {
+      left: 33.33333%; }
+    .switch-toggle.switch-3 input:checked:last-of-type ~ a {
+      left: 66.66667%; }
+    .switch-toggle.switch-4 label, .switch-toggle.switch-4 a {
+      width: 25%; }
+    .switch-toggle.switch-4 input:checked:nth-of-type(2) ~ a {
+      left: 25%; }
+    .switch-toggle.switch-4 input:checked:nth-of-type(3) ~ a {
+      left: 50%; }
+    .switch-toggle.switch-4 input:checked:last-of-type ~ a {
+      left: 75%; }
+    .switch-toggle.switch-5 label, .switch-toggle.switch-5 a {
+      width: 20%; }
+    .switch-toggle.switch-5 input:checked:nth-of-type(2) ~ a {
+      left: 20%; }
+    .switch-toggle.switch-5 input:checked:nth-of-type(3) ~ a {
+      left: 40%; }
+    .switch-toggle.switch-5 input:checked:nth-of-type(4) ~ a {
+      left: 60%; }
+    .switch-toggle.switch-5 input:checked:last-of-type ~ a {
+      left: 80%; }
+  .switch-candy {
+    background-color: #eee;
+    border-radius: 3px;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3), 0 1px 0px rgba(255, 255, 255, 0.2); }
+    .switch-candy label {
+      color: #000;
+      -webkit-transition: color 0.2s ease-out;
+      -moz-transition: color 0.2s ease-out;
+      transition: color 0.2s ease-out; }
+    .switch-candy a {
+      border: 1px solid #333333;
+      background-color: #70c66b;
+      border-radius: 3px;
+      background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+      background-image: linear-gradient(to  bottom, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0));
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.45); }
+    .switch-candy > span {
+      color: #333333;
+      text-shadow: none; }
+    .switch-candy span {
+      color: white; }
+    .switch-candy.switch-candy-blue a {
+      background-color: #35A9A9; }
+    .switch-candy.switch-candy-yellow a {
+      background-color: #f5e560; }
+  .switch-android {
+    background-color: #464747;
+    border-radius: 1px;
+    color: white;
+    box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0;
+    /* Selected ON switch-light
+         */ }
+    .switch-android label {
+      color: white; }
+    .switch-android > span span {
+      opacity: 0;
+      -webkit-transition: all 0.1s;
+      -moz-transition: all 0.1s;
+      transition: all 0.1s; }
+      .switch-android > span span:first-of-type {
+        opacity: 1; }
+    .switch-android a {
+      background-color: #666666;
+      border-radius: 1px;
+      box-shadow: inset rgba(255, 255, 255, 0.2) 0 1px 0, inset rgba(0, 0, 0, 0.3) 0 -1px 0; }
+    .switch-android.switch-light input:checked ~ a {
+      background-color: #0e88b1; }
+    .switch-android.switch-light input:checked ~ span span:first-of-type {
+      opacity: 0; }
+    .switch-android.switch-light input:checked ~ span span:last-of-type {
+      opacity: 1; }
+    .switch-android.switch-toggle, .switch-android > span span {
+      font-size: 85%;
+      text-transform: uppercase; }
+  .switch-ios.switch-light {
+    color: #868686; }
+    .switch-ios.switch-light a {
+      left: 0;
+      width: 30px;
+      background-color: white;
+      border: 1px solid lightgrey;
+      border-radius: 100%;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      box-shadow: inset 0 -3px 3px rgba(0, 0, 0, 0.025), 0 1px 4px rgba(0, 0, 0, 0.15), 0 4px 4px rgba(0, 0, 0, 0.1); }
+    .switch-ios.switch-light > span span {
+      width: 100%;
+      left: 0;
+      opacity: 0; }
+      .switch-ios.switch-light > span span:first-of-type {
+        opacity: 1;
+        padding-left: 30px; }
+      .switch-ios.switch-light > span span:last-of-type {
+        padding-right: 30px; }
+    .switch-ios.switch-light > span:before {
+      content: '';
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 100px;
+      top: 0;
+      background-color: #fafafa;
+      border: 1px solid lightgrey;
+      border-radius: 30px;
+      -webkit-transition: all 0.5s ease-out;
+      -moz-transition: all 0.5s ease-out;
+      transition: all 0.5s ease-out;
+      box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0; }
+    .switch-ios.switch-light input:checked ~ a {
+      left: 100%;
+      margin-left: -30px; }
+    .switch-ios.switch-light input:checked ~ span:before {
+      border-color: #53d76a;
+      box-shadow: inset 0 0 0 30px #53d76a; }
+    .switch-ios.switch-light input:checked ~ span span:first-of-type {
+      opacity: 0; }
+    .switch-ios.switch-light input:checked ~ span span:last-of-type {
+      opacity: 1;
+      color: white; }
+  .switch-ios.switch-toggle {
+    background-color: #fafafa;
+    border: 1px solid lightgrey;
+    border-radius: 30px;
+    box-shadow: inset rgba(0, 0, 0, 0.1) 0 1px 0; }
+    .switch-ios.switch-toggle a {
+      background-color: #53d76a;
+      border-radius: 25px;
+      -webkit-transition: all 0.3s ease-out;
+      -moz-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out; }
+    .switch-ios.switch-toggle label {
+      color: #868686; }
+  .switch-ios input:checked + label {
+    color: #3a3a3a; } }
+
+/* Bugfix for older Webkit, including mobile Webkit. Adapted from
+ * http://css-tricks.com/webkit-sibling-bug/
+ */
+@media only screen and (-webkit-max-device-pixel-ratio: 2) and (max-device-width: 1280px) {
+  .switch-light, .switch-toggle {
+    -webkit-animation: webkitSiblingBugfix infinite 1s; } }
+
+@-webkit-keyframes webkitSiblingBugfix {
+  from {
+    -webkit-transform: translate3d(0, 0, 0); }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0); } }
+
+
+/* ************ light grey ************* */
+
+/* Espresso Logic - elso
+ * This is a sample stylesheet for Espresso Logic's Live Browser.
+ * You can customize it and upload it as a skin.
+ */
+
+/* You can override the font used for most content here. To change font, remove the /* & */
+/*from the font you wish to use, and add the /* & */
+/*to the line containing the font you're not using.
+
+NOTE: For any changes you make, please make sure there is a semi-colon (;) at the end of each line
+ */
+*:not(select) {
+    /*font-family: 'Open Sans', sans-serif, Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;*/
+    /* val */
+    /*font-family: arial, helvetica, sans-serif; */
+    /*font-family: "Times New Roman", Times, serif; */
+    font-size: 11pt; /* Change the numerical value to make the letters larger or smaller */
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+}
+
+/* All the control buttons (Previous, Next, Fetch More, etc...) */
+.eslo-button {
+    color: #494949 !important; /* light brown - This is your text color  2E656B is dark green */
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+}
+
+/* Drop-down menus */
+.dropdown-menu>li>a {
+    font-size: 11pt; /* Change the numerical value to make the text larger or smaller */
+}
+
+.dropdown-menu>li>a:hover {
+    background-color: #c9dbd6; /* espresso blue - This the background highlight color when an item is hovered over */
+}
+
+
+
+/*******************************************************************************************/
+/* Header - This is the main navigation at the top of the page */
+
+/* Controls the logo in the top left corner of the window. The image can be anything you want, but it cannot be more than 39 pixels high. Your image must be stored externally. Replace the url between the apostrophes with the url where your image is stored:
+url('https://www.my-stored-image-site.com/myLogo.jpg') Format can be .jpg, .png, .gif, .bmp
+ */
+#eslo-logo {
+    background-image: url('https://www.espressologic.com/wp-content/uploads/2014/06/raven-logo.png')!important;
+    background-position: left;
+    background-repeat: no-repeat;
+    width: 100%!important; /* Don't change this */
+    height: 39px!important; /* Don't change this */
+    padding: 0px; /* Don't change this */
+    margin: 0px 95px 0px 5px ; /* Don't change this */
+    float: left; /* Don't change this */
+}
+
+.logo {
+    background-size: auto; /* Don't change this */
+    width: 100%!important; /* Don't change this */
+}
+
+/***** Main Menu header at the top of the page *****/
+#eslo-header {
+    /* background-image: linear-gradient(to right, #C1DADD, #C1DADD);  espresso blue */
+    background-image: linear-gradient(to right, #f6f6f6, #f6f6f6);  /* light grey */
+    border-bottom:1px solid #C0C0C0!important; /* menu separator */
+}
+
+/* Menu items in the header */
+.eslo-header-menu {
+    background: none;
+    /* background-color: #AEBBB7!important; / * Button background color */
+    border: none;
+    border-radius: 3px!important;
+}
+
+.ngHeaderText {
+border-right: 1px solid #ccc;  /* divider between col headers */
+}
+
+.eslo-header-menu a,
+.undo-action a.menu-icon {
+    font-size: 15pt; /* Change the numerical value to make the text larger or smaller */
+    color: #2e608d; /* header button text */
+}
+
+.eslo-header-menu:hover {
+    color:  #0a2720!important; /*medium green - This is your text color when you hover your cursor over it */
+    transition: color 500ms ease-in 0s!important;   /* Don't change this */
+    box-shadow: inset 0px 0px 18px rgba(0,0,0,.2);  /* make the button-ness clear on hover */
+}
+/***** End Main Menu header *****/
+
+
+
+
+/*************************************************************************************/
+/* Search table - This is the table on the left side */
+
+/* Tables select. Dropdown menu on left side of table */
+#eslo-table-select {
+    font-size: 11pt; /* Change the numerical value to make the text larger or smaller */
+    color: #0a2720!important; /* dark green - This is your text color */
+    font-weight: normal;
+}
+
+/* Search input - Search box on right side of table */
+#eslo-table-search-input {
+    font-size: 11pt; /* Don't change this */
+}
+
+.eslo-button.search-icon {
+    font-size: 15pt; /* Don't change this */
+}
+
+/* Table header */
+.eslo-search-grid .ngHeaderContainer {
+    background-color: #f0f0f0; /* medium grey */
+}
+
+.eslo-search-grid .ngHeaderSortColumn {
+    background-color: #f0f0f0; /* medium grey */
+}
+
+.eslo-search-grid .ngHeaderContainer span {
+    font-size: 10pt; /* Change the numerical value to make the column names larger or smaller */
+    color: #2e608d; /* This is the text color of the column names */
+    font-weight: normal; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+/* The gear icon for column headers */
+.eslo-search-grid .eslo-header-button {
+    font-size: 14px; /* Don't change this */
+    color: #2e608d; /* Applies to header buttons (e.g., author mode) */
+}
+
+/* Table rows */
+.eslo-search-grid .ngCellText span {
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    color: #0a2720; /* dark green - This is the text color of the data in each row */
+}
+
+/* Alternating Table row colors */
+.ngRow.even {
+    /* background: none repeat scroll 0 0 #f0fdf9; /* very light green */
+    background: none repeat scroll 0 0 #f6f6f6;    /* light grey */
+}
+
+.ngRow.odd {
+    background: none repeat scroll 0 0 #ffffff; /* white */
+}
+
+/*Selected Row */
+.ngRow.selected {
+    /* background: none repeat scroll 0 0 #c9dbd6;  espresso blue. This is the color of the selected Row */
+    font-weight: bold; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+
+
+
+/***********************************************************************************/
+/* Form area- This is the editable form on the upper right  */
+
+/* Header - This contains the customer name */
+.eslo-details-header .eslo-button {
+    color: #5d7871; /* medium green */
+    font-size: 10px; /* Change the numerical value to make the text larger or smaller */
+}
+
+/* Attribute search input - Search box on right side of form */
+#eslo-scalar-search {
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    width: 10%; /* Don't change this */
+}
+
+/* Object title */
+#eslo-details-title {
+    font-size: 12pt; /* Change the numerical value to make the text larger or smaller */
+    font-weight: normal; /* If you want this to be bold, then replace 'normal' with 'bold' without the apostrophes. */
+    color: #2e6d80;      /* form header font add !important for emphasis */
+    background-color: #C1DADD; /* espresso blue */
+}
+
+/* Field label */
+label.eslo-form-label {
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    color: #2e6d80;      /* Label font */
+    font-weight: normal;
+    text-overflow: clip; /* Don't change this */
+    white-space: nowrap; /* Don't change this */
+    text-align: right; /* Don't change this -- though add/remove !important */
+}
+
+input.eslo-form-input {
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    background-image: linear-gradient(to right, #c9dbd6, #FFFFFF); /* espresso blue to white */
+}
+
+
+
+
+/***********************************************************************************/
+/* Child tables - This is the tabbed table on the lower right */
+
+/* Selected tab. This is your current table when you have several tabbed tables opened */
+li.eslo-child-tab.active a.ng-binding {
+    background-color: #C1DADD; /* espresso blue */
+    color: #2e608d; /* dark green -  This is your text color */
+}
+
+/* Unselected tabs. These are your tabs for opened tables you are not viewing */
+li.eslo-child-tab a.ng-binding,li.eslo-child-tab a.ng-binding span {
+    background-color: #f6f6f6; /* light grey  */
+    color: #5d7871; /* medium green 5d7871 */
+}
+
+/* Table header */
+.eslo-child-grid div.ngHeaderCell {
+    background-color: #f6f6f6 !important; /* light grey */
+    color: #347178; /* This is the text color of the table title */
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    font-weight: normal; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+/* Table header - columns */
+.eslo-child-grid div.ngHeaderSortColumn {
+    font-size: 10pt; /* Change the numerical value to make the column names larger or smaller */
+    color: #f6f6f6;  /* This is the text color of the column names */
+}
+
+
+.ngHeaderText {
+    background-color: #f0f0f0; /* medium grey  */
+}
+
+.ngHeaderContainer span {
+    font-size: 14px; /* Don't change this */
+    color: #2e608d;  /* This is the color of the column names */
+}
+
+/* The gear icon for column headers */
+.eslo-child-grid .eslo-header-button {
+    font-size: 18px; /* Don't change this */
+    color: #2e608d; /* Applies to header buttons (e.g., author mode) */
+}
+
+/* Table rows */
+.eslo-child-grid .ngCellText span {
+    font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+    color: #0a2720; /* dark green - This is the color of your data text */
+}
+
+/******************************************************************************/
+
+/* Footer - This is for the buttons on the bottom of the tables */
+.eslo-child-footer .eslo-button {
+    font-size: 10pt !important; /* Do not change this */
+    color: #0a2720; /* dark green -  This is the color of the footer text */
+}
+
+.eslo-child-footer .eslo-button[disabled] {
+    font-size: 10pt; /* Don't change this */
+    color: #f0fdf9; /* very light green - This is the color of the disabled button */
+}
+.ta-editor {
+    min-height: 300px;
+    height: auto;
+    overflow: auto;
+    font-family: inherit;
+    font-size: 100%;
+    margin:20px 0;
+}
+.ta-bind b{
+    font-weight:bold;
+}
+.ta-bind b{
+    font-weight:bold;
+}
+.modal-column-container{ overflow-x: scroll; }
+.firefox-table-border-left{ border-left: 1px solid; }
+
+.detailsForm input[type='checkbox']{ margin-top:10px; }

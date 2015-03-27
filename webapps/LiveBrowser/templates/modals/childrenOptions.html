@@ -1,0 +1,29 @@
+<div class="modal-column-container">
+	<div style="float: right;">
+		<button class="btn btn-primary" style="margin-left: 15px;" ng-click="close()">Close</button>
+	</div>
+	<h4>Options for children of: {{scalarTableSettings.alias}}</h4>
+	
+	<table class="table children-tables">
+		<thead style="font-weight: bold;">
+			<tr>
+				<td>Show</td>
+				<td>Raw name</td>
+				<td>Display name</td>
+				<td>Child table</td>
+			</tr>
+		</thead>
+		<tr ng-init="refreshSortable();" data-name="{{childName}}" ng-repeat="(childName, child) in scalarTableInfo.childrenByName">
+			<td>
+				<input ng-trim='false' type="checkbox" ng-model="scalarTableSettings.childrenSettings[childName].displayed"/>
+			</td>
+			<td>{{childName}}</td>
+			<td>
+				<input ng-trim='false' type="text" ng-model="scalarTableSettings.childrenSettings[childName].alias" />
+			</td>
+			<td>
+				{{child.child_table}}
+			</td>
+		</tr>
+	</table>
+</div>

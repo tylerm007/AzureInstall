@@ -1,0 +1,17 @@
+<div class="modal-column-container">
+	<button class="pull-right close" ng-click="exitModal();">&times;</button>
+	<h2>Upload file</h2>
+	<span class="form-control-static">Please select a file:</span>
+	<input ng-trim='false' class="btn btn-default" type="file" ng-model="selectedFile" ng-change="fileSelected()" id="uploadFileChooser" style="width: 100%;"/>
+	<div ng-show="upload.fileSize">
+		File size: {{upload.fileSize}} - File type: {{upload.fileType}}
+	</div>
+	<p/>
+	<button class="btn btn-default" ng-click="uploadFile()">Upload</button>
+	<p/>
+	<progressbar id="upload-progress-bar" max="100" value="upload.uploaded"
+		type="{{upload.progressBarType}}" style="width: 100%; margin-bottom: 20px;">{{upload.progressBarMessage}}</progressbar>
+	<p/>
+	<div class="well text-danger" style="font-size: 12pt;" ng-show="upload.errorMessage">{{upload.errorMessage}}</div>
+	<button class="btn btn-default" ng-click="exitModal();">Close</button>
+</div>

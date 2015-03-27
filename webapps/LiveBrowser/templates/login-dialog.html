@@ -1,0 +1,53 @@
+	<div class="modal-header">
+		<img src="images/EspressoLogicLogo.png" style="width: 190px; height: 53px;" />
+		<span style="font: 30pt sans-serif; color: #31868E; padding-left: 50px;">Live Browser</span>
+	</div>
+	<div class="modal-body" style="padding-left: 50px;"  ui-keypress="{enter: 'login()'}">
+		<form role="form" ng-submit="login();">
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="serverName">Server:</label>
+					<input ng-trim='false' id="serverName" class="form-control" type="text" ng-model="loginValues.serverName" {{focusOnServer}}/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="userName" title="A project user account, by default accessible in the Logic Designer 'Users' section">User name:</label>
+					<input ng-trim='false' id="userName" autocapitalize="off" type="text" class="form-control" ng-model="loginValues.userName" 
+						placeholder="Espresso Project User Name" />
+				</div>
+			</div>
+			<div class="help-block">
+				Hint: if you want to connect to the demo project, the user name (by default) is <i>demo</i> and
+				the password is <i>Password1</i>.
+			</div>			
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="password">Password:</label>
+					<input ng-trim='false' id="password" type="password" class="form-control" ng-model="loginValues.password" 
+						ng-hide="loginValues.showPassword" />
+					<input ng-trim='false' id="clearPassword" type="text" class="form-control" ng-model="loginValues.password" 
+						ng-hide="!loginValues.showPassword" ui-keypress="{enter: 'login()'}" autocomplete="off"/>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-lg-10">
+					<label for="showPassword">Show password</label>
+					<input ng-trim='false' type="checkbox" id="showPassword" ng-model="loginValues.showPassword" />
+				</div>
+			</div>
+			
+			<div style="color: #FFFFFF; background-color: #F78181; padding: 5px;" ng-hide="!errorMessage">{{errorMessage}}</div>
+			<input ng-trim='false' type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;"/>
+		</form>
+		<div class="hint">
+			If you don't know the login information, please 
+			<a href='http://espressologic.zendesk.com' target='outside'>contact us</a> for assistance.
+		</div>
+	</div>
+	<div class="modal-footer">
+		<ul class="pull-left" style="text-align: left;">
+			<li><a href="https://mgmt2.espressologic.com/Management">I don't have an account</a></li>
+		</ul>
+		<button ng-click="login()" id="loginButton" class="btn btn-primary pull-right" >Log in</button>
+	</div>

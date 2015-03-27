@@ -1,0 +1,261 @@
+/* Espresso Logic - elso
+* This is a sample stylesheet for Espresso Logic's Live Browser.
+* You can customize it and upload it as a skin.
+*/
+
+/* You can override the font used for most content here. To change font, remove the /* & */
+/*from the font you wish to use, and add the /* & */ 
+/*to the line containing the font you're not using.
+
+NOTE: For any changes you make, please make sure there is a semi-colon (;) at the end of each line
+*/
+*:not(select) {
+font-family: 'Open Sans', sans-serif, Tahoma, Verdana, Geneva, Arial, Helvetica, sans-serif;
+/* val */
+/*font-family: arial, helvetica, sans-serif; */
+/*font-family: "Times New Roman", Times, serif; */
+font-size: 11pt; /* Change the numerical value to make the letters larger or smaller */
+}
+
+/* All the control buttons (Previous, Next, Fetch More, etc...) */
+.eslo-button {
+color: #777777!important; /* light brown - This is your text color  2E656B is dark green */
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+}
+
+/* Drop-down menus */
+.dropdown-menu>li>a {
+font-size: 11pt; /* Change the numerical value to make the text larger or smaller */
+}
+
+.dropdown-menu>li>a:hover {
+background-color: #c9dbd6; /* espresso blue - This the background highlight color when an item is hovered over */
+}
+
+
+
+/*******************************************************************************************/
+/* Header - This is the main navigation at the top of the page */
+
+/* Controls the logo in the top left corner of the window. The image can be anything you want, but it cannot be more than 39 pixels high. Your image must be stored externally. Replace the url between the apostrophes with the url where your image is stored: 
+url('https://www.my-stored-image-site.com/myLogo.jpg') Format can be .jpg, .png, .gif, .bmp
+*/
+#eslo-logo {
+background-image: url('//www.espressologic.com/?attachment_id=7094')!important;
+background-position: left;
+background-repeat: no-repeat;
+width: 100%!important; /* Don't change this */
+height: 39px!important; /* Don't change this */
+padding: 0px; /* Don't change this */
+margin: 0px 95px 0px 5px ; /* Don't change this */
+float: left; /* Don't change this */
+}
+
+.logo {
+background-size: auto; /* Don't change this */
+width: 100%!important; /* Don't change this */
+}
+
+/***** Main Menu header at the top of the page *****/
+#eslo-header {
+/* background-image: linear-gradient(to right, #C1DADD, #C1DADD);  espresso blue */
+background-image: linear-gradient(to right, #f6f6f6, #f6f6f6);  /* light grey */
+border-bottom:1px solid #C0C0C0!important; /* menu separator */
+}
+
+/* Menu items in the header */
+.eslo-header-menu {
+background: none;
+/* background-color: #AEBBB7!important; / * Button background color */
+border: none;
+border-radius: 3px!important;
+}
+
+.eslo-header-menu a,
+.undo-action a.menu-icon {
+font-size: 15pt; /* Change the numerical value to make the text larger or smaller */
+color: #2e608d; /* header button text */
+}
+
+.eslo-header-menu a:hover {
+color:  #0a2720!important; /*medium green - This is your text color when you hover your cursor over it */
+transition: color 500ms ease-in 0s!important; /* Don't change this */
+}
+/***** End Main Menu header *****/
+
+
+
+
+/*************************************************************************************/
+/* Search table - This is the table on the left side */
+
+/* Tables select. Dropdown menu on left side of table */
+#eslo-table-select {
+font-size: 11pt; /* Change the numerical value to make the text larger or smaller */
+color: #0a2720!important; /* dark green - This is your text color */
+font-weight: normal; 
+}
+
+/* Search input - Search box on right side of table*/
+#eslo-table-search-input {
+font-size: 11pt; /* Don't change this */
+}
+
+.eslo-button.search-icon {
+font-size: 15pt; /* Don't change this */
+}
+/* Table header */
+.eslo-search-grid .ngHeaderContainer {
+background-color: #f6f6f6; /* medium grey */
+}
+
+.eslo-search-grid .ngHeaderSortColumn {
+background-color: #f6f6f6; /* medium grey */
+}
+
+.eslo-search-grid .ngHeaderContainer span {
+font-size: 10pt; /* Change the numerical value to make the column names larger or smaller */
+color: #2e608d; /* This is the text color of the column names */
+font-weight: normal; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+/* The gear icon for column headers */
+.eslo-search-grid .eslo-header-button {
+font-size: 14px; /* Don't change this */
+color: #2e608d; /* Applies to header buttons (e.g., author mode) */
+}
+
+/* Table rows */
+.eslo-search-grid .ngCellText span {
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+color: #0a2720; /* dark green - This is the text color of the data in each row */
+}
+
+/* Alternating Table row colors */
+.ngRow.even {
+   /* background: none repeat scroll 0 0 #f0fdf9; /* very light green */
+   background: none repeat scroll 0 0 #f6f6f6;    /* light grey */
+}
+
+.ngRow.odd {
+   background: none repeat scroll 0 0 #ffffff; /* white */
+}
+
+/*Selected Row */
+.ngRow.selected {
+   /* background: none repeat scroll 0 0 #c9dbd6;  espresso blue. This is the color of the selected Row */
+   font-weight: bold; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+
+
+
+/***********************************************************************************/
+/* Form area- This is the editable form on the upper right  */
+
+/* Header - This contains the customer name */
+.eslo-details-header .eslo-button {
+color: #5d7871; /* medium green */
+font-size: 10px; /* Change the numerical value to make the text larger or smaller */
+}
+
+/* Attribute search input - Search box on right side of form */
+#eslo-scalar-search {
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+width: 10%; /* Don't change this */
+}
+
+/* Object title */
+#eslo-details-title {
+font-size: 12pt; /* Change the numerical value to make the text larger or smaller */
+font-weight: normal; /* If you want this to be bold, then replace 'normal' with 'bold' without the apostrophes. */
+color: #2e6d80;      /* form header font add !important for emphasis */
+background-color: #C1DADD; /* espresso blue */
+}
+
+/* Form Field Group */
+.eslo-form-input-group{}
+.eslo-form-input-group.even-true{} /* even groups */
+.eslo-form-input-group.odd-true{} /* odd groups */
+
+/* Field label */
+label.eslo-form-label {
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+color: #2e6d80;      /* Label font */
+font-weight: normal;
+text-overflow: clip; /* Don't change this */
+white-space: nowrap; /* Don't change this */
+text-align: right; /* Don't change this -- though add/remove !important */
+}
+
+input.eslo-form-input {
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+background-image: linear-gradient(to right, #c9dbd6, #FFFFFF); /* espresso blue to white */
+}
+
+
+
+
+/***********************************************************************************/
+/* Child tables - This is the tabbed table on the lower right */
+
+/* Selected tab. This is your current table when you have several tabbed tables opened */
+li.eslo-child-tab.active a.ng-binding {
+background-color: #C1DADD; /* espresso blue */
+color: #2e608d; /* dark green -  This is your text color */
+}
+
+/* Unselected tabs. These are your tabs for opened tables you are not viewing */
+li.eslo-child-tab a.ng-binding {
+background-color: #f6f6f6; /* light grey  */
+color: #5d7871; /* medium green 5d7871 */
+}
+
+/* Table header */
+.eslo-child-grid div.ngHeaderCell {
+background-color: #f6f6f6 !important; /* light grey */
+color: #347178; /* This is the text color of the table title */
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+font-weight: normal; /* If you want this to be normal, then replace 'bold' with 'normal' without the apostrophes. */
+}
+
+/* Table header - columns */
+.eslo-child-grid div.ngHeaderSortColumn {
+font-size: 10pt; /* Change the numerical value to make the column names larger or smaller */
+color: #f6f6f6;  /* This is the text color of the column names */
+}
+
+
+.ngHeaderText {
+background-color: #f6f6f6; /* light Grey */
+}
+
+.ngHeaderContainer span {
+   font-size: 14px; /* Don't change this */
+   color: #2e608d;  /* This is the color of the column names */
+}
+
+/* The gear icon for column headers */
+.eslo-child-grid .eslo-header-button {
+font-size: 18px; /* Don't change this */
+color: #2e608d; /* Applies to header buttons (e.g., author mode) */
+}
+
+/* Table rows */
+.eslo-child-grid .ngCellText span {
+font-size: 10pt; /* Change the numerical value to make the text larger or smaller */
+color: #0a2720; /* dark green - This is the color of your data text */
+}
+
+/******************************************************************************/
+
+/* Footer - This is for the buttons on the bottom of the tables */
+.eslo-child-footer .eslo-button {
+font-size: 10pt !important; /* Do not change this */
+color: #0a2720; /* dark green -  This is the color of the footer text */
+}
+
+.eslo-child-footer .eslo-button[disabled] {
+font-size: 10pt; /* Don't change this */
+color: #f0fdf9; /* very light green - This is the color of the disabled button */
+}
