@@ -1,4 +1,4 @@
 # AzureInstall
 Windows Azure Installation WAR
 
-automatic install to Azure
+automatic install to Azure WAR Deploy
