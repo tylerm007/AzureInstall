@@ -5,6 +5,7 @@ To use this WAR on your Azure - you can simply fork it to your own Git repositor
 
 You must setup a blank database (MySQL or SQL Server) and create a connection string named AdminDB.
 
+
 ##MySQL Database
 set environment variable: MYSQLCONNSTR_AdminDB
 ```
@@ -45,5 +46,7 @@ not availalable at this time
             </Context>
 ```
 ##SQL Server (same as <resource above> ) except:
-          	driverClassName="com.microsoft.sqlserver.jdbc.Driver" 
+		driverClassName="com.microsoft.sqlserver.jdbc.Driver" 
 		url="jdbc:sqlserver://localhost:1433/local_admin" 
+		
+doc: https://sites.google.com/a/espressologic.com/site/docs/appliance/azureinstallation
