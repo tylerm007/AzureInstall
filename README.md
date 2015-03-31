@@ -1,7 +1,7 @@
 # AzureInstall
 Windows Azure Installation WAR
 
-To use this WAR on your Azure - you can simply fork it to your own Git repository and link it to a Web app - it will automatically synchronize and deploy the WAR to D:\home\site\wwwrppt\webapps.
+To use this WAR on your Azure - you can simply fork it to your own Git repository and link it to a Web app - it will automatically synchronize and deploy the WAR to D:\home\site\wwwroot\webapps.
 
 You must setup a blank database (MySQL or SQL Server) and create a connection string named AdminDB.
 
