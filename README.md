@@ -46,7 +46,7 @@ not availalable at this time
             </Context>
 ```
 ##SQL Server (same as <resource above> ) except:
-		driverClassName="com.microsoft.sqlserver.jdbc.Driver" 
+		driverClassName="com.microsoft.sqlserver.jdbc.SqlServerDriver" 
 		url="jdbc:sqlserver://localhost:1433/local_admin" 
 		
 doc: https://sites.google.com/a/espressologic.com/site/docs/appliance/azureinstallation
